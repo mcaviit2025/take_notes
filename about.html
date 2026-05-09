@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Sumit Thakare — StudyHub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ABOUT PAGE SPECIFIC */
+  .about-hero {
+    padding: 72px 0 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .about-avatar-large {
+    width: 160px; height: 160px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+    margin-bottom: 28px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,212,255,0.2);
+  }
+
+  .about-avatar-large .online-dot {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    width: 20px; height: 20px;
+    background: var(--accent4);
+    border-radius: 50%;
+    border: 3px solid var(--bg);
+  }
+
+  .about-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--heading);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .about-name span { color: var(--accent); }
+
+  .about-role {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .about-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-bottom: 28px;
+    display: inline-block;
+  }
+
+  .about-bio {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 580px;
+  }
+
+  .about-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Info Card */
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .info-card h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .info-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .info-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+
+  .info-value {
+    font-size: 14px;
+    color: var(--heading);
+    word-break: break-all;
+  }
+
+  .info-value a { color: var(--accent); }
+  .info-value a:hover { text-decoration: underline; }
+
+  /* Aim section */
+  .aim-section { padding: 60px 0; }
+
+  .aim-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 32px;
+  }
+
+  .aim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: var(--transition);
+  }
+
+  .aim-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-3px); }
+
+  .aim-icon { font-size: 32px; margin-bottom: 14px; }
+
+  .aim-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--heading);
+    margin-bottom: 8px;
+  }
+
+  .aim-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* Skills */
+  .skills-section { padding: 40px 0 60px; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .skill-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text);
+    transition: var(--transition);
+    font-weight: 500;
+  }
+
+  .skill-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .skill-chip span { display: block; font-size: 22px; margin-bottom: 6px; }
+
+  /* Social links */
+  .social-section { padding: 40px 0 60px; }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .social-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+
+  .social-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
+
+  .social-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .social-name { font-weight: 600; color: var(--heading); font-size: 14px; }
+  .social-handle { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .about-hero-inner { grid-template-columns: 1fr; }
+    .info-card { position: static; }
+    .about-name { font-size: 36px; }
+  }
+
+  @media (max-width: 480px) {
+    .about-name { font-size: 28px; }
+    .about-avatar-large { width: 100px; height: 100px; font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">📚</div>
+        StudyHub
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#courses">Courses</a>
+        <a href="about.html" class="active">About</a>
+        <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" class="nav-insta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @sumit_thakare01
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── ABOUT HERO ── -->
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-inner">
+
+      <!-- LEFT: Bio -->
+      <div>
+        <div class="badge" style="margin-bottom:24px;">Creator of StudyHub</div>
+        <div class="about-avatar-large">
+          👨‍💻
+          <div class="online-dot"></div>
+        </div>
+        <div class="about-name">Sumit<br><span>Thakare</span></div>
+        <div class="about-role">
+          <span>🎓</span> MCA Student · Tech Educator · Content Creator
+        </div>
+        <div class="about-tagline">// Building free education for every student</div>
+        <p class="about-bio">
+          Passionate about making education accessible to every student, regardless of their resources. I create structured, visual, and practical study notes that help MCA & MBA students understand concepts deeply — not just memorize them for exams.
+          <br><br>
+          I believe every student deserves clear explanations, real-world examples, and beautiful learning materials — for free.
+        </p>
+        <div class="about-cta">
+          <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" class="btn" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Follow @sumit_thakare01
+          </a>
+          <a href="index.html#courses" class="btn btn-outline">Browse Notes →</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Info Card -->
+      <div>
+        <div class="info-card">
+          <h3>// Contact Info</h3>
+
+          <div class="info-row">
+            <div class="info-icon">👤</div>
+            <div>
+              <div class="info-label">Full Name</div>
+              <div class="info-value">Sumit Thakare</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">📱</div>
+            <div>
+              <div class="info-label">Mobile</div>
+              <div class="info-value"><a href="tel:+91 9623376809">+91 9623376809</a></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">✉️</div>
+            <div>
+              <div class="info-label">Email</div>
+              <div class="info-value"><a href="#">sumitthakare1122@gmail.com</a></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">💼</div>
+            <div>
+              <div class="info-label">LinkedIn</div>
+              <div class="info-value"><a href="https://linkedin.com/in/sumitthakare" target="_blank">linkedin.com/in/sumitthakare</a></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">📸</div>
+            <div>
+              <div class="info-label">Instagram</div>
+              <div class="info-value"><a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank">@sumit_thakare01</a></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-label">Location</div>
+              <div class="info-value">Maharashtra, India</div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <a href="mailto:sumit@email.com" class="btn btn-primary" style="width:100%; justify-content:center;">
+              ✉ Send Message
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── AIM SECTION ── -->
+<section class="aim-section">
+  <div class="container">
+    <div class="badge" style="margin-bottom:16px;">Mission</div>
+    <h2>My <span class="highlight">Aim</span> with StudyHub</h2>
+    <div class="aim-grid">
+      <div class="aim-card">
+        <div class="aim-icon">🎯</div>
+        <div class="aim-title">Make Learning Free</div>
+        <div class="aim-desc">Every student should have access to high-quality study material — regardless of which college, city, or background they come from. Zero paywalls, always.</div>
+      </div>
+      <div class="aim-card">
+        <div class="aim-icon">🧠</div>
+        <div class="aim-title">Build Deep Understanding</div>
+        <div class="aim-desc">Not just notes for passing exams. Every topic is explained with real-world examples and industry use cases so you actually understand the concept.</div>
+      </div>
+      <div class="aim-card">
+        <div class="aim-icon">🎨</div>
+        <div class="aim-title">Visual & Clear Design</div>
+        <div class="aim-desc">Beautiful, readable, structured notes that are easy to study from. Good design is not a luxury — it makes learning faster and more enjoyable.</div>
+      </div>
+      <div class="aim-card">
+        <div class="aim-icon">🤝</div>
+        <div class="aim-title">Build a Community</div>
+        <div class="aim-desc">Follow @why_ai on Instagram for daily tech tips, career guidance, AI tools, and study updates. Learning is better together.</div>
+      </div>
+      <div class="aim-card">
+        <div class="aim-icon">🚀</div>
+        <div class="aim-title">Complete MCA & MBA Coverage</div>
+        <div class="aim-desc">The goal is to cover every subject in MCA and MBA programs with the same quality — so no student is ever stuck on a topic.</div>
+      </div>
+      <div class="aim-card">
+        <div class="aim-icon">💡</div>
+        <div class="aim-title">Industry-Ready Knowledge</div>
+        <div class="aim-desc">Notes are written with industry context. You'll know how each concept is actually used in real companies, making you job-ready, not just exam-ready.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS SECTION ── -->
+<section class="skills-section">
+  <div class="container">
+    <div class="badge" style="margin-bottom:16px;">Skills</div>
+    <h2>What I <span class="highlight">Work With</span></h2>
+    <div class="skills-grid">
+      <div class="skill-chip"><span>🐍</span>Python</div>
+      <div class="skill-chip"><span>🌐</span>HTML/CSS</div>
+      <div class="skill-chip"><span>⚡</span>JavaScript</div>
+      <div class="skill-chip"><span>🗄️</span>SQL / DBMS</div>
+      <div class="skill-chip"><span>🧪</span>Software Testing</div>
+      <div class="skill-chip"><span>🤖</span>AI / ML</div>
+      <div class="skill-chip"><span>📊</span>Data Analysis</div>
+      <div class="skill-chip"><span>☕</span>Java</div>
+      <div class="skill-chip"><span>📱</span>UI/UX Design</div>
+      <div class="skill-chip"><span>📝</span>Content Creation</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOCIAL SECTION ── -->
+<section class="social-section">
+  <div class="container">
+    <div class="badge" style="margin-bottom:16px;">Connect</div>
+    <h2>Find Me <span class="highlight">Online</span></h2>
+    <div class="social-grid">
+
+      <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" class="social-card">
+        <div class="social-icon" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="social-name">Instagram</div>
+          <div class="social-handle">@sumit_thakare01</div>
+        </div>
+      </a>
+
+      <a href="https://linkedin.com/in/sumitthakare" target="_blank" class="social-card">
+        <div class="social-icon" style="background:#0077b5;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <div>
+          <div class="social-name">LinkedIn</div>
+          <div class="social-handle">Sumit Thakare</div>
+        </div>
+      </a>
+
+      <a href="mailto:sumit@email.com" class="social-card">
+        <div class="social-icon" style="background:rgba(0,212,255,0.15); border:1px solid rgba(0,212,255,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="social-name">Email</div>
+          <div class="social-handle">sumitthakare1122@email.com</div>
+        </div>
+      </a>
+
+      <a href="tel:+91XXXXXXXXXX" class="social-card">
+        <div class="social-icon" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent4)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="social-name">Phone</div>
+          <div class="social-handle">+91 9623376809</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">📚</div>
+          StudyHub
+        </a>
+        <p>Free, topic-wise study notes for MCA & MBA students. Designed to make learning clear, visual and practical.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Available Notes</h4>
+        <ul>
+          <li><a href="sqta.html">SQTA — MCA Sem II ✓</a></li>
+          <li><a href="index.html#courses">More Coming Soon</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Sumit</a></li>
+          <li><a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank">@why_ai on Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Design & Developed by <span>Sumit Thakare</span> · <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" style="color:var(--accent);">@why_ai</a></p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" title="Email">✉</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

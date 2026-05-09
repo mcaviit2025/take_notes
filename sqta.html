@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STQA – Software Testing & Quality Assurance Notes | StudyHub</title>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+
+<!-- ── NAVBAR (from sqta.html) ── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">📚</div>
+        StudyHub
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#courses" class="active">Courses</a>
+        <a href="about.html">About</a>
+        <a href="https://instagram.com/why_ai" target="_blank" class="nav-insta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @why_ai
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── UNIT QUICK-NAV ── -->
+<nav class="unit-nav">
+  <a href="#u1" class="u1">Unit 1: SQA</a>
+  <a href="#u2" class="u2">Unit 2: Testing</a>
+  <a href="#u3" class="u3">Unit 3: Static &amp; Dynamic</a>
+  <a href="#u4" class="u4">Unit 4: Test Mgmt</a>
+  <a href="#u5" class="u5">Unit 5: Tools</a>
+  <a href="#qp" style="color:#fff">📄 Q-Paper</a>
+</nav>
+
+<div class="hero">
+  <h1>STQA Notes</h1>
+  <p>Software Testing &amp; Quality Assurance · MCA Sem II · Savitribai Phule Pune University · 2024 Pattern</p>
+  <div class="badge-row">
+    <span class="badge badge-gold">50 Marks</span>
+    <span class="badge badge-blue">5 Units · 45 Sessions</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PROJECT BANNER -->
+  <div class="project-banner">
+    <div class="label">🏗 Master Project (Used Throughout These Notes)</div>
+    <h2>CloudKitchen+ — Online Food Ordering Platform</h2>
+    <p>A cloud kitchen aggregator app where customers order food from multiple cloud kitchens. Features: menu management, real-time order tracking, third-party delivery partner integration, payment gateway, promotions, and admin dashboard. Every concept in this syllabus is demonstrated using this real-world app.</p>
+  </div>
+
+  <!-- ═══════════════════ UNIT 1 ═══════════════════ -->
+  <div id="u1" class="unit-header" style="--uc:var(--unit1)">
+    <div class="unit-tag">Unit 1 · 20% · 8 Sessions</div>
+    <h2>Software Quality Assurance Fundamentals</h2>
+    <div class="meta">Quality · QA vs QC · ISO 9000 · SQA Planning · Reliability · ROCOF · MTTF · MTTR</div>
+  </div>
+
+  <!-- Topic 1.1 -->
+  <div class="topic" style="--uc:var(--unit1)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>1.1 · Quality, Quality Assurance &amp; Quality Control</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p><strong>Quality</strong> means a product meets the requirements and expectations of the user without defects. In software, it means the application does what it is supposed to do — reliably, efficiently, and securely.</p>
+        <p><strong>Quality Assurance (QA)</strong> is a <em>process-oriented</em> activity — it ensures the right processes are followed during development to prevent defects from appearing.</p>
+        <p><strong>Quality Control (QC)</strong> is a <em>product-oriented</em> activity — it finds defects in the finished product through testing and inspection.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Detailed Explanation</span>
+        <p><strong>Quality</strong> has two dimensions: <em>Fitness for Purpose</em> (does it do what users need?) and <em>Conformance to Requirements</em> (does it match the specification?).</p>
+        <p><strong>QA</strong> focuses on the SDLC process. Activities: code reviews, audits, defining standards, process improvements. QA is preventive — stop bugs before they happen.</p>
+        <p><strong>QC</strong> focuses on the final output. Activities: running tests, finding bugs, logging defects. QC is corrective — detect and fix bugs after they appear.</p>
+        <p><strong>Key difference:</strong> QA is about process; QC is about the product. QA prevents defects; QC detects defects. QA is everyone's responsibility; QC is done by testers.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block"><span class="cm">// CloudKitchen+ Example</span>
+<span class="cm">// QA Activity: Define coding standards for payment module</span>
+<span class="kw">policy</span>: All payment functions MUST have unit tests (≥ 90% coverage)
+<span class="kw">policy</span>: Code review mandatory before merging payment code
+<span class="kw">policy</span>: Security audit on every sprint for transaction features
+
+<span class="cm">// QC Activity: Test the actual payment feature</span>
+<span class="cm">// Test Case: Pay for an order of ₹450 using UPI</span>
+Input: Order total = ₹450, Payment method = UPI
+Expected: Payment success, order confirmed, receipt generated
+Actual: Payment success ✓ → QC PASSED</div>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Reference</strong>
+        In CloudKitchen+, QA means defining standards like "every API must be documented" and "no code merged without review." QC means the actual testing team checking if the checkout flow works, if promo codes apply correctly, and if order status updates in real-time.
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic 1.2 -->
+  <div class="topic" style="--uc:var(--unit1)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>1.2 · SQA Planning &amp; ISO 9000 Standards</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p><strong>SQA Planning</strong> is creating a roadmap that describes how quality will be achieved, monitored, and maintained throughout the software project.</p>
+        <p><strong>ISO 9000</strong> is an international standard for quality management systems. ISO 9001 specifically covers requirements for a QMS (Quality Management System) — it ensures organisations consistently deliver quality products.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Detailed Explanation</span>
+        <p><strong>SQA Plan includes:</strong> Purpose of the plan, list of documents to be produced (SRS, design doc, test plan), standards to be followed, reviews and audits to be conducted, tools to be used, risk management approach.</p>
+        <p><strong>ISO 9000 Family:</strong></p>
+        <ul>
+          <li><strong>ISO 9000:</strong> Vocabulary and fundamentals</li>
+          <li><strong>ISO 9001:</strong> Requirements for QMS (most widely used)</li>
+          <li><strong>ISO 9004:</strong> Guidance for improving QMS performance</li>
+        </ul>
+        <p><strong>ISO 9001 Principles:</strong> Customer focus, Leadership, Engagement of people, Process approach, Improvement, Evidence-based decision making, Relationship management.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ SQA Plan Outline:
+──────────────────────────────────────
+1. Purpose         : Ensure app quality across all 5 sprints
+2. Documents       : SRS, API docs, Test Plan, Release Notes
+3. Standards       : ISO 9001, IEEE 829 for test docs
+4. Reviews         : Sprint review (every 2 weeks)
+5. Audits          : Monthly security audit on payment module
+6. Tools           : JIRA (bug tracking), Selenium (automation)
+7. Risk            : 3rd-party payment API failure → mock fallback</div>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Reference</strong>
+        For ISO 9001 compliance, CloudKitchen+ maintains documented processes for how orders are processed, how customer complaints are handled, and how delivery partner integrations are tested. During an audit, the company shows these documented processes as evidence of quality management.
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic 1.3 -->
+  <div class="topic" style="--uc:var(--unit1)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>1.3 · SQA Activities</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>SQA Activities are the specific tasks performed throughout the SDLC to ensure quality is built into the software at every stage, not just tested at the end.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Detailed Explanation</span>
+        <p>Key SQA Activities:</p>
+        <ul>
+          <li><strong>Requirements Analysis:</strong> Check SRS for completeness and clarity</li>
+          <li><strong>Design Review:</strong> Check if design meets architectural standards</li>
+          <li><strong>Code Review / Walkthrough:</strong> Peer inspection of code</li>
+          <li><strong>Testing:</strong> Unit, Integration, System, UAT</li>
+          <li><strong>Defect Tracking:</strong> Log, assign, track, and close bugs</li>
+          <li><strong>Configuration Management:</strong> Version control, change tracking</li>
+          <li><strong>Process Audit:</strong> Verify team follows defined processes</li>
+          <li><strong>Metrics Collection:</strong> Defect density, test coverage, etc.</li>
+        </ul>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ Sprint 1 SQA Activities:
+Week 1: Requirements review meeting → 3 ambiguous requirements found & clarified
+Week 2: Design review of payment module → Identified missing error handling
+Week 3: Code walkthrough → Found SQL injection vulnerability in promo code input
+Week 4: Unit testing → 45 tests written, 3 failed → fixed
+Week 5: Defect tracked in JIRA → Bug #CK-101: "Order total wrong with combo offer"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic 1.4 + 1.5 -->
+  <div class="topic" style="--uc:var(--unit1)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>1.4 · Building Blocks of SQA &amp; 1.5 Software Quality Factors</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p><strong>Building Blocks of SQA</strong> are the core components that form the foundation of any SQA program. <strong>Quality Factors</strong> are measurable characteristics that determine how good the software is.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Detailed Explanation</span>
+        <p><strong>Building Blocks of SQA:</strong></p>
+        <ul>
+          <li><strong>Pre-project activities:</strong> Feasibility study, contract review</li>
+          <li><strong>Project lifecycle activities:</strong> Reviews, testing at each phase</li>
+          <li><strong>Infrastructure:</strong> Standards, tools, training</li>
+          <li><strong>Management:</strong> Project management, configuration management</li>
+        </ul>
+        <p><strong>McCall's Quality Factors (most important for exams):</strong></p>
+        <ul>
+          <li><strong>Correctness:</strong> Does it do what is required?</li>
+          <li><strong>Reliability:</strong> Does it perform consistently without failure?</li>
+          <li><strong>Efficiency:</strong> Does it use minimum resources?</li>
+          <li><strong>Integrity:</strong> Is it secure from unauthorised access?</li>
+          <li><strong>Usability:</strong> Is it easy to learn and use?</li>
+          <li><strong>Maintainability:</strong> Can it be easily modified?</li>
+          <li><strong>Testability:</strong> Can it be easily tested?</li>
+          <li><strong>Portability:</strong> Can it run on different platforms?</li>
+          <li><strong>Reusability:</strong> Can components be reused?</li>
+          <li><strong>Interoperability:</strong> Can it work with other systems?</li>
+        </ul>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Quality Factors</strong>
+        Reliability: App handles 10,000 concurrent orders without crash. Efficiency: Menu loads in &lt;2 seconds. Security/Integrity: Payment data encrypted with AES-256. Portability: Works on Android, iOS, and Web. Usability: Customer can place order in 4 taps.
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic 1.6 Reliability -->
+  <div class="topic" style="--uc:var(--unit1)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>1.6 · Software Reliability &amp; Metrics (ROCOF, MTTF, MTTR, MTBF, POFOD, Availability)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>Software Reliability is the probability that a software system will work correctly for a specified period under specified conditions. Reliability metrics measure how often software fails and how quickly it recovers.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Detailed Explanation</span>
+        <ul>
+          <li><strong>ROCOF (Rate Of OCcurrence Of Failures):</strong> Number of failures per unit time. Example: 3 failures/hour. Lower is better.</li>
+          <li><strong>MTTF (Mean Time To Failure):</strong> Average time the system works before it fails. MTTF = 1/ROCOF. Example: If ROCOF = 0.02/hr, MTTF = 50 hours.</li>
+          <li><strong>MTTR (Mean Time To Repair):</strong> Average time taken to fix the system after failure. Lower MTTR = better recovery.</li>
+          <li><strong>MTBF (Mean Time Between Failures):</strong> MTBF = MTTF + MTTR. Average time between one failure and the next.</li>
+          <li><strong>POFOD (Probability Of Failure On Demand):</strong> Probability that the system will fail when a request is made. Example: POFOD = 0.001 means 1 in 1000 requests may fail.</li>
+          <li><strong>Availability:</strong> Proportion of time the system is available.<br>Formula: <code>Availability = MTTF / (MTTF + MTTR)</code><br>Example: MTTF=200hr, MTTR=5hr → Availability = 200/205 = 97.6%</li>
+        </ul>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ Payment Gateway — Monthly Stats:
+─────────────────────────────────────────────
+Total failures in 30 days   : 6
+Total uptime hours          : 720 hours
+ROCOF = 6/720               = 0.0083 failures/hour
+MTTF  = 1/ROCOF             = 120 hours
+MTTR  (avg fix time)        = 2 hours
+MTBF  = MTTF + MTTR         = 122 hours
+Availability = 120/(120+2)  = 98.36%
+POFOD: In 10,000 transactions, 3 failed → 0.0003
+
+SLA Target: 99.9% availability → Team needs to improve!</div>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Reference</strong>
+        The payment gateway must have 99.9% availability (MTTR must be less than 45 min). The order tracking service has POFOD of 0.0001. These metrics are monitored on the ops dashboard and trigger alerts if thresholds are breached.
+      </div>
+
+      <!-- UNIT 1 COMPARISONS -->
+      <div class="comp-section">
+        <h4>📊 Unit 1 — Easy Comparison Topics</h4>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>QA (Quality Assurance)</th><th>QC (Quality Control)</th></tr>
+          <tr><td>Focus</td><td>Process</td><td>Product/Output</td></tr>
+          <tr><td>Goal</td><td>Prevent defects</td><td>Detect defects</td></tr>
+          <tr><td>When</td><td>Throughout SDLC</td><td>After development</td></tr>
+          <tr><td>Who</td><td>Everyone on team</td><td>Testing team</td></tr>
+          <tr><td>Example</td><td>Code review policy</td><td>Running test cases</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Metric</th><th>Full Form</th><th>Meaning</th><th>Good value</th></tr>
+          <tr><td>MTTF</td><td>Mean Time To Failure</td><td>How long before it fails</td><td>Higher ↑</td></tr>
+          <tr><td>MTTR</td><td>Mean Time To Repair</td><td>How fast it is fixed</td><td>Lower ↓</td></tr>
+          <tr><td>MTBF</td><td>Mean Time Between Failures</td><td>MTTF + MTTR</td><td>Higher ↑</td></tr>
+          <tr><td>ROCOF</td><td>Rate Of Occurrence Of Failures</td><td>Failures per hour</td><td>Lower ↓</td></tr>
+          <tr><td>POFOD</td><td>Probability Of Failure On Demand</td><td>Chance of failing per request</td><td>Lower ↓</td></tr>
+          <tr><td>Availability</td><td>—</td><td>MTTF/(MTTF+MTTR)</td><td>Close to 1 ↑</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ UNIT 2 ═══════════════════ -->
+  <div id="u2" class="unit-header" style="--uc:var(--unit2)">
+    <div class="unit-tag">Unit 2 · 20% · 10 Sessions</div>
+    <h2>Software Testing Fundamentals</h2>
+    <div class="meta">Testing Principles · STLC · V-Model · Levels of Testing · Test Types · Smoke &amp; Sanity</div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit2)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>2.1–2.3 · Definition, Objectives &amp; Error / Bug / Fault / Failure</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>Testing is the process of executing a program to find errors. The goal is NOT to prove the software works, but to find where it does NOT work.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Error → Bug → Fault → Failure Chain</span>
+        <ul>
+          <li><strong>Error (Mistake):</strong> A human mistake made by a developer while coding. Example: Developer types <code>price * 1.18</code> instead of <code>price * 1.05</code> for GST.</li>
+          <li><strong>Fault/Defect (Bug):</strong> The error stored in the code/document. The wrong line of code sitting in the program.</li>
+          <li><strong>Failure:</strong> When the fault is executed and the system produces wrong output. Customer sees wrong bill amount.</li>
+        </ul>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Example</strong>
+        Error: Developer writes wrong discount formula. Fault: Wrong code sits in promo module. Failure: Customer applies 20% coupon but gets only 10% discount → Complaint raised.
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit2)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>2.5 · Seven Testing Principles</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>These are the 7 fundamental rules that guide all professional software testing. They are part of the ISTQB (International Software Testing Qualifications Board) standard.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">The 7 Principles</span>
+        <ul>
+          <li><strong>1. Testing shows presence of defects:</strong> Testing can prove bugs exist, but cannot prove software is bug-free.</li>
+          <li><strong>2. Exhaustive testing is impossible:</strong> You cannot test all input combinations. Use risk-based testing.</li>
+          <li><strong>3. Early testing saves cost:</strong> Find bugs in requirements phase, not after deployment. Cost of fixing grows 10x per phase.</li>
+          <li><strong>4. Defect clustering:</strong> 80% of bugs are found in 20% of modules (Pareto principle). Focus on high-risk modules.</li>
+          <li><strong>5. Pesticide paradox:</strong> Running the same tests repeatedly stops finding new bugs. Regularly update test cases.</li>
+          <li><strong>6. Testing is context-dependent:</strong> Testing an ATM app is different from testing a gaming app.</li>
+          <li><strong>7. Absence of errors fallacy:</strong> Even if testing finds no bugs, it doesn't mean the product is useful. It must meet user needs.</li>
+        </ul>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ — Principle 4 (Defect Clustering)</strong>
+        In CloudKitchen+, 70% of all bugs were found in the payment module and order management module. The team applied extra testing effort there — more test cases, security scans, and load testing — rather than spending equal time on the static menu display pages.
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit2)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>2.6 · Software Testing Life Cycle (STLC)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>STLC is the sequence of activities performed during the testing process. Just like SDLC defines how software is built, STLC defines how software is tested.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">6 Phases of STLC</span>
+        <ul>
+          <li><strong>1. Requirement Analysis:</strong> Understand what needs to be tested. Identify testable and non-testable requirements.</li>
+          <li><strong>2. Test Planning:</strong> Create Test Plan — scope, resources, timeline, tools, risk.</li>
+          <li><strong>3. Test Case Development:</strong> Write detailed test cases and test scripts.</li>
+          <li><strong>4. Test Environment Setup:</strong> Prepare servers, databases, tools, and test data.</li>
+          <li><strong>5. Test Execution:</strong> Run tests, log results, report defects.</li>
+          <li><strong>6. Test Closure:</strong> Test summary report, lessons learned, metrics analysis.</li>
+        </ul>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ Order Feature — STLC:
+1. Requirement Analysis : "Customer places order" → 15 test scenarios identified
+2. Test Planning        : 3 testers, 2 weeks, Selenium + Postman tools
+3. Test Cases           : 80 test cases written (positive + negative)
+4. Environment Setup    : Staging server deployed, test database seeded with 100 kitchens
+5. Test Execution       : 72 passed, 8 failed → 8 bugs logged in JIRA
+6. Test Closure         : Test Summary Report: 95% pass rate, 2 critical bugs fixed</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit2)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>2.7 · V-Model &amp; W-Model</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>The <strong>V-Model</strong> (Verification &amp; Validation Model) is a development model where each development phase has a corresponding testing phase. It's shaped like the letter "V".</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">V-Model Structure</span>
+        <div class="code-block">Development (Left Side)         Testing (Right Side)
+─────────────────────────────────────────────────────
+Requirements Analysis    ←───→   Acceptance Testing (UAT)
+System Design            ←───→   System Testing
+Architecture Design      ←───→   Integration Testing
+Module Design            ←───→   Unit Testing
+         ↓
+       Coding (Bottom)
+─────────────────────────────────────────────────────
+Verification: Are we building it right? (review docs)
+Validation:   Are we building the right thing? (testing)</div>
+        <p><strong>W-Model:</strong> An improvement over V-Model where testing activities run in parallel with development, not after. Both form a "W" shape together.</p>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ V-Model</strong>
+        Requirements: "User can track order" → UAT tests written NOW. System Design: Architecture for tracking service → System tests planned. Module Design: GPS module specs → Unit tests written. Coding begins at bottom. Then right side executes.
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit2)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>2.9 · Levels of Testing (Unit, Integration, System, UAT)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>Testing happens at four levels, starting from individual code components and going up to the complete system. Each level has a different scope and objective.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">The 4 Levels</span>
+        <ul>
+          <li><strong>Unit Testing:</strong> Test individual functions or modules in isolation. Done by developers. Tools: JUnit, PyTest, Jest.</li>
+          <li><strong>Integration Testing:</strong> Test how modules work together. Check data flow between components. Approaches: Top-down, Bottom-up, Big-bang, Sandwich.</li>
+          <li><strong>System Testing:</strong> Test the complete integrated system against requirements. Done by independent testers. Covers functional + non-functional testing.</li>
+          <li><strong>UAT (User Acceptance Testing):</strong> End-users test the system to verify it meets business needs before go-live. Final gate before release.</li>
+        </ul>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ — 4 Levels:
+
+Unit Test (Developer):
+  → Test: calculateTotal(items=[Burger₹120, Fries₹60], discount=10%)
+  → Expected: ₹162, Got: ₹162 ✓
+
+Integration Test (Tester):
+  → Order module + Payment module working together?
+  → Place order → redirect to payment → confirm → update DB ✓
+
+System Test (QA Team):
+  → Full flow: Register → Browse kitchens → Add to cart → Pay → Track → Deliver
+  → Non-functional: Load test with 5000 concurrent users
+
+UAT (Restaurant Owner / Customer):
+  → Real kitchen manager logs in and manages menu
+  → Real customer places first order end-to-end</div>
+      </div>
+
+      <!-- Unit 2 comparisons -->
+      <div class="comp-section">
+        <h4>📊 Unit 2 — Easy Comparison Topics</h4>
+        <table class="comp-table">
+          <tr><th>Level</th><th>Who Tests</th><th>What is Tested</th><th>When</th></tr>
+          <tr><td>Unit</td><td>Developer</td><td>Single function/module</td><td>During coding</td></tr>
+          <tr><td>Integration</td><td>Tester/Dev</td><td>Module interactions</td><td>After unit testing</td></tr>
+          <tr><td>System</td><td>QA Team</td><td>Whole system</td><td>After integration</td></tr>
+          <tr><td>UAT</td><td>End User</td><td>Business scenarios</td><td>Before release</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Smoke Testing</th><th>Sanity Testing</th></tr>
+          <tr><td>Also called</td><td>Build verification test</td><td>Subset regression test</td></tr>
+          <tr><td>Scope</td><td>Broad – entire application</td><td>Narrow – specific functionality</td></tr>
+          <tr><td>When</td><td>After new build received</td><td>After a bug fix / minor change</td></tr>
+          <tr><td>Goal</td><td>Is build stable enough to test?</td><td>Is the specific fix working?</td></tr>
+          <tr><td>Depth</td><td>Shallow (surface level)</td><td>Deep (focused area)</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>V-Model</th><th>Agile/TDD</th></tr>
+          <tr><td>Testing starts</td><td>After coding complete</td><td>Before coding (test first)</td></tr>
+          <tr><td>Documentation</td><td>Heavy</td><td>Light</td></tr>
+          <tr><td>Flexibility</td><td>Low – sequential</td><td>High – iterative</td></tr>
+          <tr><td>Best for</td><td>Stable, well-defined projects</td><td>Changing requirements</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ UNIT 3 ═══════════════════ -->
+  <div id="u3" class="unit-header" style="--uc:var(--unit3)">
+    <div class="unit-tag">Unit 3 · 20% · 9 Sessions</div>
+    <h2>Static &amp; Dynamic Testing</h2>
+    <div class="meta">Reviews · Walkthrough · Inspection · Black Box · White Box · Mutation · Exploratory</div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit3)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>3.1 · Static Techniques — Reviews (Informal, Formal, Walkthrough, Inspection)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>Static testing means examining the code or documents WITHOUT executing the program. You find bugs by reading, reviewing, and analyzing — not by running the software.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Types of Reviews</span>
+        <ul>
+          <li><strong>Informal Review:</strong> Casual review with no defined process. Developer asks colleague to look at code. No documentation required. Fast and cheap.</li>
+          <li><strong>Walkthrough:</strong> Author explains the document/code to a group. Team asks questions. No formal entry/exit criteria. Goal: education + find issues.</li>
+          <li><strong>Technical/Peer Review:</strong> Structured review by peers. Checklist-based. Moderator leads. Results documented.</li>
+          <li><strong>Formal Inspection (Fagan Inspection):</strong> Most rigorous. 6 phases: Planning → Overview → Preparation → Meeting → Rework → Follow-up. Metrics tracked. Defect rates measured.</li>
+        </ul>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Real World Example</span>
+        <div class="code-block">CloudKitchen+ Code Review Scenario:
+──────────────────────────────────────────────────
+Informal Review:
+  Dev A: "Hey, can you glance at my payment validation code?"
+  Dev B: "You're not checking for negative amounts!" → Fixed immediately.
+
+Walkthrough:
+  Lead developer presents new order management module to team (30 min)
+  Team asks: "What happens if kitchen is offline when order arrives?"
+  Lead: "Oh, I didn't handle that." → Added to backlog.
+
+Formal Inspection:
+  6-person review of security module
+  Phase 1 Planning: 2 days prep
+  Phase 3 Preparation: Each reviewer checks 200 LOC
+  Phase 4 Meeting: 47 defects found in 90 minutes
+  Phase 5 Rework: All fixed, verified in follow-up</div>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Reference</strong>
+        A formal inspection of the payment integration code found 12 security vulnerabilities before any code was deployed. Cost: 4 hours of team time. If found in production: potential data breach and loss of customer trust. ROI = enormous.
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit3)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>3.3 · Black Box Testing Techniques (Equivalence Partitioning, BVA, Decision Table, State Transition)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>Black Box Testing tests the software from the user's perspective — we know WHAT the software should do, but not HOW it does it internally. We test inputs and outputs only.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Techniques</span>
+        <p><strong>1. Equivalence Partitioning (EP):</strong> Divide input data into groups (partitions) where all values in a group should behave the same. Test one value from each partition.</p>
+        <div class="code-block">CloudKitchen+ Exam Score Example (from Q-Paper):
+Score range: 0 to 40. Pass = 24+.
+Partitions:
+  Invalid LOW  : < 0      (e.g., -5)
+  Valid FAIL   : 0–23     (e.g., 10)
+  Valid PASS   : 24–40    (e.g., 30)
+  Invalid HIGH : > 40     (e.g., 50)
+→ Minimum test cases needed: 4 (one per partition)</div>
+        <p><strong>2. Boundary Value Analysis (BVA):</strong> Bugs tend to hide at boundaries. Test values AT, just below, and just above each boundary.</p>
+        <div class="code-block">BVA for same score field (0 to 40):
+Boundaries: 0, 1, 23, 24, 39, 40
+Test: -1 (invalid), 0 (min), 1 (min+1), 23 (fail boundary), 
+      24 (pass boundary), 39 (max-1), 40 (max), 41 (invalid)</div>
+        <p><strong>3. Decision Table Testing:</strong> For features with multiple conditions combined. List all combinations of conditions and corresponding actions.</p>
+        <p><strong>4. State Transition Testing:</strong> Test systems that behave differently based on current state. Draw a state diagram and test all transitions.</p>
+        <div class="code-block">CloudKitchen+ Order States:
+PLACED → ACCEPTED → PREPARING → OUT_FOR_DELIVERY → DELIVERED
+                              → CANCELLED (valid from PLACED and ACCEPTED only)
+Test: Can a DELIVERED order be cancelled? → Should be REJECTED.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit3)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>3.4 · White Box Testing (Statement, Branch, Path, Cyclomatic Complexity, Data Flow, Mutation)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>White Box (Glass Box) Testing tests the internal structure and logic of the code. The tester can see the source code and designs tests to cover code paths.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Coverage Types</span>
+        <ul>
+          <li><strong>Statement Coverage:</strong> Every line of code must be executed at least once. 100% SC = all lines run.</li>
+          <li><strong>Branch/Decision Coverage:</strong> Every branch (if-true and if-false) must be executed. Stronger than SC.</li>
+          <li><strong>Path Coverage:</strong> Every independent path through the code must be tested. Most thorough but can be exponential.</li>
+          <li><strong>Data Flow Testing:</strong> Tests paths from where a variable is defined to where it is used. Finds variable misuse bugs.</li>
+          <li><strong>Mutation Testing:</strong> Artificially introduce bugs (mutations) into code and check if existing tests catch them. If tests don't fail → tests are weak.</li>
+        </ul>
+        <p><strong>Cyclomatic Complexity (McCabe's Metric):</strong></p>
+        <div class="code-block">Formula: V(G) = E - N + 2P
+Where: E = edges, N = nodes, P = connected components (usually 1)
+OR: V(G) = Number of decision points + 1
+
+CloudKitchen+ — applyDiscount() function:
+IF premium_user THEN discount = 20%
+ELSE IF cart_value > 500 THEN discount = 15%
+ELSE discount = 0
+
+Decision points = 2 (two IF statements)
+V(G) = 2 + 1 = 3
+→ Minimum 3 test cases needed to cover all paths</div>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-eg">Flowchart from Q-Paper — Statement &amp; Decision Coverage</span>
+        <div class="code-block">Flow: Read A,B → IF A>=2 [TRUE→Print A+B] [FALSE→Print A-B] → IF B<4 [FALSE→Print B-A] → Print "End"
+
+Paths:
+Path 1: A>=2 TRUE  → Print A+B → B<4 FALSE → Print B-A → End
+Path 2: A>=2 FALSE → Print A-B → B<4 FALSE → Print B-A → End  
+(Note: B<4 TRUE path leads directly to End)
+
+100% Statement Coverage: 2 test cases (cover all statements)
+100% Decision Coverage:  2 test cases (cover all T/F branches)
+→ Answer: Minimum 2 test cases for both SC and DC</div>
+      </div>
+
+      <!-- Unit 3 comparisons -->
+      <div class="comp-section">
+        <h4>📊 Unit 3 — Easy Comparison Topics</h4>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Black Box Testing</th><th>White Box Testing</th></tr>
+          <tr><td>Knowledge</td><td>No internal code knowledge</td><td>Full code knowledge required</td></tr>
+          <tr><td>Done by</td><td>Testers / end users</td><td>Developers / testers</td></tr>
+          <tr><td>Focus</td><td>Input/Output behavior</td><td>Internal logic, paths</td></tr>
+          <tr><td>Techniques</td><td>EP, BVA, Decision Table</td><td>Statement, Branch, Path coverage</td></tr>
+          <tr><td>Also called</td><td>Functional / Behavioral</td><td>Structural / Glass box</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Technique</th><th>What it Tests</th><th>Strength</th></tr>
+          <tr><td>Statement Coverage</td><td>Every line executed</td><td>Basic — weakest</td></tr>
+          <tr><td>Branch Coverage</td><td>Every T/F branch</td><td>Stronger than SC</td></tr>
+          <tr><td>Path Coverage</td><td>Every independent path</td><td>Strongest — most thorough</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Static Testing</th><th>Dynamic Testing</th></tr>
+          <tr><td>Program execution</td><td>NOT required</td><td>Required</td></tr>
+          <tr><td>When</td><td>Early (before coding or after)</td><td>After code is ready</td></tr>
+          <tr><td>Examples</td><td>Code review, walkthrough, inspection</td><td>Unit test, integration test</td></tr>
+          <tr><td>Finds</td><td>Defects in docs, design, code logic</td><td>Failures in running software</td></tr>
+          <tr><td>Cost</td><td>Cheaper (no environment needed)</td><td>More expensive</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ UNIT 4 ═══════════════════ -->
+  <div id="u4" class="unit-header" style="--uc:var(--unit4)">
+    <div class="unit-tag">Unit 4 · 25% · 11 Sessions</div>
+    <h2>Test Management</h2>
+    <div class="meta">Test Organization · IEEE 829 · Test Plan · Test Cases · Defect Life Cycle · Risk · Configuration Mgmt</div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit4)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>4.1 · Test Organization — Roles (Tester, Test Lead, Test Manager)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-how">Roles</span>
+        <ul>
+          <li><strong>Tester:</strong> Writes and executes test cases, logs defects, verifies fixes. Day-to-day testing work.</li>
+          <li><strong>Test Lead:</strong> Plans testing activities, coordinates team, tracks progress, mentors testers.</li>
+          <li><strong>Test Manager:</strong> Owns the test strategy, manages resources, communicates with stakeholders, signs off on release.</li>
+        </ul>
+      </div>
+      <div class="proj-ref">
+        <strong>🍕 CloudKitchen+ Team Structure</strong>
+        Test Manager: Decides release readiness, reports to CTO. Test Lead: Manages 5 testers, handles JIRA, writes test plan. Testers: Each tester owns one module (order, payment, delivery, menu, admin).
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit4)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>4.2 · IEEE 829 Test Plan — All Sections in Detail</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>IEEE 829 is the international standard for software test documentation. The Test Plan is a document that describes the scope, approach, resources, and schedule for testing activities.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">IEEE 829 Test Plan Sections</span>
+        <ul>
+          <li><strong>1. Test Plan Identifier:</strong> Unique ID for the plan (e.g., CK-TP-2024-V1)</li>
+          <li><strong>2. Introduction:</strong> Purpose of the plan, project overview</li>
+          <li><strong>3. Test Items:</strong> What software/versions are being tested</li>
+          <li><strong>4. Features to be Tested:</strong> List of features in scope</li>
+          <li><strong>5. Features NOT to be Tested:</strong> Explicitly state what is OUT of scope</li>
+          <li><strong>6. Approach/Strategy:</strong> How testing will be done (manual/automated, techniques)</li>
+          <li><strong>7. Item Pass/Fail Criteria:</strong> When is a feature considered passing?</li>
+          <li><strong>8. Suspension Criteria:</strong> When to stop testing (e.g., >30% critical bug rate)</li>
+          <li><strong>9. Test Deliverables:</strong> Test cases, defect reports, test summary</li>
+          <li><strong>10. Testing Tasks:</strong> Breakdown of activities with timeline</li>
+          <li><strong>11. Environmental Needs:</strong> Hardware, software, network setup</li>
+          <li><strong>12. Responsibilities:</strong> Who is responsible for what</li>
+          <li><strong>13. Staffing and Training:</strong> Team skills and training needs</li>
+          <li><strong>14. Schedule:</strong> Timeline/milestones</li>
+          <li><strong>15. Risks and Contingencies:</strong> Risks and mitigation plans</li>
+          <li><strong>16. Approvals:</strong> Sign-off from stakeholders</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit4)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>4.7 · Defect Life Cycle &amp; Defect Report (IEEE 829)</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>The Defect Life Cycle (Bug Life Cycle) describes the different states a bug goes through from discovery to resolution. Every bug follows this lifecycle until it is closed.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Defect States</span>
+        <div class="code-block">NEW → ASSIGNED → OPEN → FIXED → RETEST → 
+  → VERIFIED (pass) → CLOSED
+  → REOPEN (fail) → back to OPEN
+
+Other states: REJECTED (not a bug), DEFERRED (fix later), DUPLICATE</div>
+        <p><strong>Defect Severity vs Priority:</strong></p>
+        <ul>
+          <li><strong>Severity:</strong> Impact on the system. Critical/Major/Minor/Trivial</li>
+          <li><strong>Priority:</strong> How urgently it needs to be fixed. High/Medium/Low</li>
+          <li>A typo on login page: Low Severity, High Priority (visible to all users)</li>
+          <li>Crash in rarely-used admin report: High Severity, Low Priority</li>
+        </ul>
+      </div>
+
+      <!-- Unit 4 comparisons -->
+      <div class="comp-section">
+        <h4>📊 Unit 4 — Easy Comparison Topics</h4>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Severity</th><th>Priority</th></tr>
+          <tr><td>Defined by</td><td>Tester (technical impact)</td><td>Product Owner (business urgency)</td></tr>
+          <tr><td>High Sev, Low Pri</td><td colspan="2">Crash in rarely-used feature</td></tr>
+          <tr><td>Low Sev, High Pri</td><td colspan="2">Typo on homepage (brand visibility)</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Project Risk</th><th>Product Risk</th></tr>
+          <tr><td>What</td><td>Risk to the project plan</td><td>Risk that the product has quality issues</td></tr>
+          <tr><td>Example</td><td>Developer quits; server delay</td><td>Payment module has security bug</td></tr>
+          <tr><td>Managed by</td><td>Project Manager</td><td>Test Manager / QA Team</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ UNIT 5 ═══════════════════ -->
+  <div id="u5" class="unit-header" style="--uc:var(--unit5)">
+    <div class="unit-tag">Unit 5 · 15% · 7 Sessions</div>
+    <h2>Tool Support for Testing</h2>
+    <div class="meta">CAST · Selenium · JMeter · Postman · ETL Testing · JIRA</div>
+  </div>
+
+  <div class="topic" style="--uc:var(--unit5)">
+    <div class="topic-head" onclick="toggle(this)">
+      <h3>5.1 · CAST — Computer Aided Software Testing</h3>
+      <span class="arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sect">
+        <span class="sect-label sl-what">What is it?</span>
+        <p>CAST means using software tools to support, automate, or manage parts of the testing process — instead of doing everything manually.</p>
+      </div>
+      <div class="sect">
+        <span class="sect-label sl-how">Types of Test Tools</span>
+        <ul>
+          <li><strong>Test Management Tools:</strong> JIRA, TestRail — manage test cases, track defects</li>
+          <li><strong>Test Execution Tools:</strong> Selenium, Appium — automate UI tests</li>
+          <li><strong>Performance Tools:</strong> JMeter, Gatling — load and stress testing</li>
+          <li><strong>API Testing Tools:</strong> Postman, REST Assured — test REST APIs</li>
+          <li><strong>Static Analysis Tools:</strong> SonarQube, PMD — find code issues without running</li>
+          <li><strong>ETL Testing Tools:</strong> QuerySurge — test data warehouse pipelines</li>
+        </ul>
+        <p><strong>Benefits of CAST:</strong> Faster execution, reusability, accuracy, regression testing efficiency, 24/7 testing possible, better coverage.</p>
+        <p><strong>Risks of CAST:</strong> High initial cost, maintenance overhead, testers need tool training, tools may not suit all scenarios.</p>
+      </div>
+
+      <!-- Unit 5 comparisons -->
+      <div class="comp-section">
+        <h4>📊 Unit 5 — Easy Comparison Topics</h4>
+        <table class="comp-table">
+          <tr><th>Tool</th><th>Purpose</th><th>Type</th><th>Protocol</th></tr>
+          <tr><td>Selenium</td><td>UI browser automation</td><td>Functional</td><td>HTTP via browser</td></tr>
+          <tr><td>JMeter</td><td>Load &amp; performance testing</td><td>Non-functional</td><td>HTTP/HTTPS/FTP/JDBC</td></tr>
+          <tr><td>Postman</td><td>API testing</td><td>Functional</td><td>REST/SOAP</td></tr>
+          <tr><td>JIRA</td><td>Bug tracking / project mgmt</td><td>Management</td><td>Web-based</td></tr>
+          <tr><td>SonarQube</td><td>Static code analysis</td><td>Static</td><td>Code scan</td></tr>
+        </table>
+        <br>
+        <table class="comp-table">
+          <tr><th>Aspect</th><th>Manual Testing</th><th>Automation Testing (CAST)</th></tr>
+          <tr><td>Speed</td><td>Slow</td><td>Fast</td></tr>
+          <tr><td>Initial cost</td><td>Low</td><td>High</td></tr>
+          <tr><td>Best for</td><td>Exploratory, UI/UX checks</td><td>Regression, load, repeated tests</td></tr>
+          <tr><td>Maintenance</td><td>None</td><td>Scripts need updating</td></tr>
+          <tr><td>Accuracy</td><td>Human error possible</td><td>Consistent</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ QUESTION PAPER ═══════════════════ -->
+  <div id="qp" class="qp-section">
+    <div class="qp-header">
+      <h2>[6432]-2002 · M.C.A. · STQ-553 MJ</h2>
+      <div style="font-size:15px;color:#c5cfe0;margin-top:6px;">Software Testing and Quality Assurance · 2024 Pattern · Semester II</div>
+      <div class="qp-meta">
+        <span>Time: 2½ Hours</span>
+        <span>Max. Marks: 50</span>
+        <span>Total Questions: 5</span>
+      </div>
+      <div class="qp-inst">
+        <strong style="color:var(--accent2)">Instructions:</strong>
+        <ol>
+          <li>All questions are compulsory.</li>
+          <li>Figures to the right indicate full marks.</li>
+          <li>Draw diagram wherever necessary.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-title">Q1 — Unit 1: Software Quality Assurance Fundamentals [10 Marks]</div>
+      <div class="q-body">
+        <div class="q-item">
+          <div class="q-stem">a) Describe software quality assurance and outline its key activities. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Software Quality Assurance (SQA)</strong> is a planned and systematic set of activities designed to ensure that the software development process and the final product conform to established technical standards and procedures.</p>
+            <p><strong>Key Activities of SQA:</strong></p>
+            <ul>
+              <li><strong>Requirements Analysis:</strong> Review SRS for completeness, consistency, and testability.</li>
+              <li><strong>Design Review:</strong> Verify that the software design conforms to architectural standards.</li>
+              <li><strong>Code Reviews/Walkthroughs:</strong> Peer examination of source code to find errors early.</li>
+              <li><strong>Testing Oversight:</strong> Ensuring all testing phases are properly conducted.</li>
+              <li><strong>Configuration Management:</strong> Version control, change management.</li>
+              <li><strong>Process Auditing:</strong> Verifying the team follows defined development processes.</li>
+              <li><strong>Metrics Collection:</strong> Defect density, test coverage, review effectiveness.</li>
+              <li><strong>Standards Compliance:</strong> ISO 9001, IEEE, organisational standards.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">b) Explain the metrics used to assess and measure reliability. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>Metric</th><th>Formula</th><th>Meaning</th><th>Good =</th></tr>
+              <tr><td><strong>ROCOF</strong></td><td>Failures / Time period</td><td>How frequently does the system fail?</td><td>Low ↓</td></tr>
+              <tr><td><strong>MTTF</strong></td><td>1 / ROCOF</td><td>Average time system works before failing</td><td>High ↑</td></tr>
+              <tr><td><strong>MTTR</strong></td><td>Total repair time / No. of repairs</td><td>Average time to fix a failure</td><td>Low ↓</td></tr>
+              <tr><td><strong>MTBF</strong></td><td>MTTF + MTTR</td><td>Time between one failure and the next</td><td>High ↑</td></tr>
+              <tr><td><strong>POFOD</strong></td><td>Failed requests / Total requests</td><td>Chance of failing when called</td><td>Low ↓</td></tr>
+              <tr><td><strong>Availability</strong></td><td>MTTF / (MTTF + MTTR)</td><td>% of time system is operational</td><td>Close to 1 ↑</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="or-div"><div class="or-line"></div><span>OR</span><div class="or-line"></div></div>
+
+        <div class="q-item">
+          <div class="q-stem">c) Explain the term quality in software engineering and describe product revision factors. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Quality in Software Engineering</strong> has two aspects: Fitness for Purpose and Conformance to Requirements.</p>
+            <p><strong>Product Revision Factors (McCall's Model):</strong></p>
+            <ul>
+              <li><strong>Maintainability:</strong> How easily can the software be corrected when faults are found?</li>
+              <li><strong>Testability:</strong> How easily can the software be tested to confirm it works?</li>
+              <li><strong>Flexibility:</strong> How easily can the software be modified when requirements change?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">d) Describe the significance of ISO 9000 standards in SQA. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Significance of ISO 9000 in SQA:</strong></p>
+            <ul>
+              <li><strong>Process Standardisation:</strong> Ensures every team member follows documented, repeatable processes.</li>
+              <li><strong>Customer Confidence:</strong> ISO 9001 certification signals quality management.</li>
+              <li><strong>Continual Improvement:</strong> Mandates regular internal audits and management reviews.</li>
+              <li><strong>Risk Management:</strong> Systematic identification of risks in development.</li>
+              <li><strong>Documentation:</strong> All processes must be documented → enables training and audit trails.</li>
+              <li><strong>Legal &amp; Contractual:</strong> Many enterprise clients require ISO 9001 as a procurement condition.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-title">Q2 — Unit 2: Software Testing Fundamentals [10 Marks]</div>
+      <div class="q-body">
+        <div class="q-item">
+          <div class="q-stem">a) Outline the steps in STLC, highlighting the sequence of testing phases. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Phase 1 — Requirement Analysis:</strong> Study SRS, identify what is testable, prepare RTM.</p>
+            <p><strong>Phase 2 — Test Planning:</strong> Create Test Plan (IEEE 829), define scope, strategy, resources, schedule.</p>
+            <p><strong>Phase 3 — Test Case Development:</strong> Write detailed test cases covering positive, negative, boundary scenarios.</p>
+            <p><strong>Phase 4 — Test Environment Setup:</strong> Configure hardware/software, seed database, install tools.</p>
+            <p><strong>Phase 5 — Test Execution:</strong> Run test cases, log results, report defects in JIRA.</p>
+            <p><strong>Phase 6 — Test Closure:</strong> Prepare Test Summary Report, analyse metrics, obtain sign-off.</p>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">b) Differentiate between fault, defect and failure and describe common causes of software failure. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+              <tr><td><strong>Error</strong></td><td>Human mistake made by developer</td><td>Dev types wrong GST rate in code</td></tr>
+              <tr><td><strong>Fault/Defect</strong></td><td>The error stored in code or document</td><td>Wrong calculation code in billing module</td></tr>
+              <tr><td><strong>Failure</strong></td><td>Wrong output produced when fault executes</td><td>Customer billed ₹590 instead of ₹530</td></tr>
+            </table>
+            <p><strong>Common Causes of Software Failure:</strong> Poor requirements, design flaws, coding errors, insufficient testing, integration issues, environment changes, third-party dependency failures, concurrency issues.</p>
+          </div>
+        </div>
+
+        <div class="or-div"><div class="or-line"></div><span>OR</span><div class="or-line"></div></div>
+
+        <div class="q-item">
+          <div class="q-stem">c) Illustrate performance testing and detail three specific performance test categories. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>1. Load Testing:</strong> Tests system under expected normal load. Verifies performance under anticipated users. Tool: JMeter.</p>
+            <p><strong>2. Stress Testing:</strong> Tests system beyond maximum capacity to find the breaking point. Gradually increases load until the system fails.</p>
+            <p><strong>3. Spike Testing:</strong> Tests system with a sudden, drastic increase in load. Simulates events like flash sales or viral promotions.</p>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">d) Discuss the Integration test approaches. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>Approach</th><th>Starts from</th><th>Uses</th><th>Best for</th></tr>
+              <tr><td>Big Bang</td><td>All at once</td><td>Nothing</td><td>Small systems</td></tr>
+              <tr><td>Top-Down</td><td>High-level modules</td><td>Stubs</td><td>Early UI testing</td></tr>
+              <tr><td>Bottom-Up</td><td>Low-level modules</td><td>Drivers</td><td>Early DB/API testing</td></tr>
+              <tr><td>Sandwich</td><td>Both ends</td><td>Stubs + Drivers</td><td>Large systems</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-title">Q3 — Unit 3: Static &amp; Dynamic Testing [10 Marks]</div>
+      <div class="q-body">
+        <div class="q-item">
+          <div class="q-stem">a) Equivalence Partitioning: Min score 24 to pass, max score 40. Identify partitions, minimum test cases, and specify test cases with expected outcomes. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>Partition</th><th>Range</th><th>Type</th><th>Expected Behaviour</th></tr>
+              <tr><td>EP1</td><td>&lt; 0 (e.g., -1)</td><td>Invalid</td><td>Error: Invalid input</td></tr>
+              <tr><td>EP2</td><td>0 to 23 (e.g., 15)</td><td>Valid — FAIL</td><td>Display "FAIL"</td></tr>
+              <tr><td>EP3</td><td>24 to 40 (e.g., 30)</td><td>Valid — PASS</td><td>Display "PASS"</td></tr>
+              <tr><td>EP4</td><td>&gt; 40 (e.g., 45)</td><td>Invalid</td><td>Error: Invalid input</td></tr>
+            </table>
+            <p><strong>Minimum test cases: 4</strong> (one per partition)</p>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">b) Differentiate between static and dynamic testing. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>Aspect</th><th>Static Testing</th><th>Dynamic Testing</th></tr>
+              <tr><td>Execution</td><td>NOT required</td><td>REQUIRED</td></tr>
+              <tr><td>When</td><td>Early — requirements, design, coding</td><td>Later — after code is written</td></tr>
+              <tr><td>Finds</td><td>Defects in documents, design flaws</td><td>Failures — wrong outputs, crashes</td></tr>
+              <tr><td>Techniques</td><td>Reviews, Walkthroughs, Inspections</td><td>Unit, Integration, System Testing</td></tr>
+              <tr><td>Tools</td><td>SonarQube, PMD</td><td>Selenium, JMeter, JUnit</td></tr>
+              <tr><td>Cost</td><td>Cheaper — no environment needed</td><td>More expensive</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="or-div"><div class="or-line"></div><span>OR</span><div class="or-line"></div></div>
+
+        <div class="q-item">
+          <div class="q-stem">c) Flowchart: Read A,B → IF A≥2 [TRUE→Print A+B | FALSE→Print A-B] → IF B&lt;4 [FALSE→Print B-A] → Print "End". Minimum test cases for 100% SC and DC? <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <div class="code-block">Path 1: A=3, B=5 → A>=2 TRUE, B<4 FALSE → Print A+B, Print B-A, End
+Path 2: A=1, B=2 → A>=2 FALSE, B<4 TRUE → Print A-B, End
+
+TC1 covers: all TRUE for IF1, FALSE for IF2
+TC2 covers: FALSE for IF1, TRUE for IF2
+→ All statements and all branches covered with 2 test cases.
+
+Answer: Minimum 2 test cases for BOTH 100% SC and 100% DC.</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">d) Discuss inspection process in detail. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Roles:</strong> Moderator, Author, Reader, Reviewers (Inspectors), Scribe.</p>
+            <p><strong>6 Phases of Fagan Inspection:</strong></p>
+            <ul>
+              <li><strong>Phase 1 — Planning:</strong> Check entry criteria, schedule meeting, distribute material.</li>
+              <li><strong>Phase 2 — Overview:</strong> Author briefs the team on context and purpose.</li>
+              <li><strong>Phase 3 — Individual Preparation:</strong> Each reviewer studies material independently using checklists.</li>
+              <li><strong>Phase 4 — Inspection Meeting:</strong> Group meets, reader reads, reviewers raise defects, scribe logs them. No solutions discussed.</li>
+              <li><strong>Phase 5 — Rework:</strong> Author fixes all identified defects.</li>
+              <li><strong>Phase 6 — Follow-up:</strong> Moderator verifies all defects are fixed. Metrics recorded.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-title">Q4 — Unit 4: Test Management [10 Marks]</div>
+      <div class="q-body">
+        <div class="q-item">
+          <div class="q-stem">a) CloudKitchen+ — Write a test plan for IEEE 829 sections: scope, objectives, risks, strategy, approach. <span class="q-marks">[10]</span></div>
+          <div class="q-ans">
+            <div class="code-block">TEST PLAN DOCUMENT
+Project: CloudKitchen+ — Online Food Ordering Platform
+Document ID: CK-TP-2024-V1.0 · Standard: IEEE 829
+
+SCOPE: In scope — Order, Payment, Tracking, Menu, Delivery integration
+       Out of scope — Admin BI dashboard (v3.0 feature)
+
+OBJECTIVES:
+  · Verify 120 functional requirements implemented correctly
+  · Ensure 5000 concurrent users with <2s response time
+  · Validate PCI-DSS compliance for payments
+  · Confirm 99.9% uptime of critical services
+
+RISKS:
+  · Payment sandbox unavailable → Use mock service
+  · Incomplete promo module requirements → Defer and escalate
+  · Team member unavailability → Cross-train; document test cases
+
+STRATEGY:
+  · Functional: Manual + EP/BVA techniques
+  · Performance: JMeter — 1000/3000/5000 concurrent users
+  · Security: OWASP Top 10 checklist
+  · Regression: Selenium suite (200 cases) after every sprint
+
+APPROACH: Sprint-aligned testing — functional (wk1-2) →
+  integration (wk3) → regression + performance (wk4) →
+  UAT + security sign-off (final sprint)</div>
+          </div>
+        </div>
+
+        <div class="or-div"><div class="or-line"></div><span>OR</span><div class="or-line"></div></div>
+
+        <div class="q-item">
+          <div class="q-stem">b) Write suitable test cases for the CloudKitchen+ application. <span class="q-marks">[10]</span></div>
+          <div class="q-ans">
+            <table class="tbl">
+              <tr><th>TC ID</th><th>Scenario</th><th>Input</th><th>Expected Output</th><th>Type</th></tr>
+              <tr><td>CK-TC-001</td><td>Place order with valid items</td><td>Cart: Burger+Fries, UPI payment</td><td>Order confirmed, ID generated, SMS sent</td><td>Positive</td></tr>
+              <tr><td>CK-TC-002</td><td>Place order with empty cart</td><td>Cart: empty</td><td>Error: "Add items before ordering"</td><td>Negative</td></tr>
+              <tr><td>CK-TC-003</td><td>Apply valid promo code</td><td>Cart: ₹500, Code: SAVE20</td><td>Discount ₹100, Total ₹400</td><td>Positive</td></tr>
+              <tr><td>CK-TC-004</td><td>Apply expired promo code</td><td>Code: MONSOON23</td><td>Error: "Promo code has expired"</td><td>Negative</td></tr>
+              <tr><td>CK-TC-005</td><td>Cancel order within 5 minutes</td><td>Order placed 2 min ago</td><td>Cancelled, full refund initiated</td><td>Positive</td></tr>
+              <tr><td>CK-TC-006</td><td>Cancel order after 15 minutes</td><td>Order in PREPARING state</td><td>Error: "Kitchen is preparing your food"</td><td>Negative</td></tr>
+              <tr><td>CK-TC-007</td><td>Minimum order value check</td><td>Cart ₹80, Kitchen min ₹100</td><td>Error: "Add ₹20 more to place order"</td><td>Negative</td></tr>
+              <tr><td>CK-TC-008</td><td>Payment failure during checkout</td><td>Declined test card</td><td>Error: "Payment failed. Try another method."</td><td>Negative</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-block">
+      <div class="q-title">Q5 — Unit 5: Tool Support for Testing [10 Marks]</div>
+      <div class="q-body">
+        <div class="q-item">
+          <div class="q-stem">a) Define CAST and explain its benefits in software testing. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>CAST (Computer-Aided Software Testing)</strong> refers to using software tools to support, enhance, automate, or manage aspects of the testing process.</p>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+              <li><strong>Speed:</strong> Automated tests run in minutes vs hours manually.</li>
+              <li><strong>Reusability:</strong> Test scripts reused across multiple releases.</li>
+              <li><strong>Accuracy:</strong> Eliminates human errors in test execution.</li>
+              <li><strong>Better Coverage:</strong> Can run thousands of combinations impractical manually.</li>
+              <li><strong>24/7 Testing:</strong> Automated tests run overnight without human intervention.</li>
+              <li><strong>Regression Efficiency:</strong> Full suite confirms nothing breaks after each change.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">b) Describe the steps in introducing a testing tool into an organization. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Step 1 — Assessment:</strong> Understand testing challenges; define success criteria.</p>
+            <p><strong>Step 2 — Tool Evaluation (POC):</strong> Short-list 2-3 tools; run proof of concept on a small feature.</p>
+            <p><strong>Step 3 — Tool Selection:</strong> Select based on POC results, team skill, and budget.</p>
+            <p><strong>Step 4 — Pilot Implementation:</strong> Implement for one module first; identify challenges in a controlled way.</p>
+            <p><strong>Step 5 — Training:</strong> Hands-on workshops, documentation, pair programming sessions.</p>
+            <p><strong>Step 6 — Guidelines &amp; Standards:</strong> Define coding standards for test scripts, naming conventions, templates.</p>
+            <p><strong>Step 7 — Full Rollout:</strong> Expand to all modules; integrate with CI/CD pipeline.</p>
+            <p><strong>Step 8 — Monitoring &amp; Maintenance:</strong> Track metrics; update scripts when UI changes.</p>
+          </div>
+        </div>
+
+        <div class="or-div"><div class="or-line"></div><span>OR</span><div class="or-line"></div></div>
+
+        <div class="q-item">
+          <div class="q-stem">c) Explain the purpose of Postman in API testing. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <p><strong>Postman</strong> is a widely-used API testing tool for designing, testing, documenting, and monitoring REST and SOAP APIs.</p>
+            <p><strong>Key Uses:</strong> Send HTTP requests (GET/POST/PUT/DELETE), validate responses (status codes, body structure), write automated test scripts in JavaScript, group tests into collections, use environment variables to switch between dev/staging/prod, run via Newman CLI in CI/CD, generate API documentation, and create mock servers.</p>
+            <div class="code-block">CloudKitchen+ — Postman Test:
+GET https://api.cloudkitchen.app/v1/kitchens/5/menu
+
+pm.test("Status 200", () => pm.response.to.have.status(200));
+pm.test("Has menu items", () => {
+  pm.expect(pm.response.json().items).to.be.an('array');
+});</div>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-stem">d) Discuss defect life cycle. <span class="q-marks">[5]</span></div>
+          <div class="q-ans">
+            <div class="code-block">NEW → ASSIGNED → OPEN → FIXED → RETEST →
+  [Pass] → VERIFIED → CLOSED
+  [Fail] → REOPENED → OPEN (cycle repeats)
+
+Special: REJECTED · DEFERRED · DUPLICATE · CANNOT REPRODUCE</div>
+            <p><strong>State Descriptions:</strong> New (logged by tester) → Assigned (by lead) → Open (dev working) → Fixed (dev done) → Retest (tester verifies) → Verified (fix confirmed) → Closed (official closure). Reopened if fix doesn't work.</p>
+            <p><strong>Severity vs Priority:</strong> Severity = technical impact (Critical/Major/Minor). Priority = business urgency (High/Medium/Low). A logo misalignment: Low Severity, High Priority.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end qp-section -->
+
+</div><!-- end container -->
+
+<!-- ── FOOTER (from sqta.html) ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">📚</div>
+          StudyHub
+        </a>
+        <p>Free, topic-wise study notes for MCA &amp; MBA students. Designed to make learning clear, visual and practical.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// STQA Topics</h4>
+        <ul>
+          <li><a href="#u1">Unit 1: SQA Fundamentals</a></li>
+          <li><a href="#u2">Unit 2: Testing Basics</a></li>
+          <li><a href="#u3">Unit 3: Static &amp; Dynamic</a></li>
+          <li><a href="#u4">Unit 4: Test Management</a></li>
+          <li><a href="#u5">Unit 5: Tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Quick Links</h4>
+        <ul>
+          <li><a href="index.html">← Back to Home</a></li>
+          <li><a href="about.html">About Sumit</a></li>
+          <li><a href="https://instagram.com/why_ai" target="_blank">Instagram @why_ai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Design &amp; Developed by <span>Sumit Thakare</span> · <a href="https://instagram.com/why_ai" target="_blank" style="color:var(--accent);">@why_ai</a></p>
+      <div class="footer-social">
+        <a href="https://instagram.com/why_ai" target="_blank" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="mailto:sumit@email.com" title="Email">✉</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggle(el) {
+  el.classList.toggle('open');
+  const body = el.nextElementSibling;
+  body.classList.toggle('open');
+}
+// Open all by default
+window.onload = () => {
+  document.querySelectorAll('.topic-head').forEach(h => {
+    h.classList.add('open');
+    h.nextElementSibling.classList.add('open');
+  });
+};
+</script>
+</body>
+</html>

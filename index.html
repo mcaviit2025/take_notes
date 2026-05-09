@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub — MCA & MBA Study Notes</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* INDEX PAGE SPECIFIC */
+  .hero {
+    padding: 80px 0 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero .badge { margin-bottom: 24px; }
+
+  .hero h1 { margin-bottom: 16px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 auto 36px;
+  }
+
+  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .hero-stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 52px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .hs-item { text-align: center; }
+  .hs-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--heading);
+    line-height: 1;
+  }
+  .hs-num span { color: var(--accent); }
+  .hs-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Course Tabs */
+  .course-section { padding: 60px 0; }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .section-heading h2 { font-size: clamp(22px, 3vw, 32px); }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .course-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    padding: 10px 24px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: var(--transition);
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-btn:hover:not(.active) { color: var(--text); }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* Subject Grid */
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+
+  .subject-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .subject-card:hover {
+    border-color: rgba(0,212,255,0.3);
+    transform: translateY(-4px);
+    background: var(--card-hover);
+  }
+
+  .subject-card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .card-sem {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .status-available { background: rgba(16,185,129,0.15); color: var(--accent4); }
+  .status-soon { background: rgba(100,116,139,0.15); color: var(--muted); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--heading);
+    line-height: 1.3;
+  }
+
+  .card-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .card-units {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+  }
+  .card-link:hover { gap: 8px; }
+
+  .coming-soon-overlay {
+    pointer-events: none;
+  }
+  .coming-soon-overlay .card-link {
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  /* About teaser */
+  .about-teaser {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin: 60px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-teaser::before {
+    content: '';
+    position: absolute;
+    right: -50px; top: -50px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    flex-shrink: 0;
+    border: 3px solid rgba(0,212,255,0.3);
+  }
+
+  .about-content { flex: 1; }
+  .about-content h3 { font-size: 22px; margin-bottom: 6px; }
+  .about-content p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .about-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  @media (max-width: 600px) {
+    .about-teaser { flex-direction: column; gap: 20px; text-align: center; }
+    .about-actions { justify-content: center; }
+    .hero-stats-row { gap: 24px; }
+    .course-tabs { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── POPUP ── -->
+<div class="popup-overlay" id="welcomePopup">
+  <div class="popup-box">
+    <button class="popup-close-x" onclick="closePopup()">✕</button>
+    <div class="popup-logo">📚</div>
+    <h2>Welcome to <span class="highlight">StudyHub</span></h2>
+    <p>Your free study companion for MCA & MBA. Designed & developed by <strong>Sumit Thakare</strong> — follow for more study resources, tech tips & career guides.</p>
+    <div class="popup-divider">Follow on Instagram</div>
+    <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" class="popup-insta">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Follow <strong>@sumit_thakare01</strong> for More
+    </a>
+    <button class="popup-close" onclick="closePopup()">Continue to StudyHub →</button>
+  </div>
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">📚</div>
+        StudyHub
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="about.html">About</a>
+        <a href="https://www.instagram.com/why___ai/?hl=en" target="_blank" class="nav-insta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @why_ai
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">Free Study Notes · MCA & MBA</div>
+    <h1>Learn Smarter,<br><em>Score Better</em></h1>
+    <p class="hero-sub">Topic-wise study notes, real-world examples, and visual explanations for every subject in your curriculum.</p>
+    <div class="hero-cta">
+      <a href="#courses" class="btn btn-primary">Browse Courses →</a>
+      <a href="about.html" class="btn btn-outline">About Creator</a>
+    </div>
+    <div class="hero-stats-row">
+      <div class="hs-item">
+        <div class="hs-num">2<span>+</span></div>
+        <div class="hs-label">Programs</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">12<span>+</span></div>
+        <div class="hs-label">Subjects</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">100<span>%</span></div>
+        <div class="hs-label">Free Access</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">∞</div>
+        <div class="hs-label">Learning</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COURSES ── -->
+<section class="course-section" id="courses">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Choose Your <span class="highlight">Program</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="course-tabs">
+      <button class="tab-btn active" onclick="switchTab('mca', this)">🖥️ MCA</button>
+      <button class="tab-btn" onclick="switchTab('mba', this)">💼 MBA</button>
+    </div>
+
+    <!-- MCA TAB -->
+    <div class="tab-pane active" id="tab-mca">
+      <div class="subjects-grid">
+
+        <!-- SQTA — Available -->
+        <div class="subject-card">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(0,212,255,0.1);">🧪</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester III</div>
+              <div class="status-badge status-available">✓ Available</div>
+            </div>
+          </div>
+          <div class="card-code">MCA-301</div>
+          <div class="card-title">Software Quality Testing & Assurance</div>
+          <div class="card-desc">Testing fundamentals, STLC, V-Model, test types, non-functional testing and real-world industry examples.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 12 Units</div>
+            <a href="sqta.html" class="card-link">Open Notes →</a>
+          </div>
+        </div>
+
+        <!-- DSA — Coming Soon -->
+        <div class="subject-card">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(245,158,11,0.1);">🌲</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester II</div>
+              <div class="status-badge status-available">✓ Available</div>
+            </div>
+          </div>
+          <div class="card-code">RMW554MJ</div>
+          <div class="card-title"> Research Methodology</div>
+          <div class="card-desc">Research Methods, Data Analysis &amp; Report Writing.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 05 Units</div>
+            <a href="rsm.html" class="card-link">Open Notes →</a>
+          </div>
+        </div>
+
+        <!-- DBMS — Coming Soon -->
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(16,185,129,0.1);">🗄️</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester II</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MCA-201</div>
+          <div class="card-title">Database Management Systems</div>
+          <div class="card-desc">Relational models, SQL, normalization, transactions, indexing and database design concepts.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 11 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+        <!-- OS — Coming Soon -->
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(124,58,237,0.1);">💻</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester II</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MCA-202</div>
+          <div class="card-title">Operating Systems</div>
+          <div class="card-desc">Process management, memory management, file systems, scheduling algorithms, and concurrency.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 9 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+        <!-- CN — Coming Soon -->
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(255,107,53,0.1);">🌐</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester III</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MCA-302</div>
+          <div class="card-title">Computer Networks</div>
+          <div class="card-desc">OSI model, TCP/IP, routing protocols, network security, and wireless communication concepts.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 10 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+        <!-- SE — Coming Soon -->
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(0,212,255,0.08);">⚙️</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester III</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MCA-303</div>
+          <div class="card-title">Software Engineering</div>
+          <div class="card-desc">SDLC models, agile, requirement engineering, design patterns, project management and UML.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 12 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MBA TAB -->
+    <div class="tab-pane" id="tab-mba">
+      <div class="subjects-grid">
+
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(245,158,11,0.1);">📊</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester I</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MBA-101</div>
+          <div class="card-title">Management & Organizational Behaviour</div>
+          <div class="card-desc">Management theories, leadership styles, organizational culture, motivation and group dynamics.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 8 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(16,185,129,0.1);">💰</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester I</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MBA-102</div>
+          <div class="card-title">Financial Management</div>
+          <div class="card-desc">Capital budgeting, cost of capital, leverage, working capital management and financial markets.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 10 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="subject-card coming-soon-overlay">
+          <div class="card-top">
+            <div class="card-icon" style="background:rgba(255,107,53,0.1);">📣</div>
+            <div class="card-meta">
+              <div class="card-sem">Semester II</div>
+              <div class="status-badge status-soon">Coming Soon</div>
+            </div>
+          </div>
+          <div class="card-code">MBA-201</div>
+          <div class="card-title">Marketing Management</div>
+          <div class="card-desc">Marketing mix, segmentation, targeting, positioning, digital marketing and consumer behaviour.</div>
+          <div class="card-footer">
+            <div class="card-units">📋 9 Units</div>
+            <span class="card-link" style="color:var(--muted)">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ABOUT TEASER ── -->
+<div class="container">
+  <div class="about-teaser">
+    <div class="about-avatar">👨‍💻</div>
+    <div class="about-content">
+      <div class="badge" style="margin-bottom:10px;">Creator</div>
+      <h3>Sumit Thakare</h3>
+      <p>Passionate about making education accessible. Building StudyHub to help MCA & MBA students study smarter with clear, visual, and practical notes.</p>
+      <div class="about-actions">
+        <a href="about.html" class="btn btn-outline" style="padding:8px 18px; font-size:13px;">View Profile →</a>
+        <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" class="btn" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);color:white;padding:8px 18px;font-size:13px;">
+          Follow @sumit_thakare01
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">📚</div>
+          StudyHub
+        </a>
+        <p>Free, topic-wise study notes for MCA & MBA students. Designed to make learning clear, visual and practical.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// MCA Subjects</h4>
+        <ul>
+          <li><a href="sqta.html">SQTA — Available ✓</a></li>
+          <li><a href="#">DSA — Coming Soon</a></li>
+          <li><a href="#">DBMS — Coming Soon</a></li>
+          <li><a href="#">OS — Coming Soon</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Sumit</a></li>
+          <li><a href="https://www.instagram.com/why___ai/?hl=en" target="_blank">Instagram @why_ai</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Design & Developed by <span>Sumit Thakare</span> · <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" style="color:var(--accent);">@sumit_thakare01</a></p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/sumit_thakare01/?hl=en" target="_blank" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="mailto:sumit@email.com" title="Email">✉</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Popup logic
+  function closePopup() {
+    document.getElementById('welcomePopup').style.animation = 'fadeOut 0.3s ease forwards';
+    setTimeout(() => document.getElementById('welcomePopup').remove(), 300);
+    sessionStorage.setItem('popupSeen', '1');
+  }
+
+  // Don't show popup again in same session
+  if (sessionStorage.getItem('popupSeen')) {
+    document.getElementById('welcomePopup').remove();
+  }
+
+  // Close popup on overlay click
+  document.getElementById('welcomePopup')?.addEventListener('click', function(e) {
+    if (e.target === this) closePopup();
+  });
+
+  // Tab switching
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Fade out keyframe
+  const style = document.createElement('style');
+  style.textContent = '@keyframes fadeOut { to { opacity: 0; } }';
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
