@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Cyber Crime, Laws &amp; Ethics | ECS 563 MCA Notes</title>
+<link rel="stylesheet" href="/css/unit_css_master.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<!-- ════════ UNIT 4 INLINE STYLES ════════ -->
+<style>
+
+  /* ── CRIME CARD GRID ── */
+  .crime-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .crime-card {
+    padding: 1rem 1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .crime-card:nth-child(3n) { border-right: none; }
+  .crime-card:nth-last-child(-n+3) { border-bottom: none; }
+  .crime-card .cc-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+  .crime-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.96rem;
+    margin-bottom: 0.3rem;
+  }
+  .crime-card p { font-size: 0.85rem; line-height: 1.55; margin: 0.25rem 0; }
+  .crime-card .cc-law {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.4rem;
+    border-top: var(--border-thin);
+    padding-top: 0.3rem;
+  }
+  .cc-red    { background: #fdf2f2; border-left: 4px solid #c0392b; }
+  .cc-amber  { background: #fff9ec; border-left: 4px solid #e6ac00; }
+  .cc-blue   { background: #eef8ff; border-left: 4px solid #0c8da0; }
+  .cc-purple { background: #f3f0fa; border-left: 4px solid #6f42c1; }
+  .cc-green  { background: #f0faf2; border-left: 4px solid #1a7a34; }
+  .cc-dark   { background: #f0f0ee; border-left: 4px solid #3a3a36; }
+
+  /* ── PUNISHMENT TABLE BADGE ── */
+  .punish-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .pb-fine      { background: #fff3cd; color: #856404; border: 1px solid #e6ac00; }
+  .pb-prison    { background: #f8d7da; color: #721c24; border: 1px solid #c0392b; }
+  .pb-both      { background: #e2d9f3; color: #4a1d96; border: 1px solid #6f42c1; }
+  .pb-life      { background: #0a0a0a; color: #fff; }
+
+  /* ── WARFARE / NATION STRIP ── */
+  .warfare-strip {
+    display: flex;
+    gap: 0;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+    border: var(--border);
+  }
+  .wf-block {
+    flex: 1;
+    min-width: 120px;
+    padding: 1rem 0.8rem;
+    text-align: center;
+    border-right: 2px solid var(--black);
+  }
+  .wf-block:last-child { border-right: none; }
+  .wf-block .wf-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+  .wf-block h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+    color: var(--gray-700);
+  }
+  .wf-block p { font-size: 0.8rem; line-height: 1.5; }
+  .wf-red    { background: #fdf2f2; }
+  .wf-amber  { background: #fff9ec; }
+  .wf-blue   { background: #eef8ff; }
+  .wf-purple { background: #f3f0fa; }
+  .wf-green  { background: #f0faf2; }
+
+  /* ── POLICY PILLAR (4-col) ── */
+  .policy-four {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .pf-col {
+    padding: 1rem 0.9rem;
+    border-right: 2px solid var(--black);
+    text-align: center;
+  }
+  .pf-col:last-child { border-right: none; }
+  .pf-col .pf-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .pf-col h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.92rem;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.3rem;
+    border-bottom: var(--border-thin);
+  }
+  .pf-col ul { text-align: left; padding-left: 1rem; font-size: 0.83rem; }
+  .pf-col li { margin: 0.28rem 0; }
+  .pf-a { background: #fdf2f2; }
+  .pf-b { background: #fff9ec; }
+  .pf-c { background: #eef8ff; }
+  .pf-d { background: #f0faf2; }
+
+  /* ── SCAM TYPE CARDS ── */
+  .scam-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .scam-card {
+    padding: 1rem 1.1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .scam-card:nth-child(even)  { border-right: none; }
+  .scam-card:nth-last-child(-n+2) { border-bottom: none; }
+  .scam-card .sc-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.15rem 0.5rem;
+    background: var(--black);
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .scam-card h4 { font-family: 'Playfair Display', serif; font-size: 0.96rem; margin-bottom: 0.3rem; }
+  .scam-card p  { font-size: 0.86rem; line-height: 1.55; margin: 0.25rem 0; }
+  .scam-card .sc-india {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #c0392b;
+    margin-top: 0.4rem;
+  }
+
+  /* ── TECH ETHICS ROW ── */
+  .ethics-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .ethics-card {
+    border: var(--border);
+    padding: 1rem;
+  }
+  .ethics-card .et-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.4rem;
+    border-bottom: var(--border-thin);
+  }
+  .ethics-card .et-icon { font-size: 1.4rem; }
+  .ethics-card .et-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .ethics-card .et-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .ethics-card ul { padding-left: 1.1rem; font-size: 0.87rem; }
+  .ethics-card li { margin: 0.3rem 0; }
+  .ethics-card .et-law {
+    margin-top: 0.6rem;
+    padding: 0.4rem 0.7rem;
+    background: var(--gray-100);
+    border-left: 3px solid var(--black);
+    font-size: 0.82rem;
+    font-style: italic;
+  }
+
+  /* ── CASE STUDY BOX ── */
+  .casestudy-box {
+    border: 3px solid var(--black);
+    margin: 2rem 0;
+  }
+  .casestudy-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.8rem 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .casestudy-header h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+  }
+  .casestudy-header .cs-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    text-transform: uppercase;
+  }
+  .casestudy-body { padding: 1.3rem 1.4rem; }
+  .casestudy-body h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--gray-500);
+    margin: 1rem 0 0.4rem;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.3rem;
+  }
+  .casestudy-body p  { margin: 0.5rem 0; }
+  .casestudy-body ul { padding-left: 1.4rem; }
+  .casestudy-body li { margin: 0.35rem 0; font-size: 0.95rem; }
+  .cs-verdict {
+    background: var(--gray-100);
+    border-top: 2px solid var(--black);
+    padding: 0.9rem 1.4rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .cs-verdict span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── PHASE STRIP ── */
+  .phase-strip {
+    display: flex;
+    gap: 0;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+  }
+  .phase-block {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.9rem 0.6rem;
+    text-align: center;
+    border-right: 2px solid #fff;
+    font-family: 'Source Serif 4', serif;
+  }
+  .phase-block:last-child { border-right: none; }
+  .phase-block .ph-num  { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:700; display:block; margin-bottom:0.2rem; }
+  .phase-block .ph-title{ font-size:0.82rem; font-weight:600; display:block; margin-bottom:0.25rem; }
+  .phase-block .ph-desc { font-size:0.74rem; line-height:1.4; opacity:0.85; }
+  .ph-c1 { background:#fde8d8; color:#7d3c00; }
+  .ph-c2 { background:#fff3cd; color:#8a6500; }
+  .ph-c3 { background:#d1ecf1; color:#065a68; }
+  .ph-c4 { background:#d4edda; color:#155724; }
+  .ph-c5 { background:#e2d9f3; color:#4a1d96; }
+  .ph-c6 { background:#f8d7da; color:#922b21; }
+
+  @media(max-width:680px){
+    .crime-grid   { grid-template-columns: 1fr; }
+    .crime-card   { border-right: none !important; border-bottom: 2px solid var(--black) !important; }
+    .crime-card:last-child { border-bottom: none !important; }
+    .policy-four  { grid-template-columns: 1fr 1fr; }
+    .pf-col       { border-bottom: 2px solid var(--black); }
+    .scam-grid    { grid-template-columns: 1fr; }
+    .scam-card    { border-right: none !important; }
+    .ethics-row   { grid-template-columns: 1fr; }
+    .warfare-strip{ flex-wrap: wrap; }
+    .wf-block     { min-width: 44%; }
+    .phase-strip  { flex-wrap: wrap; }
+    .phase-block  { min-width: 44%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAVIGATION ════════════ -->
+<nav class="top-nav">
+  <a href="ECS_Index.html" class="nav-brand"><span>ECS 563</span> · Cyber Security Notes</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">MENU</button>
+  <ul class="nav-links">
+    <li><a href="ECS_Index.html">Home</a></li>
+    <li><a href="unit01_ECS.html">Unit 1</a></li>
+    <li><a href="unit02_ECS.html">Unit 2</a></li>
+    <li><a href="unit03_ECS.html">Unit 3</a></li>
+    <li><a href="#" class="active">Unit 4</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════ PAGE HEADER ════════════ -->
+<header class="page-header">
+  <div class="unit-badge">Unit 04 · ECS 563 MJ-EC21-4</div>
+  <h1>Cyber Crime, Laws<br>&amp; Ethical Landscape</h1>
+  <div class="subject-line">F.Y. M.C.A. (Management) · Semester II · 2024 Pattern · Savitribai Phule Pune University</div>
+  <div class="quick-info">
+    <div class="quick-info-item">Topics Covered<strong>9 Topics</strong></div>
+    <div class="quick-info-item">Exam Weightage<strong>~14–16 Marks</strong></div>
+    <div class="quick-info-item">Key Focus<strong>IT Act, Cybercrimes &amp; Ethics</strong></div>
+    <div class="quick-info-item">Difficulty<strong>Intermediate</strong></div>
+  </div>
+</header>
+
+<!-- ════════════ TOC ════════════ -->
+<div class="toc-wrap">
+  <div class="toc-box">
+    <h3>Topics in This Unit</h3>
+    <ol>
+      <li><a href="#t4-1">4.1 — Computer, Cybercrime &amp; Legal Landscape Worldwide</a></li>
+      <li><a href="#t4-2">4.2 — Criminal Motives, Attacker Profiles &amp; Attack Types</a></li>
+      <li><a href="#t4-3">4.3 — Cyber Threats: Cyber Warfare</a></li>
+      <li><a href="#t4-4">4.4 — Comprehensive Cyber Security Policy</a></li>
+      <li><a href="#t4-5">4.5 — Cybercrimes Targeting Computers &amp; Mobiles</a></li>
+      <li><a href="#t4-6">4.6 — Online Scams and Frauds</a></li>
+      <li><a href="#t4-7">4.7 — Cybercrime and Punishments (IT Act 2000)</a></li>
+      <li><a href="#t4-8">4.8 — Cyber Laws &amp; Ethics: AI/ML, IoT, Blockchain, Darknet, Social Media</a></li>
+      <li><a href="#t4-9">4.9 — Case Studies: Online Scams, Frauds &amp; Punishments</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="content-wrap">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.1 — COMPUTER, CYBERCRIME & LEGAL LANDSCAPE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-1">
+  <div class="topic-label">Topic 4.1</div>
+  <h2 class="topic-title">Computer, Cybercrime &amp; Legal Landscape Around the World</h2>
+
+  <div class="concept-box">
+    <strong>Cybercrime</strong> is any criminal activity that involves a computer, network, or digital device — either as the tool used to commit the crime, the target of the crime, or both. The legal landscape around cybercrime is complex because crime committed online crosses geographical borders instantly, while laws remain jurisdiction-specific.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Last Night Tip</div>
+    Know the two categories: Computer as a <em>Tool</em> (fraud, phishing, cyberstalking) vs Computer as a <em>Target</em> (hacking, DoS, ransomware). India's primary law is the IT Act 2000 (amended 2008). GDPR governs the EU; CFAA governs the USA.
+  </div>
+
+  <h3>Definition: Computer vs Cybercrime</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Computer Crime</strong></td><td>Crime that requires a computer but may not need the internet</td><td>Stealing data from an offline server using a USB drive</td></tr>
+      <tr><td><strong>Cybercrime</strong></td><td>Crime committed using the internet or network infrastructure</td><td>Phishing attack via email; ransomware spread over network</td></tr>
+      <tr><td><strong>Computer as Target</strong></td><td>The attacker wants to damage, disable, or infiltrate the computer itself</td><td>DDoS attack, hacking a server, planting malware</td></tr>
+      <tr><td><strong>Computer as Tool</strong></td><td>The computer is used to carry out a traditional crime</td><td>Online fraud, cyberstalking, child exploitation material</td></tr>
+      <tr><td><strong>Computer as Witness</strong></td><td>Computer logs and data serve as evidence of a crime</td><td>Email logs proving insider trading; CCTV footage</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Global Legal Landscape — Key Laws by Jurisdiction</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Country / Region</th><th>Key Cybercrime Law</th><th>Year</th><th>Key Provisions</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>🇮🇳 India</strong></td>
+        <td>Information Technology Act (IT Act 2000) + Amendment 2008</td>
+        <td>2000 / 2008</td>
+        <td>Hacking (Sec 66), cyber terrorism (Sec 66F), pornography (Sec 67), identity theft (Sec 66C), phishing (Sec 66D), data breach liability (Sec 43A)</td>
+      </tr>
+      <tr>
+        <td><strong>🇺🇸 USA</strong></td>
+        <td>Computer Fraud and Abuse Act (CFAA)</td>
+        <td>1986 / updated</td>
+        <td>Criminalises unauthorised access to protected computers; espionage; identity fraud; denial of service attacks</td>
+      </tr>
+      <tr>
+        <td><strong>🇬🇧 UK</strong></td>
+        <td>Computer Misuse Act (CMA)</td>
+        <td>1990 / updated 2015</td>
+        <td>Unauthorised access, unauthorised modification of data, DoS attacks; up to 10 years imprisonment</td>
+      </tr>
+      <tr>
+        <td><strong>🇪🇺 European Union</strong></td>
+        <td>EU Directive on Attacks Against Information Systems + GDPR</td>
+        <td>2013 / 2018</td>
+        <td>Harmonised cybercrime law across EU member states; mandatory minimum sentences; GDPR adds data protection penalties</td>
+      </tr>
+      <tr>
+        <td><strong>🌐 International</strong></td>
+        <td>Budapest Convention on Cybercrime</td>
+        <td>2001</td>
+        <td>First international treaty on cybercrime; signed by 65+ countries; harmonises definitions and enables cross-border cooperation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Challenges in Cyber Law Enforcement</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 4.1 — Why Cybercrime is Hard to Prosecute: Key Challenges</div>
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9.5px;">
+      <defs>
+        <marker id="arr4" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#555"/>
+        </marker>
+      </defs>
+      <!-- Central problem -->
+      <ellipse cx="360" cy="100" rx="80" ry="44" fill="#0a0a0a"/>
+      <text x="360" y="95"  text-anchor="middle" fill="#fff" font-weight="700" font-size="11">CYBER LAW</text>
+      <text x="360" y="111" text-anchor="middle" fill="#aaa" font-size="9">ENFORCEMENT</text>
+      <text x="360" y="124" text-anchor="middle" fill="#aaa" font-size="9">CHALLENGES</text>
+
+      <!-- Nodes -->
+      <!-- Jurisdiction -->
+      <rect x="10"  y="18"  width="148" height="44" rx="3" fill="#fde8d8" stroke="#e67e22" stroke-width="1.5"/>
+      <text x="84"  y="36"  text-anchor="middle" fill="#7d3c00" font-weight="700" font-size="9">Jurisdiction Problems</text>
+      <text x="84"  y="52"  text-anchor="middle" fill="#7d3c00" font-size="8">Crime crosses borders; laws are national</text>
+      <line x1="160" y1="40" x2="280" y2="88" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+
+      <!-- Anonymity -->
+      <rect x="10"  y="84"  width="148" height="44" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="84"  y="102" text-anchor="middle" fill="#856404" font-weight="700" font-size="9">Attacker Anonymity</text>
+      <text x="84"  y="118" text-anchor="middle" fill="#856404" font-size="8">VPN, Tor, fake IDs obscure identity</text>
+      <line x1="160" y1="106" x2="280" y2="106" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+
+      <!-- Speed -->
+      <rect x="10"  y="150" width="148" height="44" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="1.5"/>
+      <text x="84"  y="168" text-anchor="middle" fill="#065a68" font-weight="700" font-size="9">Speed of Attack</text>
+      <text x="84"  y="184" text-anchor="middle" fill="#065a68" font-size="8">Attacks occur in milliseconds globally</text>
+      <line x1="160" y1="172" x2="280" y2="118" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+
+      <!-- Evidence -->
+      <rect x="562" y="18"  width="148" height="44" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.5"/>
+      <text x="636" y="36"  text-anchor="middle" fill="#4a1d96" font-weight="700" font-size="9">Digital Evidence Issues</text>
+      <text x="636" y="52"  text-anchor="middle" fill="#4a1d96" font-size="8">Admissibility, tampering, chain of custody</text>
+      <line x1="562" y1="40" x2="440" y2="88" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+
+      <!-- Law Gap -->
+      <rect x="562" y="84"  width="148" height="44" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="636" y="102" text-anchor="middle" fill="#155724" font-weight="700" font-size="9">Law Lag Behind Tech</text>
+      <text x="636" y="118" text-anchor="middle" fill="#155724" font-size="8">Laws struggle to keep pace with innovations</text>
+      <line x1="562" y1="106" x2="440" y2="106" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+
+      <!-- Resources -->
+      <rect x="562" y="150" width="148" height="44" rx="3" fill="#fdf2f2" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="636" y="168" text-anchor="middle" fill="#721c24" font-weight="700" font-size="9">Resource Shortage</text>
+      <text x="636" y="184" text-anchor="middle" fill="#721c24" font-size="8">Few trained cyber-forensic police officers</text>
+      <line x1="562" y1="172" x2="440" y2="118" stroke="#555" stroke-width="1" marker-end="url(#arr4)"/>
+    </svg>
+  </div>
+
+  <h3>India's IT Act 2000 — Overview</h3>
+  <p>The <strong>Information Technology Act 2000</strong> is India's primary legislation governing cybercrime, digital signatures, e-commerce, and electronic records. It was significantly amended in 2008 to address emerging threats. Key bodies created under it:</p>
+  <ul>
+    <li><strong>CERT-IN</strong> (Indian Computer Emergency Response Team) — National cybersecurity agency</li>
+    <li><strong>Cyber Appellate Tribunal</strong> — Hears appeals against adjudicating officer orders</li>
+    <li><strong>Adjudicating Officers</strong> — Empowered to award compensation for data breaches</li>
+    <li><strong>Cyber Crime Cells</strong> — Established in all state police departments</li>
+  </ul>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>IT Act 2000 (as amended 2008): https://www.meity.gov.in/content/information-technology-act</li>
+      <li>Budapest Convention on Cybercrime: https://www.coe.int/en/web/cybercrime/the-budapest-convention</li>
+      <li>CFAA (USA): https://www.justice.gov/criminal-ccips/computer-fraud-and-abuse-act</li>
+      <li>Gordon &amp; Ford — "On the Definition and Classification of Cybercrime", Journal of Computer Virology, 2006</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.2 — CRIMINAL MOTIVES & ATTACK TYPES
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-2">
+  <div class="topic-label">Topic 4.2</div>
+  <h2 class="topic-title">Criminal Motives of Attackers and Types of Attacks</h2>
+
+  <div class="concept-box">
+    Understanding <em>why</em> attackers attack is as important as understanding <em>how</em> they attack. Motive determines the type of target, the method chosen, and the level of sophistication. Defenders who understand motive can better anticipate threats.
+  </div>
+
+  <h3>Attacker Profiles — Who Attacks and Why</h3>
+
+  <div class="crime-grid">
+    <div class="crime-card cc-red">
+      <span class="cc-icon">💰</span>
+      <h4>Financial Criminals</h4>
+      <p>Motivated purely by money. Target banks, payment systems, e-commerce, and individuals. They sell stolen data on dark web markets or extort victims via ransomware.</p>
+      <div class="cc-law">Motive: Financial Gain · Target: Banks, Users, Retail</div>
+    </div>
+    <div class="crime-card cc-amber">
+      <span class="cc-icon">🎭</span>
+      <h4>Hacktivists</h4>
+      <p>Politically or ideologically motivated hackers. They deface websites, leak documents, or launch DDoS attacks to promote a cause or protest against an organisation or government.</p>
+      <div class="cc-law">Eg: Anonymous group, India–Pakistan cyber skirmishes</div>
+    </div>
+    <div class="crime-card cc-blue">
+      <span class="cc-icon">🏴</span>
+      <h4>Nation-State Actors</h4>
+      <p>Government-sponsored hackers conducting espionage, sabotage of critical infrastructure, or election interference. The most sophisticated and well-funded attackers.</p>
+      <div class="cc-law">Eg: Stuxnet (USA/Israel vs Iran), SolarWinds (Russia)</div>
+    </div>
+    <div class="crime-card cc-purple">
+      <span class="cc-icon">🎓</span>
+      <h4>Script Kiddies</h4>
+      <p>Low-skill attackers who use ready-made hacking tools without understanding them. Motivated by curiosity, fame, or thrill. Can still cause significant damage.</p>
+      <div class="cc-law">Motive: Recognition, Curiosity · Low Technical Skill</div>
+    </div>
+    <div class="crime-card cc-green">
+      <span class="cc-icon">🕵️</span>
+      <h4>Insider Threats</h4>
+      <p>Disgruntled employees, contractors, or partners with inside access. May be motivated by revenge, financial need (bribed by competitors), or ideological disagreement.</p>
+      <div class="cc-law">Eg: Edward Snowden, disgruntled bank employee</div>
+    </div>
+    <div class="crime-card cc-dark">
+      <span class="cc-icon">🔬</span>
+      <h4>Cyber Terrorists</h4>
+      <p>Attack critical national infrastructure (power grids, water treatment, hospitals) to create fear, casualties, and economic disruption. A subset of nation-state or extremist groups.</p>
+      <div class="cc-law">IT Act Sec 66F: Up to life imprisonment</div>
+    </div>
+  </div>
+
+  <h3>Classification of Attacks by Method</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Attack Category</th><th>Method</th><th>Example</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Passive Attacks</strong></td><td>Observe/intercept data without modifying it; victim unaware</td><td>Network eavesdropping, traffic analysis, packet sniffing</td><td>Confidentiality</td></tr>
+      <tr><td><strong>Active Attacks</strong></td><td>Modify, destroy, or disrupt data or systems</td><td>Data modification, DoS, session hijacking, replay attack</td><td>Integrity / Availability</td></tr>
+      <tr><td><strong>Insider Attacks</strong></td><td>Exploitation of trusted internal access</td><td>Data exfiltration by employee, sabotage of IT systems</td><td>All three — CIA</td></tr>
+      <tr><td><strong>Distribution Attacks</strong></td><td>Tamper with software/hardware before delivery to victims</td><td>Pre-installed malware on devices, poisoned software updates</td><td>Supply Chain</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Detailed Attack Types and Techniques</h3>
+
+  <h4>1. Malware Attacks</h4>
+  <ul>
+    <li><strong>Virus:</strong> Attaches to executable files; spreads when the host file is run. Requires human action to propagate.</li>
+    <li><strong>Worm:</strong> Self-replicates across networks without human intervention. Can bring down entire networks (e.g., ILOVEYOU worm — 10 billion USD damage, 2000).</li>
+    <li><strong>Trojan Horse:</strong> Disguises itself as legitimate software; opens a backdoor for attackers once installed.</li>
+    <li><strong>Ransomware:</strong> Encrypts victim's files and demands payment for the decryption key. WannaCry (2017) hit 230,000 systems in 150 countries.</li>
+    <li><strong>Spyware / Stalkerware:</strong> Silently monitors user activity; logs keystrokes, screenshots, location. Used in domestic abuse and corporate espionage.</li>
+    <li><strong>Rootkit:</strong> Hides deep in the OS, making detection nearly impossible. Gives attacker persistent, stealthy control.</li>
+  </ul>
+
+  <h4>2. Social Engineering Attacks</h4>
+  <ul>
+    <li><strong>Phishing:</strong> Mass email campaign using fake sender identity to steal credentials</li>
+    <li><strong>Spear Phishing:</strong> Targeted phishing using personal details about the victim to increase believability</li>
+    <li><strong>Whaling:</strong> Spear phishing targeting C-suite executives (CEOs, CFOs)</li>
+    <li><strong>Vishing:</strong> Voice phishing over phone — fake RBI / CBI officer calls</li>
+    <li><strong>Smishing:</strong> SMS-based phishing — fake bank/delivery messages</li>
+    <li><strong>Baiting:</strong> Leaving infected USB drives in public places — curiosity leads victims to plug them in</li>
+    <li><strong>Pretexting:</strong> Fabricating a believable scenario to extract information — "I'm from IT support, need your password to fix an issue"</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Example — CEO Fraud (BEC) in India</div>
+    In Business Email Compromise (BEC), attackers impersonate a CEO by spoofing their email address. The CFO receives an "urgent" email from the apparent CEO asking for an immediate wire transfer of ₹50 lakhs to a vendor. This social engineering attack costs Indian businesses crores annually and is classified under IT Act Section 66D (cheating by impersonation).
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Hadnagy, C. — Social Engineering: The Science of Human Hacking, 2nd Ed., Wiley, 2018</li>
+      <li>CERT-IN Annual Report 2023 — Attacker Profile Analysis</li>
+      <li>FBI Internet Crime Complaint Center (IC3) Annual Report: https://www.ic3.gov/AnnualReport</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.3 — CYBER WARFARE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-3">
+  <div class="topic-label">Topic 4.3</div>
+  <h2 class="topic-title">Cyber Threats: Cyber Warfare</h2>
+
+  <div class="concept-box">
+    <strong>Cyber Warfare</strong> refers to the use of digital attacks by nation-states or their proxies against the critical infrastructure, military systems, economy, or civil society of another nation. Unlike traditional warfare, cyber warfare is invisible, attributable only with difficulty, and can cause catastrophic damage without a single physical weapon.
+  </div>
+
+  <h3>Dimensions of Cyber Warfare</h3>
+
+  <div class="warfare-strip">
+    <div class="wf-block wf-red">
+      <span class="wf-icon">⚔️</span>
+      <h4>Offensive Ops</h4>
+      <p>Attacking enemy military systems, communications, power grids, and financial infrastructure to paralyse the adversary before or during kinetic conflict.</p>
+    </div>
+    <div class="wf-block wf-amber">
+      <span class="wf-icon">🛡️</span>
+      <h4>Defensive Ops</h4>
+      <p>Protecting national critical infrastructure from foreign cyber attacks. Includes real-time threat detection, patch management, and national cyber exercises.</p>
+    </div>
+    <div class="wf-block wf-blue">
+      <span class="wf-icon">🕵️</span>
+      <h4>Cyber Espionage</h4>
+      <p>Infiltrating foreign government and military networks to steal classified information — defence blueprints, diplomatic communications, economic plans.</p>
+    </div>
+    <div class="wf-block wf-purple">
+      <span class="wf-icon">📢</span>
+      <h4>Influence Operations</h4>
+      <p>Coordinated disinformation campaigns on social media, fake news, and propaganda to destabilise the target nation's political system and public trust.</p>
+    </div>
+    <div class="wf-block wf-green">
+      <span class="wf-icon">💥</span>
+      <h4>Critical Infra Attacks</h4>
+      <p>Targeting power grids, water treatment plants, nuclear facilities, and financial systems to create mass disruption and civilian panic.</p>
+    </div>
+  </div>
+
+  <h3>Major Cyber Warfare Incidents in History</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Incident</th><th>Year</th><th>Attacker (Suspected)</th><th>Target</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Estonia DDoS Attacks</strong></td><td>2007</td><td>Russia (suspected)</td><td>Estonian government, banks, media</td><td>Entire national internet infrastructure paralysed for weeks; first major nation-state cyber attack</td></tr>
+      <tr><td><strong>Stuxnet</strong></td><td>2010</td><td>USA &amp; Israel</td><td>Iran's Natanz nuclear centrifuges</td><td>Physically destroyed 20% of Iran's uranium enrichment capacity — first cyber weapon causing physical damage</td></tr>
+      <tr><td><strong>Ukraine Power Grid</strong></td><td>2015–16</td><td>Russia (Sandworm APT)</td><td>Ukrainian electricity distribution</td><td>230,000 civilians lost power in winter; first confirmed power grid attack via cyber weapons</td></tr>
+      <tr><td><strong>SolarWinds / Sunburst</strong></td><td>2020</td><td>Russia (SVR)</td><td>US Federal agencies, 18,000 organisations</td><td>Supply chain attack; infiltrated Treasury, Pentagon, DHS; 9 months undetected</td></tr>
+      <tr><td><strong>India–Pakistan Cyber Skirmishes</strong></td><td>Ongoing</td><td>Both sides — hacktivists &amp; state proxies</td><td>Government websites, defence portals, banks</td><td>Website defacements, DDoS; significant escalation during military tensions</td></tr>
+    </tbody>
+  </table>
+
+  <h3>India's Cyber Warfare Defence Architecture</h3>
+  <ul>
+    <li><strong>NCIIPC</strong> (National Critical Information Infrastructure Protection Centre) — Under NTRO; protects India's critical infrastructure sectors (energy, banking, telecom, transport, space, defence)</li>
+    <li><strong>CERT-IN</strong> — Handles incident response, threat intelligence sharing, and coordinates with private sector</li>
+    <li><strong>Defence Cyber Agency (DCyA)</strong> — Tri-service agency of Indian Armed Forces; conducts offensive and defensive cyber operations</li>
+    <li><strong>National Cyber Coordination Centre (NCCC)</strong> — Real-time threat intelligence and situational awareness at national level</li>
+  </ul>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 4.2 — India's Cyber Defence Architecture</div>
+    <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <defs>
+        <marker id="arr5" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+      <!-- Top: PM / NSC -->
+      <rect x="280" y="10" width="160" height="36" rx="3" fill="#0a0a0a"/>
+      <text x="360" y="25" text-anchor="middle" fill="#fff" font-weight="700" font-size="9.5">National Security Council</text>
+      <text x="360" y="39" text-anchor="middle" fill="#aaa" font-size="8">PMO — Policy &amp; Strategy</text>
+
+      <!-- Layer 2 -->
+      <line x1="360" y1="46" x2="360" y2="65" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+      <rect x="100" y="65" width="145" height="36" rx="3" fill="#c0392b"/>
+      <text x="172" y="80" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">NCCC</text>
+      <text x="172" y="94" text-anchor="middle" fill="#fde8d8" font-size="7.5">National Cyber Coord. Centre</text>
+      <line x1="280" y1="83" x2="247" y2="83" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+      <rect x="280" y="65" width="160" height="36" rx="3" fill="#6f42c1"/>
+      <text x="360" y="80" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">CERT-IN</text>
+      <text x="360" y="94" text-anchor="middle" fill="#d0c0ff" font-size="7.5">Incident Response &amp; Alerts</text>
+
+      <rect x="475" y="65" width="145" height="36" rx="3" fill="#0c8da0"/>
+      <text x="547" y="80" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">NCIIPC</text>
+      <text x="547" y="94" text-anchor="middle" fill="#d0f0f8" font-size="7.5">Critical Infra Protection</text>
+      <line x1="440" y1="83" x2="475" y2="83" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+      <!-- Layer 3 -->
+      <line x1="172" y1="101" x2="172" y2="120" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+      <line x1="360" y1="101" x2="360" y2="120" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+      <line x1="547" y1="101" x2="547" y2="120" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+      <rect x="60"  y="120" width="155" height="36" rx="3" fill="#1a7a34"/>
+      <text x="137" y="135" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Defence Cyber Agency</text>
+      <text x="137" y="149" text-anchor="middle" fill="#c0f0c8" font-size="7.5">Military offensive/defensive ops</text>
+
+      <rect x="280" y="120" width="160" height="36" rx="3" fill="#e6ac00"/>
+      <text x="360" y="135" text-anchor="middle" fill="#000" font-weight="700" font-size="9">State CERT / Police</text>
+      <text x="360" y="149" text-anchor="middle" fill="#4a3000" font-size="7.5">State-level cybercrime units</text>
+
+      <rect x="490" y="120" width="155" height="36" rx="3" fill="#3a3a36"/>
+      <text x="567" y="135" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Private Sector SOCs</text>
+      <text x="567" y="149" text-anchor="middle" fill="#ccc" font-size="7.5">Industry threat intelligence sharing</text>
+
+      <!-- Bottom label -->
+      <text x="360" y="178" text-anchor="middle" fill="#555" font-size="8.5">India's layered cyber defence: Policy → Coordination → Sectoral → Operational</text>
+    </svg>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ Key Distinction — Cyber Warfare vs Cybercrime</div>
+    <strong>Cybercrime</strong> is committed by individuals or criminal groups for personal gain. <strong>Cyber Warfare</strong> is conducted by or on behalf of nation-states for strategic, political, or military objectives. The legal frameworks differ entirely — cybercrime is prosecuted under domestic criminal law; cyber warfare falls under international humanitarian law, the laws of armed conflict, and national security law.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Tallinn Manual 2.0 — International Law Applicable to Cyber Operations (NATO CCDCOE)</li>
+      <li>Rid, T. — Cyber War Will Not Take Place, Oxford University Press, 2013</li>
+      <li>NCIIPC: https://nciipc.gov.in</li>
+      <li>Defence Cyber Agency, Ministry of Defence (India): https://mod.gov.in</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.4 — COMPREHENSIVE CYBER SECURITY POLICY
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-4">
+  <div class="topic-label">Topic 4.4</div>
+  <h2 class="topic-title">Comprehensive Cyber Security Policy</h2>
+
+  <div class="concept-box">
+    A <strong>Comprehensive Cyber Security Policy</strong> is an organisation-wide framework of rules, responsibilities, processes, and controls that governs how information and systems are protected. It is not a single document — it is a <em>hierarchy of policies</em> that addresses every level: strategic, operational, technical, and legal.
+  </div>
+
+  <h3>The Four Pillars of a Comprehensive Policy</h3>
+
+  <div class="policy-four">
+    <div class="pf-col pf-a">
+      <span class="pf-num">01</span>
+      <h4>Prevention</h4>
+      <ul>
+        <li>Access control policies (RBAC, least privilege)</li>
+        <li>Password policy — complexity, rotation</li>
+        <li>Patch management schedule</li>
+        <li>Network segmentation rules</li>
+        <li>Encryption mandates for data at rest &amp; in transit</li>
+        <li>Third-party vendor security requirements</li>
+      </ul>
+    </div>
+    <div class="pf-col pf-b">
+      <span class="pf-num">02</span>
+      <h4>Detection</h4>
+      <ul>
+        <li>SIEM implementation &amp; alert thresholds</li>
+        <li>IDS/IPS deployment policy</li>
+        <li>Log retention requirements (minimum 1 year)</li>
+        <li>Vulnerability scanning schedule (monthly)</li>
+        <li>Penetration testing frequency (annual)</li>
+        <li>User behaviour analytics (UBA)</li>
+      </ul>
+    </div>
+    <div class="pf-col pf-c">
+      <span class="pf-num">03</span>
+      <h4>Response</h4>
+      <ul>
+        <li>Incident Response Plan (IRP) — documented</li>
+        <li>Incident classification matrix</li>
+        <li>CERT-IN notification procedure (within 6 hours)</li>
+        <li>Crisis communication plan</li>
+        <li>Digital forensics &amp; evidence preservation</li>
+        <li>Law enforcement engagement protocol</li>
+      </ul>
+    </div>
+    <div class="pf-col pf-d">
+      <span class="pf-num">04</span>
+      <h4>Recovery</h4>
+      <ul>
+        <li>Disaster Recovery Plan with defined RTO/RPO</li>
+        <li>Business Continuity Plan (BCP)</li>
+        <li>Backup policy — frequency, offsite, air-gap</li>
+        <li>Post-incident review process</li>
+        <li>Insurance and financial recovery planning</li>
+        <li>Stakeholder communication after breach</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>India's National Cyber Security Policy (NCSP) 2013</h3>
+  <p>India's <strong>National Cyber Security Policy 2013</strong> was the first comprehensive government-level framework for protecting India's cyberspace. While a revised policy is in development, NCSP 2013 remains the foundational document. Key objectives:</p>
+  <ul>
+    <li>Create a secure and resilient cyberspace for citizens, businesses, and government</li>
+    <li>Establish CERT-IN as the national agency for coordination of cyber incidents</li>
+    <li>Develop a skilled cybersecurity workforce of 500,000 professionals by 2018</li>
+    <li>Establish 24×7 National Critical Information Infrastructure Protection Centre (NCIIPC)</li>
+    <li>Promote Research &amp; Development in cybersecurity technologies in India</li>
+    <li>Create a cyber-aware citizenry through awareness campaigns</li>
+  </ul>
+
+  <h3>Policy Development Life Cycle</h3>
+
+  <div class="phase-strip">
+    <div class="phase-block ph-c1">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Identify</span>
+      <span class="ph-desc">Identify assets, threats, legal obligations, and stakeholders</span>
+    </div>
+    <div class="phase-block ph-c2">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Develop</span>
+      <span class="ph-desc">Draft policy documents across all domains (technical, HR, legal)</span>
+    </div>
+    <div class="phase-block ph-c3">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Approve</span>
+      <span class="ph-desc">Review by legal, IT, and leadership teams; Board approval</span>
+    </div>
+    <div class="phase-block ph-c4">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Implement</span>
+      <span class="ph-desc">Deploy controls; train staff; communicate policy organisation-wide</span>
+    </div>
+    <div class="phase-block ph-c5">
+      <span class="ph-num">5</span>
+      <span class="ph-title">Monitor</span>
+      <span class="ph-desc">Continuously assess effectiveness; audit compliance; SIEM monitoring</span>
+    </div>
+    <div class="phase-block ph-c6">
+      <span class="ph-num">6</span>
+      <span class="ph-title">Review</span>
+      <span class="ph-desc">Annual review cycle; update for new threats, regulations, &amp; technology</span>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip — Policy vs Law</div>
+    A <strong>Policy</strong> is an internal organisational rule — set by management. A <strong>Law</strong> is a government-enacted regulation — enforceable by state. An organisation's password policy is internal; the IT Act's prohibition on hacking is law. Both can coexist and reinforce each other.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>National Cyber Security Policy 2013, MEITY: https://www.meity.gov.in/cyber-security-division</li>
+      <li>NIST Cybersecurity Framework 2.0: https://www.nist.gov/cyberframework</li>
+      <li>ISO/IEC 27001:2022 — Information Security Management Systems</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.5 — CYBERCRIMES TARGETING COMPUTERS & MOBILES
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-5">
+  <div class="topic-label">Topic 4.5</div>
+  <h2 class="topic-title">Cybercrimes Targeting Computer Systems and Mobiles</h2>
+
+  <div class="concept-box">
+    Cybercrimes targeting computers and mobile devices treat the device itself as the primary <em>victim</em>. The attacker's goal is to gain unauthorised access, disrupt service, steal data from, or plant malicious code on the target system. Mobile devices have become a primary attack surface due to their ubiquity and often weaker security posture.
+  </div>
+
+  <h3>Crimes Targeting Computer Systems</h3>
+
+  <h4>1. Hacking / Unauthorised Access</h4>
+  <p>Gaining access to a computer system without permission. Can range from passive information gathering to full system takeover. Classified under <strong>IT Act Section 66</strong>.</p>
+  <ul>
+    <li><strong>Ethical Hacking (White Hat):</strong> Authorised security testing by professionals</li>
+    <li><strong>Black Hat Hacking:</strong> Malicious, unauthorised access for personal gain</li>
+    <li><strong>Grey Hat:</strong> Breaks in without permission but reports the vulnerability (without causing damage)</li>
+  </ul>
+
+  <h4>2. Denial of Service (DoS) / Distributed DoS (DDoS)</h4>
+  <p>Flooding a server or network with so much traffic that it cannot serve legitimate users. DDoS uses a <em>botnet</em> — thousands of compromised computers acting in concert. Classified under <strong>IT Act Section 66F</strong> (if used for terrorism) or Section 43 (damage to computer).</p>
+
+  <h4>3. Ransomware</h4>
+  <p>Encrypts victim's data and demands ransom for the decryption key. Targets both organisations (hospitals, banks, government) and individuals. Modern ransomware groups also exfiltrate data before encrypting and threaten to publish it ("double extortion").</p>
+
+  <h4>4. Data Theft / Data Breach</h4>
+  <p>Unauthorised copying, transfer, or publication of confidential data from an organisation's systems. IT Act Section 66B (dishonestly receiving stolen computer resources) and Section 43A (compensation for negligent data breach).</p>
+
+  <h4>5. Logic Bomb</h4>
+  <p>Malicious code planted in a legitimate program that lies dormant until a specific condition is met (a date, a command, an event) — then activates and causes damage. Commonly planted by disgruntled employees.</p>
+
+  <h3>Crimes Targeting Mobile Devices</h3>
+
+  <div class="crime-grid">
+    <div class="crime-card cc-red">
+      <span class="cc-icon">📱</span>
+      <h4>SIM Swapping</h4>
+      <p>Attacker convinces telecom provider to transfer victim's phone number to attacker's SIM. Then receives all OTPs and 2FA codes — enabling bank account takeover. India has seen thousands of such cases.</p>
+      <div class="cc-law">IT Act Sec 66C (Identity Theft) + 66D (Impersonation)</div>
+    </div>
+    <div class="crime-card cc-amber">
+      <span class="cc-icon">🎣</span>
+      <h4>Smishing</h4>
+      <p>SMS-based phishing. Fake messages claiming to be from SBI, IRCTC, Amazon, or courier services with malicious links that steal credentials or install malware when clicked.</p>
+      <div class="cc-law">IT Act Sec 66D (Cheating by Impersonation)</div>
+    </div>
+    <div class="crime-card cc-blue">
+      <span class="cc-icon">📡</span>
+      <h4>Stalkerware / Spyware</h4>
+      <p>Hidden apps installed on a victim's phone (often by an intimate partner) to track location, read messages, listen to calls, and take covert photos. A tool of domestic abuse.</p>
+      <div class="cc-law">IT Act Sec 66E (Privacy Violation) + IPC Sec 354D</div>
+    </div>
+    <div class="crime-card cc-purple">
+      <span class="cc-icon">🛒</span>
+      <h4>Malicious Apps</h4>
+      <p>Fake apps mimicking legitimate ones (banking apps, games, loan apps) that steal credentials, contacts, photos, and financial data. Distributed via third-party stores or phishing links.</p>
+      <div class="cc-law">IT Act Sec 66 (Hacking) + Sec 43 (Data Theft)</div>
+    </div>
+    <div class="crime-card cc-green">
+      <span class="cc-icon">📶</span>
+      <h4>Evil Twin Wi-Fi Attacks</h4>
+      <p>Attacker creates a fake Wi-Fi hotspot with the same name as a legitimate one (airport, café). All traffic from victims connecting to it passes through the attacker's device — a mobile MitM attack.</p>
+      <div class="cc-law">IT Act Sec 66 + Sec 43</div>
+    </div>
+    <div class="crime-card cc-dark">
+      <span class="cc-icon">💸</span>
+      <h4>UPI / Mobile Payment Fraud</h4>
+      <p>Attackers use social engineering combined with UPI features (collect requests, screen sharing) to trick victims into authorising payments. Unique to India's digital payment landscape.</p>
+      <div class="cc-law">IT Act Sec 66C, 66D + IPC Sec 420 (Cheating)</div>
+    </div>
+  </div>
+
+  <div class="case-box">
+    <div class="case-label">🇮🇳 India Alert — Jamtara / Cyber Crime Hotspots</div>
+    <strong>Jamtara district, Jharkhand</strong> became notorious as India's "phishing capital." Organised gangs operated elaborate call centres conducting SIM swapping, vishing (fake bank calls), and OTP fraud — targeting victims across India. The MHA's Cyber Crime Portal (cybercrime.gov.in) received over 15.56 lakh complaints between 2019–2023, with financial fraud being the dominant category. The Cyber Crime cells in major states now use geofencing and IMEI tracking to locate such gangs.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>National Cyber Crime Reporting Portal: https://cybercrime.gov.in</li>
+      <li>CERT-IN Mobile Security Advisory: https://www.cert-in.org.in</li>
+      <li>MHA Annual Cybercrime Statistics Report 2023</li>
+      <li>Jamtara — Sabka Number Ayega (Netflix documentary) — for real-world context</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.6 — ONLINE SCAMS AND FRAUDS
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-6">
+  <div class="topic-label">Topic 4.6</div>
+  <h2 class="topic-title">Online Scams and Frauds</h2>
+
+  <div class="concept-box">
+    <strong>Online scams and frauds</strong> use digital communication channels to deceive victims into parting with money, personal information, or access to their accounts. Unlike technical attacks, most online scams exploit human psychology — trust, fear, greed, urgency, and social pressure — rather than software vulnerabilities.
+  </div>
+
+  <h3>Major Categories of Online Scams</h3>
+
+  <div class="scam-grid">
+    <div class="scam-card">
+      <span class="sc-tag">Financial Fraud</span>
+      <h4>Banking &amp; UPI Fraud</h4>
+      <p>Victims are contacted by fake "bank officers" or "RBI representatives" and manipulated into sharing OTPs, card details, or UPI PINs. In "collect request" scams, victims receive a UPI collect request and are tricked into entering their PIN to "receive" money, but actually send it.</p>
+      <div class="sc-india">🇮🇳 India: ₹1,750 crore lost to UPI fraud in 2023 alone (RBI data)</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Employment Fraud</span>
+      <h4>Fake Job Offers</h4>
+      <p>Victims receive emails or WhatsApp messages offering high-paying jobs requiring upfront "registration fees," "security deposits," or "visa fees." After payment, the job offer vanishes. Often impersonates major companies like Infosys, TCS, or MNCs.</p>
+      <div class="sc-india">🇮🇳 India: 63% of job-seekers report receiving suspicious offers annually</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Romance / Sextortion</span>
+      <h4>Romance Scams &amp; Sextortion</h4>
+      <p>Attackers build fake romantic relationships online, eventually requesting money for emergencies. Sextortion involves collecting intimate images/videos and threatening to publish them unless a ransom is paid. Increasingly targeting teenagers.</p>
+      <div class="sc-india">🇮🇳 IT Act Sec 67 (obscene material) + Sec 66E + IPC 384 (Extortion)</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Investment Fraud</span>
+      <h4>Fake Cryptocurrency / Stock Tips</h4>
+      <p>Victims are added to WhatsApp/Telegram "investment groups" by fake stockbrokers or crypto gurus. Initial small "gains" are shown; when victims invest large sums, the platform disappears. Called "Pig Butchering" scam internationally.</p>
+      <div class="sc-india">🇮🇳 India: ₹3,200 crore lost to online investment fraud (MHA, 2023)</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Tech Support</span>
+      <h4>Fake Tech Support Scams</h4>
+      <p>Victims receive pop-up alerts claiming their computer is "infected" or their "Windows license has expired." Calling the displayed number connects them to fake "Microsoft/Apple support" who remotely access the device and charge for fake fixes or steal financial data.</p>
+      <div class="sc-india">🇮🇳 IT Act Sec 66 (unauthorized access) + 66D (impersonation)</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Lottery / Prize</span>
+      <h4>Lottery &amp; Prize Fraud</h4>
+      <p>"You have won ₹25 lakhs in the KBC lottery!" Victims pay processing fees, taxes, and courier charges to claim prizes that don't exist. Emails and SMS use official-looking logos of KBC, Amazon, or government schemes to appear credible.</p>
+      <div class="sc-india">🇮🇳 IT Act Sec 66D + IPC 420 (Cheating) + Prize Chits &amp; Money Circulation Act</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">Government Impersonation</span>
+      <h4>Fake CBI / ED / Police Threats</h4>
+      <p>Victims receive video calls from fake police, CBI, or ED officers claiming the victim's Aadhaar is linked to money laundering. Victims are threatened with arrest and pressured to transfer large sums to "verify" their innocence — a new, highly sophisticated Indian scam type.</p>
+      <div class="sc-india">🇮🇳 Called "Digital Arrest" scam; PM Modi warned nation in Oct 2024 Mann Ki Baat</div>
+    </div>
+    <div class="scam-card">
+      <span class="sc-tag">E-Commerce</span>
+      <h4>Online Shopping Frauds</h4>
+      <p>Fake shopping websites or fake social media sellers offer products at steep discounts. After payment, goods are never delivered or counterfeit items arrive. Also includes "Cash on Delivery" fraud where sellers cancel orders and substitute cheap alternatives.</p>
+      <div class="sc-india">🇮🇳 Regulated under Consumer Protection (E-Commerce) Rules 2020 + IT Act</div>
+    </div>
+  </div>
+
+  <h3>Red Flags — How to Identify an Online Scam</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Red Flag</th><th>What It Means</th></tr></thead>
+    <tbody>
+      <tr><td>Urgency / Time Pressure</td><td>"Act within 24 hours or lose the offer" — designed to prevent rational thinking</td></tr>
+      <tr><td>Upfront Payment Required</td><td>Legitimate jobs, prizes, and loans never require upfront fees</td></tr>
+      <tr><td>Too Good to Be True</td><td>Returns of 50%/month, jobs paying ₹5 lakhs/month for no skills — unrealistic offers</td></tr>
+      <tr><td>Requests for OTP / PIN</td><td>No legitimate bank, government body, or company will ever ask for your OTP or ATM PIN</td></tr>
+      <tr><td>Unsolicited Contact</td><td>You did not enter any lottery; you cannot win a prize you didn't enter</td></tr>
+      <tr><td>Requests to Install Remote Access Apps</td><td>AnyDesk, TeamViewer requests from "bank officers" — they will steal your financial data</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>National Cyber Crime Reporting Portal: https://cybercrime.gov.in</li>
+      <li>RBI — Beware of Phishing/Fraudulent Calls advisory: https://www.rbi.org.in</li>
+      <li>MHA I4C — Indian Cyber Crime Coordination Centre: https://www.mha.gov.in/en/cybercrime</li>
+      <li>Federal Trade Commission (USA) — Consumer Information on Scams: https://consumer.ftc.gov/scams</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.7 — CYBERCRIME AND PUNISHMENTS
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-7">
+  <div class="topic-label">Topic 4.7</div>
+  <h2 class="topic-title">Cybercrime and Punishments</h2>
+
+  <div class="concept-box">
+    India's primary cybercrime punishment framework is the <strong>Information Technology Act 2000 (as amended in 2008)</strong>. Certain cybercrimes are also prosecuted under the <strong>Indian Penal Code (IPC)</strong> — now the Bharatiya Nyaya Sanhita (BNS) 2023. Punishments range from compensation and fines to life imprisonment, depending on the nature and severity of the offence.
+  </div>
+
+  <h3>IT Act 2000 — Key Sections and Punishments</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Section</th>
+        <th>Offence</th>
+        <th>Imprisonment</th>
+        <th>Fine</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sec 43</strong></td>
+        <td>Unauthorised access, damage to computer / data</td>
+        <td>—</td>
+        <td>Compensation up to ₹1 crore (civil)</td>
+        <td><span class="punish-badge pb-fine">Civil</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 43A</strong></td>
+        <td>Negligent data breach by body corporate</td>
+        <td>—</td>
+        <td>Compensation (adjudicating officer decides)</td>
+        <td><span class="punish-badge pb-fine">Civil</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66</strong></td>
+        <td>Computer-related offences (hacking)</td>
+        <td>Up to 3 years</td>
+        <td>Up to ₹5 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66B</strong></td>
+        <td>Receiving stolen computer resource / data dishonestly</td>
+        <td>Up to 3 years</td>
+        <td>Up to ₹1 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66C</strong></td>
+        <td>Identity theft (using another person's digital signature / password / ID)</td>
+        <td>Up to 3 years</td>
+        <td>Up to ₹1 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66D</strong></td>
+        <td>Cheating by impersonation using computer resource</td>
+        <td>Up to 3 years</td>
+        <td>Up to ₹1 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66E</strong></td>
+        <td>Violation of privacy (capturing, publishing private images without consent)</td>
+        <td>Up to 3 years</td>
+        <td>Up to ₹2 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 66F</strong></td>
+        <td>Cyber terrorism (attacking critical national infrastructure, causing death/damage)</td>
+        <td><strong>Life Imprisonment</strong></td>
+        <td>As court determines</td>
+        <td><span class="punish-badge pb-life">Life</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 67</strong></td>
+        <td>Publishing obscene material in electronic form</td>
+        <td>First conviction: up to 3 years; subsequent: up to 5 years</td>
+        <td>First: ₹5 lakh; subsequent: ₹10 lakh</td>
+        <td><span class="punish-badge pb-prison">Criminal</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 67A</strong></td>
+        <td>Publishing sexually explicit content electronically</td>
+        <td>Up to 5 years</td>
+        <td>Up to ₹10 lakh</td>
+        <td><span class="punish-badge pb-prison">Criminal</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 67B</strong></td>
+        <td>Child sexual abuse material (CSAM) online</td>
+        <td>First: up to 5 years; subsequent: up to 7 years</td>
+        <td>Up to ₹10 lakh</td>
+        <td><span class="punish-badge pb-life">Most Severe</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 69</strong></td>
+        <td>Failure to assist Government in decryption of information</td>
+        <td>Up to 7 years</td>
+        <td>—</td>
+        <td><span class="punish-badge pb-prison">Criminal</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sec 72</strong></td>
+        <td>Breach of confidentiality and privacy by service providers</td>
+        <td>Up to 2 years</td>
+        <td>Up to ₹1 lakh</td>
+        <td><span class="punish-badge pb-both">Both</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>IPC / BNS Sections Applicable to Cyber Cases</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>IPC Section (BNS Equivalent)</th><th>Offence in Cyber Context</th><th>Max Punishment</th></tr></thead>
+    <tbody>
+      <tr><td><strong>IPC 420 (BNS 318)</strong></td><td>Cheating and dishonestly inducing delivery of property — online fraud</td><td>7 years + fine</td></tr>
+      <tr><td><strong>IPC 384 (BNS 308)</strong></td><td>Extortion — ransomware, sextortion</td><td>3 years + fine</td></tr>
+      <tr><td><strong>IPC 499–500 (BNS 356)</strong></td><td>Defamation — fake social media posts, morphed images</td><td>2 years + fine</td></tr>
+      <tr><td><strong>IPC 354D (BNS 78)</strong></td><td>Cyberstalking — persistent online following, monitoring</td><td>3 years (repeat: 5 years)</td></tr>
+      <tr><td><strong>IPC 153A (BNS 196)</strong></td><td>Promoting enmity between groups — hate speech online</td><td>3 years + fine</td></tr>
+      <tr><td><strong>POCSO Act Sec 13–15</strong></td><td>Child sexual exploitation material (CSAM), online grooming</td><td>5–7 years (first offence)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ Critical Point — Cognisable vs Non-Cognisable Offences</div>
+    Under the IT Act, many offences (Sec 66, 66C, 66D, 66E, 66F, 67) are <strong>cognisable</strong> — meaning police can arrest without a warrant. This gives law enforcement stronger powers to act quickly in cybercrime cases. Non-cognisable offences require a magistrate's permission before arrest.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>IT Act 2000 (Full Text): https://www.meity.gov.in/content/information-technology-act</li>
+      <li>Bharatiya Nyaya Sanhita 2023 (BNS): https://legislative.gov.in</li>
+      <li>POCSO Act 2012: https://wcd.nic.in/acts/protection-children-sexual-offences-act-2012</li>
+      <li>Vakul Sharma — Information Technology Law and Practice, Universal Law Publishing</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.8 — CYBER LAWS & ETHICS: AI/ML, IoT, BLOCKCHAIN, DARKNET, SOCIAL MEDIA
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-8">
+  <div class="topic-label">Topic 4.8</div>
+  <h2 class="topic-title">Cyber Laws &amp; Legal and Ethical Aspects of New Technologies</h2>
+
+  <div class="concept-box">
+    Emerging technologies — <strong>Artificial Intelligence, Internet of Things, Blockchain, the Darknet, and Social Media</strong> — create entirely new legal and ethical challenges that existing cyber laws were not designed to address. Each technology raises unique questions around accountability, privacy, jurisdiction, and harm prevention.
+  </div>
+
+  <div class="ethics-row">
+
+    <!-- AI/ML -->
+    <div class="ethics-card">
+      <div class="et-header">
+        <span class="et-icon">🤖</span>
+        <div>
+          <div class="et-title">Artificial Intelligence &amp; Machine Learning</div>
+          <div class="et-sub">Legal &amp; Ethical Challenges</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Deepfakes:</strong> AI-generated fake videos of real people used for political manipulation, non-consensual pornography, or financial fraud. No specific Indian deepfake law yet — prosecuted under IT Act Sec 66E, 67A</li>
+        <li><strong>Algorithmic Bias:</strong> AI systems trained on biased data produce discriminatory outcomes (in hiring, lending, policing). Ethical obligation to audit AI systems</li>
+        <li><strong>AI in Cybercrime:</strong> AI used to generate phishing emails, voice clones (vishing), and automated vulnerability scans — lowering the skill barrier for attackers</li>
+        <li><strong>Accountability Gap:</strong> When AI makes a harmful decision autonomously — who is liable? The developer? The deploying organisation? The user?</li>
+        <li><strong>Data Privacy:</strong> AI models trained on personal data without consent violates DPDPA 2023 and GDPR</li>
+      </ul>
+      <div class="et-law">India's AI Policy: National Strategy for AI (NITI Aayog, 2018). EU AI Act 2024 — first comprehensive AI regulation globally.</div>
+    </div>
+
+    <!-- IoT -->
+    <div class="ethics-card">
+      <div class="et-header">
+        <span class="et-icon">🌐</span>
+        <div>
+          <div class="et-title">Internet of Things (IoT)</div>
+          <div class="et-sub">Legal &amp; Ethical Challenges</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Massive Attack Surface:</strong> Billions of poorly secured IoT devices (smart TVs, cameras, routers) create entry points for attackers. Mirai botnet (2016) weaponised 600,000 IoT devices for a DDoS attack</li>
+        <li><strong>Lack of Security Standards:</strong> IoT manufacturers prioritise cost over security — no mandatory patch mechanisms, default passwords, no encryption</li>
+        <li><strong>Privacy in Smart Homes:</strong> Smart speakers, cameras, and appliances collect continuous data about residents' behaviour — who owns this data?</li>
+        <li><strong>Medical IoT (IoMT):</strong> Hacking a pacemaker or insulin pump can directly endanger life — safety and liability framework unclear</li>
+        <li><strong>Critical Infrastructure IoT:</strong> SCADA systems, smart grids — compromise can cause city-wide disruption</li>
+      </ul>
+      <div class="et-law">India: NCIIPC guidelines for IoT in critical sectors. USA: IoT Cybersecurity Improvement Act 2020. EU: Cyber Resilience Act 2024 (mandatory security for IoT products).</div>
+    </div>
+
+    <!-- Blockchain -->
+    <div class="ethics-card">
+      <div class="et-header">
+        <span class="et-icon">⛓️</span>
+        <div>
+          <div class="et-title">Blockchain &amp; Cryptocurrency</div>
+          <div class="et-sub">Legal &amp; Ethical Challenges</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Money Laundering:</strong> Cryptocurrency's pseudonymity facilitates laundering of criminal proceeds — used by ransomware groups, drug markets, and human traffickers</li>
+        <li><strong>Smart Contract Vulnerabilities:</strong> Code bugs in smart contracts have led to hundreds of millions in stolen cryptocurrency (e.g., The DAO hack — $60M stolen, 2016)</li>
+        <li><strong>Jurisdictional Ambiguity:</strong> Decentralised blockchains have no physical location — which country's law applies?</li>
+        <li><strong>Regulatory Uncertainty in India:</strong> India's stance on crypto has shifted repeatedly — taxed at 30% (2022) but not fully legalised; VDA framework under development</li>
+        <li><strong>NFT Fraud:</strong> Fake NFT marketplaces, wash trading, and intellectual property theft via unauthorised NFT minting</li>
+      </ul>
+      <div class="et-law">India: Virtual Digital Assets taxed under IT Act Section 115BBH (Finance Act 2022). PMLA (Prevention of Money Laundering Act) now applies to crypto exchanges.</div>
+    </div>
+
+    <!-- Darknet -->
+    <div class="ethics-card">
+      <div class="et-header">
+        <span class="et-icon">🕶️</span>
+        <div>
+          <div class="et-title">Darknet</div>
+          <div class="et-sub">Legal &amp; Ethical Challenges</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>What is the Darknet:</strong> Part of the internet accessible only via special software (Tor browser); not indexed by search engines. Provides anonymity — used for both legitimate privacy needs and criminal activity</li>
+        <li><strong>Illegal Markets:</strong> Dark web marketplaces sell drugs, weapons, stolen data, CSAM, and ransomware-as-a-service. Silk Road (2013) was first major dark web takedown by FBI</li>
+        <li><strong>Indian Data on Dark Web:</strong> CERT-IN has found Indian citizen Aadhaar data, bank credentials, and healthcare records for sale on dark web forums</li>
+        <li><strong>Legal Status in India:</strong> Accessing the Tor network is not illegal in India. But using it to commit crimes (purchase drugs, CSAM) is prosecuted under IT Act, NDPS Act, and POCSO</li>
+        <li><strong>Law Enforcement Challenges:</strong> De-anonymising Tor users requires sophisticated techniques and international cooperation (Europol, FBI)</li>
+      </ul>
+      <div class="et-law">India: No specific darknet law; applicable laws include IT Act Sec 67B (CSAM), NDPS Act, and Arms Act for related offences.</div>
+    </div>
+
+    <!-- Social Media -->
+    <div class="ethics-card" style="grid-column: 1 / -1;">
+      <div class="et-header">
+        <span class="et-icon">📲</span>
+        <div>
+          <div class="et-title">Social Media — Legal &amp; Ethical Dimensions</div>
+          <div class="et-sub">Regulation, Accountability &amp; Misinformation</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>IT (Intermediary Guidelines &amp; Digital Media Ethics Code) Rules 2021:</strong> Social media platforms with 5 million+ users in India classified as "Significant Social Media Intermediaries" (SSMIs) — must appoint Chief Compliance Officer, Grievance Officer, and Nodal Officer in India; must trace originator of messages (controversial for WhatsApp)</li>
+        <li><strong>Hate Speech and Fake News:</strong> IPC Sec 153A (promoting enmity) and Sec 505 (statements causing public mischief) apply to social media content. Platforms must remove flagged content within 36 hours</li>
+        <li><strong>Right to be Forgotten:</strong> Under DPDPA 2023, users can request removal of personal data from social media platforms (Data Principal's right to erasure)</li>
+        <li><strong>Cyberbullying and Cyberstalking:</strong> Persistent harassment, trolling, and threatening behaviour on social media prosecutable under IT Act Sec 66A (struck down in 2015 — Shreya Singhal case), now under BNS Sec 78</li>
+        <li><strong>Deepfake Misuse on Social Media:</strong> AI-generated morphed images/videos of public figures spread viral misinformation — election interference, reputational damage, non-consensual intimate imagery</li>
+        <li><strong>Data Mining by Platforms:</strong> Cambridge Analytica scandal — Facebook's data was used to target political advertising without user consent — a landmark privacy violation case</li>
+      </ul>
+      <div class="et-law">IT (Intermediary Guidelines) Rules 2021: MeitY notification — platforms must comply or lose "safe harbour" immunity from prosecution for user-generated content.</div>
+    </div>
+
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 4.3 — Emerging Technology Legal Framework Map (India)</div>
+    <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:8.5px;">
+      <!-- Centre -->
+      <ellipse cx="360" cy="90" rx="70" ry="38" fill="#0a0a0a"/>
+      <text x="360" y="85"  text-anchor="middle" fill="#fff" font-weight="700" font-size="10">IT Act 2000</text>
+      <text x="360" y="100" text-anchor="middle" fill="#aaa" font-size="8">Core Legal Framework</text>
+
+      <!-- AI -->
+      <rect x="10" y="10" width="130" height="50" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.5"/>
+      <text x="75" y="28"  text-anchor="middle" fill="#4a1d96" font-weight="700">🤖 AI / ML</text>
+      <text x="75" y="42"  text-anchor="middle" fill="#4a1d96">NITI Aayog NSAI</text>
+      <text x="75" y="56"  text-anchor="middle" fill="#4a1d96">+ EU AI Act (influence)</text>
+      <line x1="142" y1="40" x2="292" y2="82" stroke="#6f42c1" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <!-- IoT -->
+      <rect x="10" y="120" width="130" height="50" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="1.5"/>
+      <text x="75" y="138" text-anchor="middle" fill="#065a68" font-weight="700">🌐 IoT</text>
+      <text x="75" y="152" text-anchor="middle" fill="#065a68">NCIIPC Guidelines</text>
+      <text x="75" y="166" text-anchor="middle" fill="#065a68">+ Cyber Resilience Act</text>
+      <line x1="142" y1="140" x2="292" y2="100" stroke="#0c8da0" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <!-- Blockchain -->
+      <rect x="580" y="10" width="130" height="50" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="645" y="28"  text-anchor="middle" fill="#856404" font-weight="700">⛓️ Blockchain</text>
+      <text x="645" y="42"  text-anchor="middle" fill="#856404">Finance Act 2022 VDA</text>
+      <text x="645" y="56"  text-anchor="middle" fill="#856404">PMLA (crypto exchanges)</text>
+      <line x1="578" y1="40" x2="428" y2="82" stroke="#e6ac00" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <!-- Social Media -->
+      <rect x="580" y="120" width="130" height="50" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="645" y="138" text-anchor="middle" fill="#155724" font-weight="700">📲 Social Media</text>
+      <text x="645" y="152" text-anchor="middle" fill="#155724">IT Rules 2021 (SSMIs)</text>
+      <text x="645" y="166" text-anchor="middle" fill="#155724">DPDPA 2023</text>
+      <line x1="578" y1="140" x2="428" y2="100" stroke="#1a7a34" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <!-- Darknet -->
+      <rect x="295" y="150" width="130" height="22" rx="3" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="360" y="165" text-anchor="middle" fill="#721c24" font-weight="700">🕶️ Darknet — IT Act + NDPS + POCSO</text>
+      <line x1="360" y1="150" x2="360" y2="128" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="4,2"/>
+    </svg>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NITI Aayog — National Strategy for Artificial Intelligence: https://niti.gov.in/national-strategy-artificial-intelligence</li>
+      <li>IT (Intermediary Guidelines and Digital Media Ethics Code) Rules 2021: https://www.meity.gov.in</li>
+      <li>EU AI Act 2024: https://artificialintelligenceact.eu</li>
+      <li>Finance Act 2022 — Virtual Digital Assets (Section 115BBH): https://incometaxindia.gov.in</li>
+      <li>Shreya Singhal vs Union of India (2015) — Supreme Court struck down IT Act Sec 66A</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 4.9 — CASE STUDIES
+══════════════════════════════════════ -->
+<section class="topic-section" id="t4-9">
+  <div class="topic-label">Topic 4.9</div>
+  <h2 class="topic-title">Case Studies — Online Scams, Frauds &amp; Cybercrime Punishments</h2>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Strategy — Case Studies</div>
+    Case study questions ask you to: (a) identify what type of cybercrime occurred, (b) state the applicable IT Act section, (c) state the punishment, and (d) suggest prevention measures. Practice applying sections 66, 66C, 66D, 66E, 66F, 67, and 67B to scenarios.
+  </div>
+
+  <!-- Case Study 1 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 1 — Pune Citibank Phishing Case (2007) — India's First Major Phishing Conviction</h4>
+      <div class="cs-meta">India · 2007 · Banking Fraud · Landmark Conviction</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>Accused <strong>Ashish Arora</strong> created a fake website that exactly replicated Citibank India's netbanking portal. He sent bulk emails to Citibank customers claiming their account had been suspended and directing them to the fake site. When victims entered their login credentials, Arora captured them and transferred money to mule accounts.</p>
+      <h5>Technical Method</h5>
+      <ul>
+        <li>Domain spoofing — fake URL resembling the bank's genuine domain</li>
+        <li>HTML cloning of the bank's login page</li>
+        <li>Email harvesting of customer email addresses</li>
+        <li>Use of money mule accounts to layer and withdraw stolen funds</li>
+      </ul>
+      <h5>Victims and Loss</h5>
+      <p>Approximately <strong>350 Citibank customers</strong> were defrauded of over <strong>₹1.5 crore</strong> before the scheme was detected. The cyber crime cell of Mumbai Police traced the accused through his IP address logs.</p>
+      <h5>Legal Outcome</h5>
+      <ul>
+        <li>Charged under <strong>IT Act Section 66</strong> (computer-related offences), <strong>Section 66D</strong> (cheating by impersonation using computer resource)</li>
+        <li>Also charged under <strong>IPC Section 420</strong> (cheating)</li>
+        <li>Convicted and sentenced — this case established that Indian courts would take phishing seriously</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Lesson &amp; Prevention</span>
+      Banks must implement DMARC/SPF email authentication to prevent domain spoofing. Users must verify URLs carefully (https + correct domain). Banks must enable 2FA for all online transactions. This case was a turning point in Indian cybercrime prosecution.
+    </div>
+  </div>
+
+  <!-- Case Study 2 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 2 — "Digital Arrest" Scam — Retired Government Officer Loses ₹1 Crore (2024)</h4>
+      <div class="cs-meta">India · 2024 · Social Engineering · Ongoing National Crisis</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>A <strong>retired IAS officer from Bengaluru</strong>, aged 68, received a video call from someone claiming to be a senior CBI officer. The fraudster alleged that the victim's Aadhaar number was linked to a money laundering case and that he was under "digital arrest" — meaning he must remain on the video call 24/7 until the matter was resolved. The victim was kept on the call for <strong>13 days</strong> and was instructed to transfer money to "safe RBI accounts" to "verify his innocence."</p>
+      <h5>Psychological Manipulation Techniques</h5>
+      <ul>
+        <li>Fake video calls from individuals wearing police uniforms in realistic-looking "offices"</li>
+        <li>Use of TRAI/CBI/RBI letterheads and fake warrant documents to create authority</li>
+        <li>Isolation — victim told to speak to no one and stay on video call continuously</li>
+        <li>Fear of arrest, social humiliation, and family involvement</li>
+        <li>Urgency — "transfer within 2 hours or we issue non-bailable warrant"</li>
+      </ul>
+      <h5>Financial Loss</h5>
+      <p>The victim transferred <strong>₹1.02 crore</strong> across multiple transactions before his family noticed and contacted police. The money had already been layered through multiple accounts and partially converted to cryptocurrency by the time FIR was filed.</p>
+      <h5>Legal Action</h5>
+      <ul>
+        <li>FIR registered under IT Act Sections <strong>66C, 66D</strong> and IPC Sections <strong>419, 420, 384</strong></li>
+        <li>CERT-IN and I4C (Indian Cyber Crime Coordination Centre) were notified</li>
+        <li>PM Modi specifically warned citizens about "Digital Arrest" scams in his October 2024 Mann Ki Baat</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Key Lesson — No such thing as "Digital Arrest"</span>
+      Indian law does not provide for "digital arrest." No government agency — not CBI, ED, RBI, TRAI, or police — will ever demand money over a video call or ask you to remain on a call for hours. Any such contact is a scam. Disconnect immediately and report at cybercrime.gov.in or call 1930.
+    </div>
+  </div>
+
+  <!-- Case Study 3 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 3 — WannaCry Ransomware — India's Exposure (2017)</h4>
+      <div class="cs-meta">Global + India · 2017 · Ransomware · Critical Infrastructure Risk</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>On May 12, 2017, the <strong>WannaCry ransomware</strong> infected over 230,000 systems in 150 countries within 24 hours. It exploited the <strong>EternalBlue vulnerability</strong> in Windows SMB protocol — a zero-day originally developed by the NSA and leaked by the Shadow Brokers hacker group. Once on a machine, WannaCry spread automatically across networks without any user action.</p>
+      <h5>India-Specific Impact</h5>
+      <ul>
+        <li>CERT-IN issued an emergency advisory at 3 AM on May 13, 2017</li>
+        <li>Several Indian government systems, state electricity boards, and private companies were affected</li>
+        <li>Andhra Pradesh police department's CCTNS (Crime and Criminal Tracking Network) was partially affected</li>
+        <li>Multiple Indian banks reported infections but contained damage quickly through network isolation</li>
+      </ul>
+      <h5>What Saved Many Indian Systems</h5>
+      <ul>
+        <li>Many Indian organisations still used Windows XP (unsupported) — but Microsoft released an emergency patch even for it due to the global scale</li>
+        <li>Quick network isolation by IT teams prevented lateral spread in several organisations</li>
+        <li>The "kill switch" discovered by Marcus Hutchins (a British researcher) helped halt global spread within hours</li>
+      </ul>
+      <h5>Legal and Policy Response</h5>
+      <ul>
+        <li>CERT-IN mandate: all government systems must report incidents within 6 hours</li>
+        <li>MeitY issued patching directives for all government departments</li>
+        <li>North Korea's Lazarus Group was officially attributed by USA, UK, and Australia</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Indian Law Applicability</span>
+      Under IT Act Section <strong>43 and 66F</strong>, spreading ransomware that damages computer systems constitutes criminal damage (Sec 43) and potentially cyber terrorism (Sec 66F) if it affects critical infrastructure. Attackers, if arrested in India, face imprisonment up to life. Organisations that failed to patch known vulnerabilities also face civil liability under Section 43A for inadequate security practices.
+    </div>
+  </div>
+
+  <!-- Case Study 4 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 4 — Jamtara SIM Swap Gang Conviction (2021)</h4>
+      <div class="cs-meta">India · 2021 · SIM Swapping + Vishing · Criminal Conviction</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>Background</h5>
+      <p>The <strong>Jamtara cyber fraud network</strong> operated across multiple districts of Jharkhand, West Bengal, and Rajasthan. Gang members — many school dropouts — were trained by local "tutors" in vishing and SIM swap techniques. They operated in coordinated call centres, impersonating bank representatives to defraud victims across all Indian states.</p>
+      <h5>Modus Operandi</h5>
+      <ul>
+        <li>Purchased victim's basic personal data (name, bank, phone number) from corrupt insiders or through social media OSINT</li>
+        <li>Called victims posing as bank KYC officers, convincing them to share their full card number, CVV, and OTP</li>
+        <li>SIM swapping: Submitted fake documents to telecom stores to transfer victim's phone number to a new SIM — capturing all OTPs</li>
+        <li>Transferred funds immediately to multiple mule accounts; withdrew cash from ATMs in different cities within hours</li>
+      </ul>
+      <h5>Investigation and Outcome</h5>
+      <ul>
+        <li>Operation by Jharkhand Police, Bihar Police, and CBI in a coordinated crackdown in 2020–21</li>
+        <li>Over <strong>150 accused arrested</strong> across multiple states in a single operation</li>
+        <li>Convicted under IT Act Sections <strong>66C, 66D</strong> and IPC 419, 420; sentences of 2–3 years imprisonment with fines</li>
+        <li>Assets seized including phones, SIM cards, and cash from victims</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Systemic Lesson — Telecom Loophole</span>
+      The ease of SIM swapping exposed a critical vulnerability in India's KYC process at retail telecom outlets. Post-conviction, TRAI mandated stricter re-verification for SIM replacement, and UIDAI Aadhaar-based biometric verification for SIM issuance became mandatory. Telecom companies now alert customers via alternative means before completing SIM swaps.
+    </div>
+  </div>
+
+  <!-- Case Study 5 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 5 — Shreya Singhal vs Union of India (2015) — Landmark Cyber Law Judgment</h4>
+      <div class="cs-meta">India · 2015 · Constitutional Law · Supreme Court · Positive Precedent</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>Background</h5>
+      <p>After the death of politician Bal Thackeray in 2012, <strong>Shaheen Dhada</strong> posted a Facebook status questioning the Mumbai bandh. Her friend <strong>Renu Srinivasan</strong> "liked" the post. Both were arrested by Palghar Police under <strong>IT Act Section 66A</strong> — which criminalised "grossly offensive or menacing" online messages. The arrests caused nationwide outrage, and Shreya Singhal filed a Public Interest Litigation (PIL) in the Supreme Court.</p>
+      <h5>What Section 66A Said</h5>
+      <p>IT Act Section 66A allowed arrest for sending any message that was "grossly offensive," "menacing," or caused "annoyance or inconvenience" electronically — with no clear definition of these terms, giving police unchecked power to arrest for protected speech.</p>
+      <h5>Supreme Court Ruling (2015)</h5>
+      <ul>
+        <li>The Supreme Court <strong>unanimously struck down Section 66A</strong> as unconstitutional — violating Article 19(1)(a) (Freedom of Speech and Expression)</li>
+        <li>Held that the law was vague, overbroad, and chilling on free speech</li>
+        <li>Distinguished between "discussion/advocacy" (protected) and "incitement" (not protected)</li>
+        <li>Landmark judgment establishing digital speech as protected speech in India</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Legacy and Lesson</span>
+      This case proved that <strong>cyber laws must balance security with constitutional rights</strong>. Poorly drafted cybercrime laws can be used to silence dissent and suppress free speech. Post-Shreya Singhal, Indian cybercrime legislation is more carefully scrutinised. Even today, police in some states try to misuse other IPC sections to arrest for social media posts — the legal precedent of this case remains critical protection.
+    </div>
+  </div>
+
+  <!-- Cross-case comparison chart (dynamic) -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 4.4 — Case Study Overview: Financial Loss vs Legal Outcome Severity</div>
+    <div class="chart-container">
+      <canvas id="caseChart4"></canvas>
+    </div>
+  </div>
+
+  <h3>Summary — Lessons Across Case Studies</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Case</th><th>Crime Type</th><th>Key IT Act Section</th><th>Core Lesson</th></tr></thead>
+    <tbody>
+      <tr><td>Pune Citibank (2007)</td><td>Phishing / Identity theft</td><td>Sec 66, 66D</td><td>Email authentication + URL verification prevents phishing</td></tr>
+      <tr><td>Digital Arrest Scam (2024)</td><td>Social engineering / extortion</td><td>Sec 66C, 66D</td><td>No law enforcement body ever conducts "digital arrests" — awareness is the only defence</td></tr>
+      <tr><td>WannaCry India (2017)</td><td>Ransomware / Critical infrastructure</td><td>Sec 43, 66F</td><td>Timely patching and network segmentation prevent catastrophic ransomware spread</td></tr>
+      <tr><td>Jamtara SIM Swap (2021)</td><td>SIM swapping / Banking fraud</td><td>Sec 66C, 66D</td><td>Telecom KYC must be hardened; OTP alone is insufficient authentication</td></tr>
+      <tr><td>Shreya Singhal (2015)</td><td>Constitutional / Legal</td><td>Sec 66A (struck down)</td><td>Cyber law must not infringe fundamental rights; judicial review protects free speech</td></tr>
+    </tbody>
+  </table>
+
+  <div class="conclusion-box">
+    <div class="con-label">Unit 4 — Final Takeaway</div>
+    <p>Cybercrime is not a distant, technical problem — it is a daily reality for Indian citizens, businesses, and government. Understanding the legal framework (IT Act 2000, BNS), recognising attack types, and knowing one's rights under emerging privacy laws are the cornerstones of cyber citizenship. Technology will keep evolving — AI, IoT, blockchain, and the darknet will keep creating new legal challenges. The only lasting defence is an informed, vigilant, and legally empowered population.</p>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">Official References</div>
+    <ul>
+      <li>IT Act 2000 &amp; 2008 Amendment — MEITY: https://www.meity.gov.in/content/information-technology-act</li>
+      <li>Cybercrime.gov.in (National Reporting Portal): https://cybercrime.gov.in</li>
+      <li>Helpline 1930 — National Cybercrime Helpline (MHA)</li>
+      <li>Shreya Singhal vs UOI [2015] 5 SCC 1 — Supreme Court of India</li>
+      <li>MHA I4C Annual Cybercrime Report 2023: https://www.mha.gov.in</li>
+      <li>Budapest Convention on Cybercrime, Council of Europe</li>
+      <li>Vakul Sharma — Information Technology Law and Practice, 5th Ed., Universal Law Publishing</li>
+      <li>Pavan Duggal — Cyber Law: The Indian Perspective, Saakshar Law Publications</li>
+    </ul>
+  </div>
+</section>
+
+</main><!-- end .content-wrap -->
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>ECS 563 · Essentials of Cyber Security · Unit 04 · 2024 Pattern</span>
+    <div class="footer-links">
+      <a href="unit03_ECS.html">← Unit 3</a>
+      <a href="ECS_Index.html">🏠 Home</a>
+      <a href="#">Unit 5 →</a>
+    </div>
+    <span>F.Y. M.C.A. (Management) · SPPU · Design &amp; Developed by Sumit Thakare</span>
+  </div>
+</footer>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+// Nav mobile close
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'))
+);
+
+// Back to top
+window.addEventListener('scroll', () => {
+  document.querySelector('.back-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Chart 1: Cybercrime Category Distribution India 2023 (Pie)
+const ctx1 = document.createElement('canvas');
+const wrap1 = document.createElement('div');
+wrap1.className = 'diagram-wrap';
+wrap1.innerHTML = '<div class="diagram-title">Fig 4.5 — India Cybercrime Complaints by Category 2023 (MHA I4C Data)</div><div class="chart-container"></div>';
+wrap1.querySelector('.chart-container').appendChild(ctx1);
+document.querySelector('#t4-6').appendChild(wrap1);
+new Chart(ctx1, {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'Financial Fraud (UPI/Banking)',
+      'Social Media Crimes',
+      'Online Job Fraud',
+      'Investment / Crypto Scams',
+      'Sextortion / Romance Scams',
+      'Ransomware / Malware',
+      'Others'
+    ],
+    datasets: [{
+      data: [35, 18, 14, 13, 9, 5, 6],
+      backgroundColor: [
+        'rgba(192,57,43,0.85)',
+        'rgba(111,66,193,0.85)',
+        'rgba(26,122,52,0.85)',
+        'rgba(12,141,160,0.85)',
+        'rgba(230,172,0,0.85)',
+        'rgba(58,58,54,0.80)',
+        'rgba(150,150,150,0.7)'
+      ],
+      borderColor: '#fafaf8',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` }
+      }
+    }
+  }
+});
+
+// Chart 2: IT Act Punishment Comparison (Bar)
+const ctx2 = document.createElement('canvas');
+const wrap2 = document.createElement('div');
+wrap2.className = 'diagram-wrap';
+wrap2.innerHTML = '<div class="diagram-title">Fig 4.6 — IT Act 2000: Maximum Imprisonment by Section</div><div class="chart-container"></div>';
+wrap2.querySelector('.chart-container').appendChild(ctx2);
+document.querySelector('#t4-7').appendChild(wrap2);
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['Sec 66\n(Hacking)', 'Sec 66B\n(Stolen Resource)', 'Sec 66C\n(Identity Theft)', 'Sec 66D\n(Impersonation)', 'Sec 66E\n(Privacy)', 'Sec 67\n(Obscenity)', 'Sec 67A\n(Sexual Content)', 'Sec 67B\n(CSAM)', 'Sec 69\n(Decryption)', 'Sec 66F\n(Cyber Terror)'],
+    datasets: [{
+      label: 'Max Imprisonment (Years)',
+      data: [3, 3, 3, 3, 3, 5, 5, 7, 7, 99],
+      backgroundColor: [
+        'rgba(230,172,0,0.8)',
+        'rgba(230,172,0,0.8)',
+        'rgba(230,172,0,0.8)',
+        'rgba(230,172,0,0.8)',
+        'rgba(231,76,60,0.8)',
+        'rgba(192,57,43,0.8)',
+        'rgba(192,57,43,0.8)',
+        'rgba(142,68,173,0.8)',
+        'rgba(142,68,173,0.8)',
+        'rgba(10,10,10,0.9)'
+      ],
+      borderColor: ['#e6ac00','#e6ac00','#e6ac00','#e6ac00','#e74c3c','#c0392b','#c0392b','#8e44ad','#8e44ad','#000'],
+      borderWidth: 2,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.parsed.y === 99 ? ' Life Imprisonment' : ` Up to ${ctx.parsed.y} Years`
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Years of Imprisonment (99 = Life)' },
+        grid: { color: '#eee' }
+      },
+      x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+
+// Chart 3: Case Study Overview Chart
+new Chart(document.getElementById('caseChart4'), {
+  type: 'bar',
+  data: {
+    labels: ['Pune Citibank\n(2007)', 'Digital Arrest\nScam (2024)', 'WannaCry India\n(2017)', 'Jamtara SIM\nSwap (2021)', 'Shreya Singhal\n(2015)'],
+    datasets: [
+      {
+        label: 'Est. Financial Loss (₹ Crore)',
+        data: [1.5, 1.02, 50, 8, 0],
+        backgroundColor: 'rgba(192,57,43,0.75)',
+        borderColor: '#c0392b',
+        borderWidth: 2,
+        borderRadius: 3,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Legal Severity Score (1–5)',
+        data: [3, 3, 4, 3, 5],
+        backgroundColor: 'rgba(12,141,160,0.75)',
+        borderColor: '#0c8da0',
+        borderWidth: 2,
+        borderRadius: 3,
+        yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Loss (₹ Crore)' },
+        grid: { color: '#eee' }
+      },
+      y2: {
+        beginAtZero: true,
+        max: 6,
+        position: 'right',
+        title: { display: true, text: 'Legal Severity (1–5)' },
+        grid: { display: false }
+      },
+      x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
