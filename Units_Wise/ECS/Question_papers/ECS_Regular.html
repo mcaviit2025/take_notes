@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Essentials of Cyber Security [6432]-2007 – Complete Answers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #fafaf8;
+    --gray-100: #f0f0ee;
+    --gray-200: #ddddd9;
+    --gray-300: #b8b8b2;
+    --gray-500: #7a7a74;
+    --gray-700: #3a3a36;
+    --accent: #1a1a1a;
+    --border: 2px solid #0a0a0a;
+    --border-thin: 1px solid #c0c0bc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  .exam-header {
+    border-top: 4px solid var(--black);
+    border-bottom: 4px solid var(--black);
+    padding: 1.5rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .exam-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .exam-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0.3rem 0;
+  }
+  .exam-header .sub {
+    font-size: 0.9rem;
+    color: var(--gray-500);
+    letter-spacing: 0.06em;
+    font-style: italic;
+  }
+  .exam-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gray-700);
+    border-top: var(--border-thin);
+    padding-top: 0.75rem;
+  }
+
+  .toc {
+    background: var(--gray-100);
+    border: var(--border);
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+  }
+  .toc h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.5rem;
+  }
+  .toc ol { padding-left: 1.2rem; }
+  .toc li { margin: 0.35rem 0; }
+  .toc a { color: var(--black); text-decoration: none; font-size: 0.92rem; }
+  .toc a:hover { text-decoration: underline; }
+
+  .question-block {
+    margin-bottom: 4rem;
+    border-top: 3px solid var(--black);
+    padding-top: 1.5rem;
+  }
+  .q-label {
+    display: inline-block;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 0.7rem;
+    text-transform: uppercase;
+  }
+  .q-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .marks-badge {
+    display: inline-block;
+    border: var(--border-thin);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    color: var(--gray-500);
+    margin-bottom: 1.2rem;
+  }
+
+  .concept-box {
+    background: var(--gray-100);
+    border-left: 4px solid var(--black);
+    padding: 1rem 1.4rem;
+    margin: 1.2rem 0;
+    font-style: italic;
+  }
+  .concept-box strong { font-style: normal; }
+
+  .example-box {
+    border: var(--border-thin);
+    border-left: 4px solid #444;
+    padding: 1rem 1.4rem;
+    margin: 1.2rem 0;
+    background: #fff;
+  }
+  .example-box .ex-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    margin-bottom: 0.4rem;
+  }
+
+  .ans h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    margin: 1.6rem 0 0.5rem;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.3rem;
+  }
+  .ans h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.4rem;
+    color: var(--gray-700);
+  }
+  .ans p { margin: 0.6rem 0; }
+  .ans ul, .ans ol { padding-left: 1.5rem; margin: 0.6rem 0; }
+  .ans li { margin: 0.35rem 0; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+  }
+  .data-table th {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .data-table td { padding: 0.55rem 0.9rem; border-bottom: var(--border-thin); }
+  .data-table tr:nth-child(even) td { background: var(--gray-100); }
+  .data-table tr:last-child td { background: var(--gray-200); font-weight: 600; }
+
+  .diagram-wrap {
+    margin: 1.5rem 0;
+    border: var(--border);
+    padding: 1.2rem;
+    background: #fff;
+  }
+  .diagram-wrap .diagram-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    margin-bottom: 1rem;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.4rem;
+  }
+
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 1rem 0;
+  }
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    max-width: 520px;
+  }
+  .flow-node {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    border: 2px solid var(--black);
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.92rem;
+    background: var(--white);
+    position: relative;
+  }
+  .flow-node .step-num {
+    position: absolute;
+    top: -10px; left: -10px;
+    background: var(--black);
+    color: var(--white);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flow-arrow { text-align: center; font-size: 1.4rem; color: var(--gray-500); line-height: 1; padding: 2px 0; }
+
+  .fn-1 { background: #fff3cd; border-color: #e6ac00; }
+  .fn-2 { background: #d1ecf1; border-color: #0c8da0; }
+  .fn-3 { background: #d4edda; border-color: #1a7a34; }
+  .fn-4 { background: #f8d7da; border-color: #c0392b; }
+  .fn-5 { background: #e2d9f3; border-color: #6f42c1; }
+  .fn-6 { background: #fde8d8; border-color: #e67e22; }
+  .fn-7 { background: #cfe2ff; border-color: #1a68d1; }
+  .fn-8 { background: #d4edda; border-color: #28a745; }
+
+  .chart-container { position: relative; width: 100%; max-width: 700px; margin: 0 auto; }
+  .chart-container canvas { max-width: 100%; }
+
+  .formula-box {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  .conclusion-box {
+    border: 3px solid var(--black);
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+    background: var(--black);
+    color: var(--white);
+  }
+  .conclusion-box .con-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-bottom: 0.4rem;
+  }
+  .conclusion-box p { font-size: 1rem; font-weight: 600; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .compare-card { border: var(--border); padding: 1rem; }
+  .compare-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: var(--border-thin);
+  }
+  .compare-card ul { padding-left: 1.2rem; font-size: 0.9rem; }
+  .compare-card li { margin: 0.3rem 0; }
+
+  .or-divider {
+    text-align: center;
+    margin: 2rem 0;
+    position: relative;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--gray-500);
+  }
+  .or-divider::before, .or-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: var(--gray-300);
+  }
+  .or-divider::before { left: 0; }
+  .or-divider::after  { right: 0; }
+
+  .ref-box {
+    background: var(--gray-100);
+    border: var(--border-thin);
+    border-left: 4px solid var(--gray-500);
+    padding: 0.9rem 1.3rem;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .ref-box .ref-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    margin-bottom: 0.5rem;
+  }
+  .ref-box li { margin: 0.3rem 0; list-style: none; padding-left: 0; font-family: 'Source Serif 4', serif; font-size: 0.85rem; }
+  .ref-box li::before { content: "↳ "; color: var(--gray-500); }
+
+  .page-footer {
+    margin-top: 4rem;
+    border-top: 3px solid var(--black);
+    padding-top: 1rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    letter-spacing: 0.08em;
+  }
+
+  @media(max-width:600px){
+    .compare-grid { grid-template-columns: 1fr; }
+    body { font-size: 14px; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="exam-header">
+  <div class="sub">Pune University · PD2852 · [6432]-2007</div>
+  <h1>F.Y. M.C.A. (Management)</h1>
+  <h2>Essentials of Cyber Security</h2>
+  <div class="sub">ECS 563 MJ-EC21-4 · 2024 Pattern · Semester II</div>
+  <div class="exam-meta">
+    <span>Time: 2½ Hours</span>
+    <span>Complete Detailed Answer Key</span>
+    <span>Max. Marks: 50</span>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#q1a">Q1a — Security &amp; Management Frameworks and Standards [5]</a></li>
+    <li><a href="#q1b">Q1b — Cyber Security: Increasing Threat Landscape [5]</a></li>
+    <li><a href="#q1or-a">Q1 OR-a — Why Cyber Security is Crucial for Business &amp; Government [5]</a></li>
+    <li><a href="#q1or-b">Q1 OR-b — Steps to Deal with Cyber Security Challenges [5]</a></li>
+    <li><a href="#q2a">Q2a — ISSP Components for ERP Security Audit [7]</a></li>
+    <li><a href="#q2b">Q2b — Components of Data Transfer Governance [3]</a></li>
+    <li><a href="#q2or-a">Q2 OR-a — EISP Components for Smart Grid Organization [7]</a></li>
+    <li><a href="#q2or-b">Q2 OR-b — Short Note on Privacy Regulation [3]</a></li>
+    <li><a href="#q3a">Q3a — Common Types of Cyber Threats [5]</a></li>
+    <li><a href="#q3b">Q3b — Risk Mitigation Strategy for Insider Threats [5]</a></li>
+    <li><a href="#q3or-a">Q3 OR-a — Canary in Cybersecurity [5]</a></li>
+    <li><a href="#q3or-b">Q3 OR-b — Malicious Attacks Targeting Computer Systems [5]</a></li>
+    <li><a href="#q4a">Q4a — Smartphone Crime: Investigation &amp; Legal Consequences [7]</a></li>
+    <li><a href="#q4b">Q4b — Legal &amp; Ethical Concerns in AI, IoT, Blockchain &amp; Social Media [3]</a></li>
+    <li><a href="#q4or-a">Q4 OR-a — University Hacking Scenario: Crimes &amp; Consequences [7]</a></li>
+    <li><a href="#q4or-b">Q4 OR-b — What is Cyber Warfare? [3]</a></li>
+    <li><a href="#q5a">Q5a — Importance of Threat Management and Response [5]</a></li>
+    <li><a href="#q5b">Q5b — Challenges in Collecting &amp; Preserving Digital Evidence [5]</a></li>
+    <li><a href="#q5or-a">Q5 OR-a — Challenges Faced by Digital Forensic Investigators [5]</a></li>
+    <li><a href="#q5or-b">Q5 OR-b — Information Retrieved from Email Headers in Forensic Analysis [5]</a></li>
+  </ol>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     Q1a — SECURITY & MANAGEMENT FRAMEWORKS
+══════════════════════════════════════ -->
+<section class="question-block" id="q1a">
+  <div class="q-label">Question 1 · Part A</div>
+  <h2 class="q-title">What are the Various Security &amp; Management Frameworks and Standards in Cyber Security?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      A <strong>Security Framework</strong> is a structured set of rules, guidelines, and best practices that help organizations protect their information systems. These frameworks tell organizations <em>what to do</em> to stay secure — covering policies, controls, risk management, and compliance.
+    </div>
+
+    <h3>Major Security Frameworks</h3>
+
+    <h4>1. NIST Cybersecurity Framework (NIST CSF)</h4>
+    <p>Created by the US National Institute of Standards and Technology. It organizes security activities into 5 core functions: <strong>Identify → Protect → Detect → Respond → Recover</strong>. It is one of the most widely adopted frameworks globally, used by both government and private sectors.</p>
+    <div class="example-box"><div class="ex-label">Used By</div>US federal agencies, banks, hospitals, and large IT companies worldwide.</div>
+
+    <h4>2. ISO/IEC 27001</h4>
+    <p>An international standard for <strong>Information Security Management Systems (ISMS)</strong>. It specifies requirements for establishing, implementing, and continually improving information security within an organization. Certification shows customers and partners that the organization takes security seriously.</p>
+    <div class="example-box"><div class="ex-label">Example</div>A bank gets ISO 27001 certified to prove to regulators that customer data is fully protected.</div>
+
+    <h4>3. COBIT (Control Objectives for Information and Related Technologies)</h4>
+    <p>Developed by ISACA. It provides a framework for <strong>IT governance and management</strong>, helping organizations align IT strategy with business goals. It focuses heavily on risk management, compliance, and accountability.</p>
+
+    <h4>4. PCI-DSS (Payment Card Industry Data Security Standard)</h4>
+    <p>A standard specifically for organizations that handle <strong>credit/debit card transactions</strong>. It requires encryption of card data, access controls, regular security testing, and monitoring of all access to cardholder data.</p>
+    <div class="example-box"><div class="ex-label">Example</div>Any website accepting online payments (Flipkart, Amazon India) must comply with PCI-DSS.</div>
+
+    <h4>5. CIS Controls (Center for Internet Security)</h4>
+    <p>A prioritized set of <strong>20 cybersecurity best practices</strong> (now updated to 18 CIS Controls v8). Designed to be practical and actionable — from inventory of assets to penetration testing. Great for organizations of all sizes.</p>
+
+    <h4>6. HIPAA (Health Insurance Portability and Accountability Act)</h4>
+    <p>A US law that sets standards for protecting <strong>sensitive patient health information</strong> (ePHI — electronic Protected Health Information). Requires healthcare organizations to implement technical, administrative, and physical safeguards.</p>
+
+    <h3>Comparison Summary</h3>
+    <table class="data-table">
+      <thead><tr><th>Framework</th><th>Focus Area</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>NIST CSF</td><td>General cybersecurity</td><td>All sectors</td></tr>
+        <tr><td>ISO/IEC 27001</td><td>Info security management</td><td>All organizations</td></tr>
+        <tr><td>COBIT</td><td>IT governance</td><td>Enterprises</td></tr>
+        <tr><td>PCI-DSS</td><td>Card payment security</td><td>Financial / e-commerce</td></tr>
+        <tr><td>CIS Controls</td><td>Practical security actions</td><td>SMBs &amp; large orgs</td></tr>
+        <tr><td>HIPAA</td><td>Patient data protection</td><td>Healthcare</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>NIST CSF: https://www.nist.gov/cyberframework</li>
+        <li>ISO/IEC 27001: https://www.iso.org/isoiec-27001-information-security.html</li>
+        <li>COBIT: https://www.isaca.org/resources/cobit</li>
+        <li>PCI-DSS: https://www.pcisecuritystandards.org</li>
+        <li>CIS Controls v8: https://www.cisecurity.org/controls</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     Q1b — INCREASING THREAT LANDSCAPE
+══════════════════════════════════════ -->
+<section class="question-block" id="q1b">
+  <div class="q-label">Question 1 · Part B</div>
+  <h2 class="q-title">"Cyber Security Increasing Threat Landscape" — Discuss</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      The <strong>Threat Landscape</strong> in cybersecurity refers to the full range of possible cyber threats that an organization or individual might face at any given time. As technology grows, the threat landscape keeps expanding — more devices, more data, more attackers, more attack methods.
+    </div>
+
+    <h3>Why is the Threat Landscape Growing?</h3>
+
+    <h4>1. Explosion of Internet-Connected Devices (IoT)</h4>
+    <p>Billions of smart devices — phones, cameras, smart TVs, industrial sensors — are connected to the internet. Each device is a potential entry point for attackers. Most IoT devices lack strong security features, making them easy targets.</p>
+    <div class="example-box"><div class="ex-label">Real Case</div>The <strong>Mirai Botnet (2016)</strong> compromised hundreds of thousands of IoT devices (cameras, routers) and launched one of the largest DDoS attacks in history, taking down major websites including Twitter, Netflix, and GitHub.</div>
+
+    <h4>2. Rise of Sophisticated Malware and Ransomware</h4>
+    <p>Attackers now use advanced tools — AI-assisted malware, polymorphic viruses (that change shape to avoid detection), and highly targeted ransomware. Ransomware attacks have increased by over 150% year-over-year.</p>
+    <div class="example-box"><div class="ex-label">Real Case</div><strong>WannaCry Ransomware (2017)</strong> attacked over 200,000 computers across 150 countries in a single day, causing $4 billion in damage globally.</div>
+
+    <h4>3. Cloud Adoption Without Security</h4>
+    <p>Organizations are rapidly moving data to cloud platforms (AWS, Azure, Google Cloud) but often without proper security configurations. Misconfigured cloud storage buckets have exposed millions of sensitive records.</p>
+
+    <h4>4. Phishing and Social Engineering at Scale</h4>
+    <p>Email phishing has become extremely targeted (called <em>spear phishing</em>). Attackers research their victims on social media and craft highly convincing fake messages. Even trained employees get tricked.</p>
+
+    <h4>5. Nation-State and Advanced Persistent Threats (APTs)</h4>
+    <p>Governments and military groups now conduct cyberattacks against other countries' infrastructure — power grids, hospitals, financial systems. These are long-term, highly sophisticated attacks that are extremely difficult to detect.</p>
+
+    <h4>6. Supply Chain Attacks</h4>
+    <p>Instead of attacking a company directly, attackers now compromise a trusted software vendor and use their updates to deliver malware to thousands of customers at once.</p>
+    <div class="example-box"><div class="ex-label">Real Case</div><strong>SolarWinds Attack (2020)</strong> — hackers injected malware into a software update used by 18,000 organizations, including US government agencies.</div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">Fig 1.1 — Growing Threat Landscape: Key Drivers</div>
+      <div class="chart-container"><canvas id="threatLandscapeChart"></canvas></div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>IBM X-Force Threat Intelligence Index 2024: https://www.ibm.com/reports/threat-intelligence</li>
+        <li>Verizon Data Breach Investigations Report (DBIR) 2023: https://www.verizon.com/business/resources/reports/dbir</li>
+        <li>CERT-IN India Annual Report: https://www.cert-in.org.in</li>
+        <li>WannaCry Case — NCSC: https://www.ncsc.gov.uk/news/wannacry-cyber-attack</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="or-divider">— OR —</div>
+
+<!-- ══════════════════════════════════════
+     Q1 OR-a — WHY CYBER SECURITY IS CRUCIAL
+══════════════════════════════════════ -->
+<section class="question-block" id="q1or-a">
+  <div class="q-label">Question 1 · OR · Part A</div>
+  <h2 class="q-title">Why is Cyber Security Crucial for Businesses and Government?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Cyber Security</strong> is the practice of protecting computers, networks, programs, and data from digital attacks, damage, or unauthorized access. For businesses and governments, it is no longer optional — it is a survival requirement in the digital age.
+    </div>
+
+    <h3>For Businesses</h3>
+
+    <h4>1. Protecting Financial Assets</h4>
+    <p>Cybercrime costs businesses trillions of dollars every year through fraud, theft, ransomware payments, and recovery costs. A single data breach costs an average of <strong>$4.45 million</strong> (IBM, 2023). Without cybersecurity, a company can lose everything overnight.</p>
+
+    <h4>2. Protecting Customer Data and Trust</h4>
+    <p>Businesses collect massive amounts of customer data — names, addresses, bank details, health records. If this data is stolen, customers lose trust permanently. Brand reputation damage is often worse than the financial loss.</p>
+    <div class="example-box"><div class="ex-label">Example</div>The <strong>Yahoo Data Breach (2016)</strong> exposed 3 billion user accounts and caused Yahoo's acquisition price to drop by $350 million.</div>
+
+    <h4>3. Ensuring Business Continuity</h4>
+    <p>A cyberattack can shut down business operations completely. Hospitals can't access patient records, factories stop production, banks freeze transactions. Cybersecurity prevents this kind of downtime.</p>
+
+    <h4>4. Legal and Regulatory Compliance</h4>
+    <p>Laws like GDPR (Europe), IT Act 2000 (India), and HIPAA (Healthcare) require businesses to protect data or face heavy fines. Cybersecurity is necessary for compliance.</p>
+
+    <h3>For Government</h3>
+
+    <h4>5. Protecting National Security and Defense</h4>
+    <p>Government systems store classified defense information, intelligence data, and military plans. If enemy nations hack these systems, national security is compromised. Cyberattacks on defense networks are acts of war.</p>
+
+    <h4>6. Protecting Critical Infrastructure</h4>
+    <p>Power grids, water supply systems, transport networks, and nuclear facilities are all now computer-controlled. A cyberattack on any of these can cause mass casualties and chaos.</p>
+    <div class="example-box"><div class="ex-label">Real Case</div><strong>Ukraine Power Grid Attack (2015 &amp; 2016)</strong> — Russian hackers shut down electricity for 230,000 citizens by hacking the power grid's control systems.</div>
+
+    <h4>7. Protecting Citizens' Data</h4>
+    <p>Governments store Aadhaar numbers, tax records, voter information, and health data of millions of citizens. A breach exposes citizens to identity theft and fraud.</p>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>IBM Cost of Data Breach Report 2023: https://www.ibm.com/reports/data-breach</li>
+        <li>Ministry of Electronics &amp; IT (MeitY), India: https://www.meity.gov.in/cyber-security</li>
+        <li>CERT-IN: https://www.cert-in.org.in</li>
+        <li>ENISA Threat Landscape: https://www.enisa.europa.eu/topics/cyber-threats/threats-and-trends</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q1 OR-b — STEPS TO DEAL WITH CYBER CHALLENGES
+══════════════════════════════════════ -->
+<section class="question-block" id="q1or-b">
+  <div class="q-label">Question 1 · OR · Part B</div>
+  <h2 class="q-title">What are the Identical Steps to Deal with the Cyber Security Challenges?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      Dealing with cybersecurity challenges requires a <strong>systematic, step-by-step approach</strong>. Organizations follow a continuous cycle — not a one-time action — because new threats emerge every day.
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">Fig 1.2 — Steps to Handle Cyber Security Challenges</div>
+      <div class="flow-diagram">
+        <div class="flow-step"><div class="flow-node fn-1"><span class="step-num">1</span>Identify Assets and Risks</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-2"><span class="step-num">2</span>Implement Security Controls</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-3"><span class="step-num">3</span>Monitor Continuously</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-4"><span class="step-num">4</span>Detect Threats Early</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-5"><span class="step-num">5</span>Respond to Incidents</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-6"><span class="step-num">6</span>Recover and Learn</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-7"><span class="step-num">7</span>Improve and Update Policies</div></div>
+      </div>
+    </div>
+
+    <h4>Step 1 — Identify Assets and Risks</h4>
+    <p>First, know what you have — all hardware, software, data, and network connections. Then identify which assets are most valuable and what threats could target them. This is called a <strong>Risk Assessment</strong>.</p>
+
+    <h4>Step 2 — Implement Security Controls</h4>
+    <p>Put protective measures in place: firewalls, antivirus software, strong passwords, multi-factor authentication (MFA), encryption, and access control policies. Only authorized people should access sensitive data.</p>
+
+    <h4>Step 3 — Monitor Continuously</h4>
+    <p>Set up systems to watch network traffic, logs, and user activities 24/7. Tools like SIEM (Security Information and Event Management) collect and analyze security data in real time.</p>
+
+    <h4>Step 4 — Detect Threats Early</h4>
+    <p>Use Intrusion Detection Systems (IDS), anomaly detection, and threat intelligence feeds to catch attacks before they cause major damage. Early detection saves enormous time and money.</p>
+
+    <h4>Step 5 — Respond to Incidents</h4>
+    <p>Have a clear <strong>Incident Response Plan (IRP)</strong> ready before an attack happens. When an attack is detected, the response team isolates the affected systems, contains the damage, and notifies stakeholders.</p>
+
+    <h4>Step 6 — Recover and Restore</h4>
+    <p>Restore systems from clean backups. Verify that all malware is removed before bringing systems back online. Communicate with affected users and regulators as required by law.</p>
+
+    <h4>Step 7 — Learn, Improve, and Update Policies</h4>
+    <p>After every incident, conduct a Post-Incident Review (PIR). Update security policies, patch vulnerabilities, retrain staff, and improve the security framework based on lessons learned.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     Q2a — ISSP COMPONENTS FOR ERP
+══════════════════════════════════════ -->
+<section class="question-block" id="q2a">
+  <div class="q-label">Question 2 · Part A</div>
+  <h2 class="q-title">Hospital ERP Security Audit Reveals Pitfalls — Suggest Various ISSP Components to Overcome These Challenges</h2>
+  <span class="marks-badge">7 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>ISSP (Issue-Specific Security Policy)</strong> is a detailed security policy document that addresses a <em>specific area</em> of an organization's technology use. Unlike general security policies, each ISSP focuses on one particular technology or security issue — such as email use, internet access, ERP systems, or remote access.
+    </div>
+
+    <h3>Understanding the Scenario</h3>
+    <p>A multi-speciality hospital has automated all operations through an ERP — staff details, patient records, billing. A security audit found serious vulnerabilities. As a security consultant, we recommend the following ISSP components:</p>
+
+    <h3>Key ISSP Components for Hospital ERP</h3>
+
+    <h4>1. Statement of Purpose</h4>
+    <p>The ISSP must clearly state <em>why</em> this policy exists. For this hospital, the purpose is: <em>"To protect the confidentiality, integrity, and availability of all patient data, staff records, and billing information managed through the ERP system."</em></p>
+
+    <h4>2. Authorized Access and Usage Policy</h4>
+    <p>Only authorized personnel should access the ERP. Access must be role-based — a doctor can view patient records but not payroll; an accountant can view billing but not clinical data. This is called <strong>Role-Based Access Control (RBAC)</strong>. Shared passwords must be strictly prohibited.</p>
+    <div class="example-box"><div class="ex-label">Fix for the Hospital</div>Assign each employee a unique login ID with permissions limited strictly to their job role. Remove access immediately when an employee leaves.</div>
+
+    <h4>3. Prohibited Actions Policy</h4>
+    <p>Clearly list what users are NOT allowed to do in the ERP system. Examples: sharing passwords, downloading patient data to personal USB drives, accessing the ERP from public Wi-Fi, installing unauthorized software on ERP machines.</p>
+
+    <h4>4. Systems Management Policy</h4>
+    <p>Define who is responsible for maintaining ERP security. This includes: regular patch updates, database backups, server hardening, and configuration management. A dedicated ERP Administrator must be appointed.</p>
+
+    <h4>5. Violations and Penalties</h4>
+    <p>The ISSP must specify what happens if someone violates the policy — verbal warning, suspension, termination, or legal action under the IT Act 2000. Clear consequences deter careless behavior.</p>
+
+    <h4>6. Policy Review Schedule</h4>
+    <p>The ISSP must be reviewed at least <strong>annually</strong> or whenever a major change occurs (new ERP module, new regulation, new threat discovered). Security is not a one-time event.</p>
+
+    <h4>7. Encryption and Data Protection Policy</h4>
+    <p>All patient data must be encrypted both <em>in transit</em> (when sent over the network) and <em>at rest</em> (when stored in the database). Encryption standards like <strong>AES-256</strong> should be mandated for all sensitive ERP data.</p>
+
+    <h4>8. Audit and Monitoring Policy</h4>
+    <p>All ERP activities must be logged. Who accessed what data, when, from which device. These logs must be reviewed regularly to detect suspicious behavior. An automated alert should trigger if unusual access patterns are detected.</p>
+
+    <div class="conclusion-box">
+      <div class="con-label">Summary for Hospital</div>
+      <p>A strong ISSP for the hospital ERP should cover: Role-Based Access, Prohibited Actions, Encryption, Regular Audits, Patch Management, and clear Violation Penalties — aligned with the IT Act 2000 and HIPAA principles.</p>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>Whitman &amp; Mattord — Principles of Information Security, Cengage Learning</li>
+        <li>NIST SP 800-12: Introduction to Information Security: https://csrc.nist.gov/publications/detail/sp/800-12/rev-1/final</li>
+        <li>IT Act 2000, Government of India: https://www.meity.gov.in/content/information-technology-act</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q2b — DATA TRANSFER GOVERNANCE
+══════════════════════════════════════ -->
+<section class="question-block" id="q2b">
+  <div class="q-label">Question 2 · Part B</div>
+  <h2 class="q-title">Enlist All Essential Components of Data Transfer Governance in Cyber Space</h2>
+  <span class="marks-badge">3 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Data Transfer Governance</strong> refers to the rules, policies, and controls that ensure data is transferred securely, legally, and only to authorized parties — inside or outside an organization.
+    </div>
+
+    <h3>Essential Components</h3>
+    <ul>
+      <li><strong>Data Classification:</strong> Label data as Public, Internal, Confidential, or Restricted. Only appropriate data levels should be transferred externally.</li>
+      <li><strong>Encryption in Transit:</strong> All data transferred over networks must be encrypted using TLS 1.2+, HTTPS, SFTP, or VPN tunnels.</li>
+      <li><strong>Access Authorization:</strong> Only authorized users/systems should be permitted to send or receive data. Use digital signatures and certificates to verify identity.</li>
+      <li><strong>Data Integrity Checks:</strong> Use hash functions (SHA-256) to verify that data has not been tampered with during transfer.</li>
+      <li><strong>Audit Logs:</strong> Maintain complete logs of all data transfers — who sent what, to whom, when, and from which system.</li>
+      <li><strong>Legal Compliance:</strong> Data transfers must comply with laws like GDPR, IT Act 2000, and sector-specific regulations (e.g., RBI guidelines for financial data).</li>
+      <li><strong>Data Loss Prevention (DLP):</strong> Tools that monitor and block unauthorized transfer of sensitive data outside the organization.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="or-divider">— OR —</div>
+
+<!-- ══════════════════════════════════════
+     Q2 OR-a — EISP COMPONENTS FOR SMART GRID
+══════════════════════════════════════ -->
+<section class="question-block" id="q2or-a">
+  <div class="q-label">Question 2 · OR · Part A</div>
+  <h2 class="q-title">Smart Grid Company Faces Data Breaches — What EISP Components Should They Consider?</h2>
+  <span class="marks-badge">7 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>EISP (Enterprise Information Security Policy)</strong> is the highest-level security policy document in an organization. It sets the overall direction, scope, and tone of the entire security program. Unlike ISSP (which is issue-specific), EISP covers the <em>entire enterprise</em> and all departments must follow it.
+    </div>
+
+    <h3>Understanding the Scenario</h3>
+    <p>A smart grid company using powerline communication technologies experienced a series of data breaches — losing client trust and facing financial penalties. Different departments operated with different standards and there was no unified information security policy. The following EISP components should be implemented:</p>
+
+    <h3>EISP Components</h3>
+
+    <h4>1. Statement of Purpose and Scope</h4>
+    <p>The EISP must state why it exists and who it applies to. Scope: ALL departments, ALL employees (permanent, contract, third-party vendors), and ALL systems — operational technology (OT) and information technology (IT) — across all locations.</p>
+    <p><em>"This policy governs the protection of all information assets owned or managed by the organization, including smart grid control systems, customer data, and financial records."</em></p>
+
+    <h4>2. Information Security Objectives</h4>
+    <p>Define measurable security goals aligned with business goals:</p>
+    <ul>
+      <li>Protect the confidentiality of client and operational data</li>
+      <li>Ensure the integrity of smart grid control communications</li>
+      <li>Maintain 99.9% availability of critical grid management systems</li>
+    </ul>
+
+    <h4>3. Security Roles and Responsibilities</h4>
+    <p>Clearly assign who is responsible for what:</p>
+    <ul>
+      <li><strong>CISO (Chief Information Security Officer):</strong> Overall security leadership</li>
+      <li><strong>Department Heads:</strong> Enforce policy within their teams</li>
+      <li><strong>All Employees:</strong> Follow the policy and report incidents immediately</li>
+      <li><strong>Vendors/Third Parties:</strong> Sign security agreements before accessing systems</li>
+    </ul>
+
+    <h4>4. Risk Management Framework</h4>
+    <p>The EISP must mandate a formal, regular risk assessment process. Since the company operates critical infrastructure (smart grids), it must follow standards like <strong>NERC CIP</strong> (North American Electric Reliability Corporation Critical Infrastructure Protection) for OT/ICS security.</p>
+
+    <h4>5. Acceptable Use Policy (AUP)</h4>
+    <p>Define exactly how company systems, networks, and data may and may not be used. All employees must read and sign the AUP before getting system access.</p>
+
+    <h4>6. Incident Reporting and Response Policy</h4>
+    <p>All security incidents — no matter how minor — must be reported to the security team immediately. The EISP must define the incident classification levels (Low / Medium / High / Critical) and the escalation path for each.</p>
+
+    <h4>7. Third-Party and Vendor Security Policy</h4>
+    <p>Since the company works with industrial partners using different standards, all vendors must comply with the EISP. Vendor contracts must include security clauses, and vendor access must be monitored continuously.</p>
+
+    <h4>8. Policy Compliance and Enforcement</h4>
+    <p>Non-compliance must have clear consequences. The EISP should include annual security awareness training for all staff, and compliance audits every 6 months to verify adherence across all departments.</p>
+
+    <div class="conclusion-box">
+      <div class="con-label">Key Fix for Smart Grid Company</div>
+      <p>The core problem was that different departments operated differently. A strong EISP with unified standards, mandatory compliance, assigned security roles, and a formal risk management framework would eliminate these inconsistencies and prevent future breaches.</p>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>Whitman &amp; Mattord — Management of Information Security, Cengage</li>
+        <li>NERC CIP Standards: https://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx</li>
+        <li>NIST SP 800-82 (ICS/SCADA Security): https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final</li>
+        <li>ISO/IEC 27001: https://www.iso.org/isoiec-27001-information-security.html</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q2 OR-b — PRIVACY REGULATION
+══════════════════════════════════════ -->
+<section class="question-block" id="q2or-b">
+  <div class="q-label">Question 2 · OR · Part B</div>
+  <h2 class="q-title">Write a Short Note on Privacy Regulation</h2>
+  <span class="marks-badge">3 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Privacy Regulation</strong> refers to laws and rules that govern how organizations collect, store, use, and share personal data about individuals. The goal is to give people control over their own information and protect them from misuse.
+    </div>
+
+    <h4>Major Privacy Regulations</h4>
+    <ul>
+      <li><strong>GDPR (General Data Protection Regulation) — EU, 2018:</strong> The world's strongest data privacy law. Requires user consent before collecting data, the right to be forgotten, and data breach notification within 72 hours. Fines up to €20 million or 4% of global turnover.</li>
+      <li><strong>IT Act 2000 &amp; DPDP Act 2023 — India:</strong> India's Information Technology Act covers cybercrimes and data protection. The new <strong>Digital Personal Data Protection Act 2023</strong> (DPDPA) establishes rights of data principals and duties of data fiduciaries (organizations).</li>
+      <li><strong>HIPAA — USA:</strong> Protects health information. Healthcare organizations must implement technical and administrative safeguards.</li>
+      <li><strong>CCPA — California, USA:</strong> Gives California residents rights over their personal data collected by businesses.</li>
+    </ul>
+    <p>Privacy regulations are now mandatory in most countries. Organizations that fail to comply face heavy fines, legal action, and reputational damage.</p>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>GDPR Full Text: https://gdpr-info.eu</li>
+        <li>DPDP Act 2023, India: https://www.meity.gov.in/data-protection-framework</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     Q3a — TYPES OF CYBER THREATS
+══════════════════════════════════════ -->
+<section class="question-block" id="q3a">
+  <div class="q-label">Question 3 · Part A</div>
+  <h2 class="q-title">Describe the Common Types of Cyber Threats that Organizations Face in Today's Digital Landscape</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      A <strong>Cyber Threat</strong> is any possible attack or harmful action that can damage a system, steal data, or disrupt services. Organizations today face threats from hackers, criminal groups, rogue employees, and even nation-states.
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">Fig 3.1 — Common Cyber Threat Categories</div>
+      <div class="chart-container"><canvas id="threatTypesChart"></canvas></div>
+    </div>
+
+    <h4>1. Malware (Malicious Software)</h4>
+    <p>Software designed to damage, disrupt, or gain unauthorized access. Types include: <strong>Virus</strong> (attaches to files), <strong>Worm</strong> (spreads automatically), <strong>Trojan</strong> (pretends to be legitimate software), <strong>Spyware</strong> (secretly monitors activity), <strong>Adware</strong> (shows unwanted ads).</p>
+
+    <h4>2. Ransomware</h4>
+    <p>A type of malware that <strong>encrypts all of a victim's files</strong> and demands a ransom payment (usually in cryptocurrency) to restore access. Organizations with critical data — hospitals, governments — are prime targets.</p>
+    <div class="example-box"><div class="ex-label">Real Case</div><strong>WannaCry (2017):</strong> Encrypted files of 200,000+ computers across 150 countries. The UK's NHS had to cancel 19,000 appointments.</div>
+
+    <h4>3. Phishing</h4>
+    <p>Fraudulent emails, messages, or websites that <strong>trick people</strong> into revealing passwords, credit card numbers, or installing malware. Spear phishing is a targeted version where the attacker researches the victim for a more convincing attack.</p>
+
+    <h4>4. DDoS (Distributed Denial of Service)</h4>
+    <p>Attackers flood a server or network with massive amounts of traffic using thousands of compromised computers (a botnet), causing it to <strong>crash and become unavailable</strong> to real users.</p>
+
+    <h4>5. Insider Threats</h4>
+    <p>Threats that come from <strong>within the organization</strong> — current or former employees, contractors, or business partners who misuse their authorized access. Can be malicious (intentional data theft) or accidental (clicking a phishing email).</p>
+
+    <h4>6. Man-in-the-Middle (MitM) Attacks</h4>
+    <p>An attacker secretly <strong>intercepts and possibly alters communication</strong> between two parties — like eavesdropping on a private conversation. Common on unsecured public Wi-Fi networks.</p>
+
+    <h4>7. SQL Injection</h4>
+    <p>Attackers <strong>insert malicious SQL code</strong> into input fields (login forms, search boxes) of poorly coded websites to access, modify, or delete database content without authorization.</p>
+
+    <h4>8. Zero-Day Exploits</h4>
+    <p>Attacks that exploit a software vulnerability that the <strong>vendor doesn't yet know about</strong> — so there is zero days of protection. Extremely dangerous because no patch exists yet.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q3b — RISK MITIGATION: INSIDER THREATS
+══════════════════════════════════════ -->
+<section class="question-block" id="q3b">
+  <div class="q-label">Question 3 · Part B</div>
+  <h2 class="q-title">Develop a Risk Mitigation Strategy for a Company Facing Risks from Insider Threats</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Insider Threats</strong> are security risks that come from people inside the organization — employees, contractors, or business partners — who have authorized access but misuse it. They are one of the hardest threats to detect because the attacker already has legitimate access.
+    </div>
+
+    <h3>Types of Insider Threats</h3>
+    <ul>
+      <li><strong>Malicious Insider:</strong> An employee intentionally steals data or sabotages systems (e.g., a disgruntled employee deleting databases).</li>
+      <li><strong>Negligent Insider:</strong> An employee accidentally causes a breach (e.g., clicking a phishing link, losing a company laptop).</li>
+      <li><strong>Compromised Insider:</strong> An employee's credentials are stolen by an external attacker who then operates disguised as the employee.</li>
+    </ul>
+
+    <h3>Risk Mitigation Strategy</h3>
+
+    <h4>1. Principle of Least Privilege (PoLP)</h4>
+    <p>Give each employee access <strong>only to what they absolutely need</strong> for their job — nothing more. A marketing employee has no reason to access financial databases. Regularly review and revoke unnecessary access privileges.</p>
+
+    <h4>2. User Activity Monitoring (UAM)</h4>
+    <p>Deploy tools that monitor what employees do on company systems — files accessed, data transferred, websites visited. Automated alerts should trigger if an employee suddenly downloads large amounts of data or accesses systems they've never used before.</p>
+
+    <h4>3. Separation of Duties</h4>
+    <p>No single person should have complete control over a sensitive process. For example, the person who approves a bank transfer should be different from the person who initiates it. This prevents a single insider from committing fraud undetected.</p>
+
+    <h4>4. Background Checks and Regular Re-vetting</h4>
+    <p>Conduct thorough background verification before hiring. For employees with access to highly sensitive data, periodic re-vetting (every 2 years) can catch changes in behavior or circumstances.</p>
+
+    <h4>5. Data Loss Prevention (DLP) Tools</h4>
+    <p>DLP software monitors and <strong>blocks unauthorized transfer of sensitive data</strong> — via email, USB drive, cloud upload, or printing. If someone tries to email a confidential database to a personal account, DLP intercepts and blocks it.</p>
+
+    <h4>6. Security Awareness Training</h4>
+    <p>Regular training helps employees recognize phishing emails, understand the consequences of data misuse, and know how to report suspicious behavior. Many insider incidents are accidental — training significantly reduces these.</p>
+
+    <h4>7. Offboarding Procedures</h4>
+    <p>When an employee leaves, immediately: revoke all system access, disable accounts, collect company devices, and change shared passwords. Most post-employment attacks happen because access was not revoked promptly.</p>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>CISA Insider Threat Mitigation Guide: https://www.cisa.gov/insider-threat-mitigation</li>
+        <li>NIST SP 800-53 — Access Control: https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final</li>
+        <li>CERT Insider Threat Center (Carnegie Mellon): https://www.sei.cmu.edu/our-work/insider-threat</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="or-divider">— OR —</div>
+
+<!-- ══════════════════════════════════════
+     Q3 OR-a — CANARY IN CYBERSECURITY
+══════════════════════════════════════ -->
+<section class="question-block" id="q3or-a">
+  <div class="q-label">Question 3 · OR · Part A</div>
+  <h2 class="q-title">What is the Concept of a Canary in Cybersecurity and How Does it Help in Detecting and Analyzing Cyber Threats?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      In old coal mines, workers used to carry <strong>canary birds</strong> underground. If toxic gas was present, the canary would die first — warning miners to escape before they were harmed. In cybersecurity, the same idea is used: a "canary" is a <strong>deliberately placed trap</strong> that warns security teams when an attacker is present.
+    </div>
+
+    <h3>Types of Canaries in Cybersecurity</h3>
+
+    <h4>1. Honeypots</h4>
+    <p>A <strong>honeypot</strong> is a fake computer system that looks real and valuable but is actually a trap. It is intentionally set up to attract attackers. When an attacker interacts with the honeypot, security teams are immediately alerted and can study the attacker's methods without any real damage being done.</p>
+    <div class="example-box"><div class="ex-label">How It Works</div>A company sets up a fake database server named "HR_Salary_Data" — a name that would attract insiders or hackers. No real employee ever touches this server. The moment anyone accesses it, an alert fires.</div>
+
+    <h4>2. Canary Tokens</h4>
+    <p>These are <strong>digital tripwires</strong> hidden inside documents, spreadsheets, links, or email addresses. When someone opens the file or clicks the link, the canary token "calls home" and sends an alert to the security team with the attacker's IP address, browser, and location.</p>
+    <div class="example-box"><div class="ex-label">Example</div>A company places a Word document named "CEO_Passwords_2025.docx" on a file share. If any unauthorized person opens it, the embedded canary token instantly alerts security — revealing exactly when and from where it was opened.</div>
+
+    <h4>3. Honey Credentials</h4>
+    <p>Fake usernames and passwords intentionally placed in code repositories, config files, or emails. If these credentials are ever used in a login attempt, it proves an attacker has stolen and is using them — triggering an immediate alert.</p>
+
+    <h4>4. Warrant Canary</h4>
+    <p>A legal/policy concept where an organization regularly publishes a statement that it has <em>not</em> received any secret government surveillance orders. If the canary statement disappears, users understand (without the company being able to say so directly) that a government demand was received.</p>
+
+    <h3>How Canaries Help Detect and Analyze Threats</h3>
+    <ul>
+      <li><strong>Early Warning:</strong> Canaries trigger at the very first sign of intrusion — before major damage occurs.</li>
+      <li><strong>Attacker Profiling:</strong> Honeypots let teams observe attacker tools, techniques, and behaviors without exposing real systems.</li>
+      <li><strong>Insider Threat Detection:</strong> Canary files placed in internal systems catch rogue employees immediately.</li>
+      <li><strong>Zero False Negatives:</strong> No legitimate user should ever trigger a canary — any alert is 100% a real threat.</li>
+      <li><strong>Low Cost:</strong> Canary tokens are free to create and can be deployed in thousands of files instantly.</li>
+    </ul>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>Canary Tokens (Free tool): https://canarytokens.org</li>
+        <li>Thinkst Canary (Commercial Honeypot): https://canary.tools</li>
+        <li>NIST Guide to Intrusion Detection: https://csrc.nist.gov/publications/detail/sp/800-94/final</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q3 OR-b — MALICIOUS ATTACKS ON COMPUTER SYSTEMS
+══════════════════════════════════════ -->
+<section class="question-block" id="q3or-b">
+  <div class="q-label">Question 3 · OR · Part B</div>
+  <h2 class="q-title">Enlist All Possible Malicious Attacks Targeting Computer Systems</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Malicious attacks</strong> are deliberate attempts by attackers to damage, steal from, or disrupt computer systems. Here is a comprehensive list:
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Attack Type</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td>Virus</td><td>Attaches itself to a program and spreads when that program runs</td></tr>
+        <tr><td>Worm</td><td>Self-replicates across networks without user action</td></tr>
+        <tr><td>Trojan Horse</td><td>Disguises as legitimate software; delivers malicious payload when run</td></tr>
+        <tr><td>Ransomware</td><td>Encrypts files and demands ransom to restore access</td></tr>
+        <tr><td>Spyware</td><td>Silently monitors user activity and sends data to attacker</td></tr>
+        <tr><td>Keylogger</td><td>Records every keystroke to capture passwords and sensitive info</td></tr>
+        <tr><td>Rootkit</td><td>Hides itself deep in the OS to maintain persistent, undetected access</td></tr>
+        <tr><td>Phishing</td><td>Fake emails/sites trick users into giving credentials or installing malware</td></tr>
+        <tr><td>DDoS Attack</td><td>Floods a server with traffic to make it unavailable</td></tr>
+        <tr><td>SQL Injection</td><td>Injects malicious SQL code into web forms to steal database contents</td></tr>
+        <tr><td>XSS (Cross-Site Scripting)</td><td>Injects malicious scripts into trusted websites to attack users</td></tr>
+        <tr><td>Man-in-the-Middle (MitM)</td><td>Intercepts communication between two parties to eavesdrop or modify data</td></tr>
+        <tr><td>Brute Force Attack</td><td>Tries all possible password combinations until the correct one is found</td></tr>
+        <tr><td>Zero-Day Exploit</td><td>Attacks a software vulnerability unknown to the vendor</td></tr>
+        <tr><td>Botnet Attack</td><td>Network of infected computers controlled by attacker for mass attacks</td></tr>
+        <tr><td>Eavesdropping/Sniffing</td><td>Captures network packets to read unencrypted data</td></tr>
+        <tr><td>DNS Spoofing</td><td>Corrupts DNS cache to redirect users to fake websites</td></tr>
+        <tr><td>Social Engineering</td><td>Psychologically manipulates people into revealing confidential info</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     Q4a — SMARTPHONE CRIME SCENARIO
+══════════════════════════════════════ -->
+<section class="question-block" id="q4a">
+  <div class="q-label">Question 4 · Part A</div>
+  <h2 class="q-title">Smartphone Crime Scenario — Identify Consequences, Investigation Steps, Legal Consequences &amp; Penalties</h2>
+  <span class="marks-badge">7 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      A criminal steals a smartphone and misuses it for: unauthorized financial transactions, sending threatening messages, sharing private photos on social media, making abusive calls, and finally selling the stolen phone. We must identify the crimes, investigation steps, and legal consequences.
+    </div>
+
+    <h3>Part 1 — Crimes Committed and Their Consequences</h3>
+    <table class="data-table">
+      <thead><tr><th>Criminal Action</th><th>Crime Committed</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td>Stealing the phone</td><td>Theft (IPC Section 378)</td><td>Loss of device and personal data by victim</td></tr>
+        <tr><td>Unauthorized financial transactions</td><td>Cyber Fraud / Identity Theft (IT Act S.66C &amp; S.66D)</td><td>Financial loss, victim's bank account compromised</td></tr>
+        <tr><td>Sending threatening messages</td><td>Criminal Intimidation (IPC S.503, IT Act S.66A*)</td><td>Psychological distress, fear for safety of victim</td></tr>
+        <tr><td>Sharing private photos</td><td>Violation of Privacy (IT Act S.66E), Cyber Stalking (S.354D IPC)</td><td>Reputation damage, emotional trauma to victim</td></tr>
+        <tr><td>Making abusive calls</td><td>Criminal Harassment, Stalking</td><td>Mental harassment of victim</td></tr>
+        <tr><td>Selling stolen phone</td><td>Receiving Stolen Property (IPC S.411)</td><td>Buyer may face legal trouble; IMEI blacklisting</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Part 2 — Steps to Investigate and Resolve the Case</h3>
+
+    <h4>Step 1 — Filing the FIR</h4>
+    <p>The victim files a First Information Report (FIR) at the nearest police station or cyber cell. The FIR should include: phone model, IMEI number, list of apps and banking details on the phone, and description of all criminal activities identified.</p>
+
+    <h4>Step 2 — IMEI Tracking</h4>
+    <p>The police contact the telecom service provider to track the stolen phone using its <strong>IMEI (International Mobile Equipment Identity)</strong> number. Even if the SIM is changed, the IMEI remains constant and can be used to locate the device.</p>
+
+    <h4>Step 3 — Call Detail Records (CDR) Analysis</h4>
+    <p>Investigators obtain <strong>Call Detail Records</strong> from the telecom company — logs of all calls made, SMS sent, and data used from the phone after theft. This provides a timeline of the criminal's activities.</p>
+
+    <h4>Step 4 — Financial Transaction Tracing</h4>
+    <p>The victim's bank is contacted to freeze accounts and trace unauthorized transactions. Payment gateway records, UPI transaction logs, and banking app access logs are obtained. IP addresses of the devices used for transactions are traced.</p>
+
+    <h4>Step 5 — Social Media Investigation</h4>
+    <p>Law enforcement contacts social media platforms (Instagram, WhatsApp, Facebook) with legal notices to obtain account login records, IP addresses, and timestamps for the abusive posts and messages.</p>
+
+    <h4>Step 6 — Digital Forensic Analysis</h4>
+    <p>Once the phone is recovered, a forensic image of the device is created. Forensic tools (Cellebrite, Oxygen Forensics) are used to extract deleted messages, call logs, photos, location data, and app usage history as evidence.</p>
+
+    <h4>Step 7 — Arrest and Charge</h4>
+    <p>Based on collected evidence, the accused is arrested and formally charged under applicable sections of the IPC and IT Act.</p>
+
+    <h3>Part 3 — Legal Consequences and Penalties (India)</h3>
+    <table class="data-table">
+      <thead><tr><th>Law / Section</th><th>Offence</th><th>Penalty</th></tr></thead>
+      <tbody>
+        <tr><td>IT Act S.66C</td><td>Identity theft (using someone's digital identity)</td><td>Up to 3 years imprisonment + fine up to ₹1 lakh</td></tr>
+        <tr><td>IT Act S.66D</td><td>Cheating by personation online</td><td>Up to 3 years imprisonment + fine up to ₹1 lakh</td></tr>
+        <tr><td>IT Act S.66E</td><td>Violation of privacy (publishing private images)</td><td>Up to 3 years imprisonment + fine up to ₹2 lakh</td></tr>
+        <tr><td>IPC S.378 / S.379</td><td>Theft</td><td>Up to 3 years imprisonment or fine or both</td></tr>
+        <tr><td>IPC S.503 / S.506</td><td>Criminal intimidation / Threatening</td><td>Up to 2–7 years imprisonment</td></tr>
+        <tr><td>IPC S.354D</td><td>Stalking (including cyber stalking)</td><td>First offence: up to 3 years; Second: up to 5 years</td></tr>
+        <tr><td>IPC S.411</td><td>Receiving stolen property</td><td>Up to 3 years imprisonment or fine or both</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>Information Technology Act 2000 (Amended 2008): https://www.meity.gov.in/content/information-technology-act</li>
+        <li>Indian Penal Code (IPC) — Ministry of Law: https://legislative.gov.in</li>
+        <li>CERT-IN Incident Reporting: https://www.cert-in.org.in/Whitepaper.jsp</li>
+        <li>Cybercrime Reporting Portal: https://cybercrime.gov.in</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q4b — LEGAL & ETHICAL: AI, IOT, BLOCKCHAIN, SOCIAL MEDIA
+══════════════════════════════════════ -->
+<section class="question-block" id="q4b">
+  <div class="q-label">Question 4 · Part B</div>
+  <h2 class="q-title">Key Legal and Ethical Concerns Related to Emerging Technologies: AI, IoT, Blockchain, and Social Media</h2>
+  <span class="marks-badge">3 Marks</span>
+  <div class="ans">
+
+    <h4>Artificial Intelligence (AI)</h4>
+    <ul>
+      <li><strong>Bias and Discrimination:</strong> AI systems trained on biased data produce biased decisions (e.g., loan rejection based on gender or race).</li>
+      <li><strong>Accountability Gap:</strong> When AI makes a harmful decision, it's unclear who is legally responsible — the developer, the organization, or the AI?</li>
+      <li><strong>Deepfakes:</strong> AI-generated fake images/videos used to spread misinformation or harass individuals.</li>
+    </ul>
+
+    <h4>Internet of Things (IoT)</h4>
+    <ul>
+      <li><strong>Privacy Invasion:</strong> Smart home devices (Alexa, smart TVs) constantly collect user data, often without full user awareness.</li>
+      <li><strong>Weak Security:</strong> Most IoT devices have minimal built-in security, making them easy targets for hackers.</li>
+      <li><strong>Data Ownership:</strong> Who owns the data collected by a smart device — the user or the manufacturer?</li>
+    </ul>
+
+    <h4>Blockchain</h4>
+    <ul>
+      <li><strong>Anonymity for Crime:</strong> Cryptocurrency on blockchain is used for ransomware payments, dark web transactions, and money laundering because it is hard to trace.</li>
+      <li><strong>Immutability vs Right to be Forgotten:</strong> GDPR gives people the right to erase their data, but blockchain data cannot be deleted — a direct legal conflict.</li>
+    </ul>
+
+    <h4>Social Media</h4>
+    <ul>
+      <li><strong>Hate Speech and Misinformation:</strong> Platforms struggle to balance free speech with preventing harmful content.</li>
+      <li><strong>Data Harvesting:</strong> Social media companies collect and monetize massive amounts of personal data, often without clear user consent.</li>
+      <li><strong>Cyberbullying and Harassment:</strong> Anonymity enables abuse; legal accountability for platform operators is still evolving.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="or-divider">— OR —</div>
+
+<!-- ══════════════════════════════════════
+     Q4 OR-a — UNIVERSITY HACKING SCENARIO
+══════════════════════════════════════ -->
+<section class="question-block" id="q4or-a">
+  <div class="q-label">Question 4 · OR · Part A</div>
+  <h2 class="q-title">International University Hacked by Group Targeting Website and Disrupting Services — Identify Crimes and Consequences</h2>
+  <span class="marks-badge">7 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      A reputed international university maintains all department data (students, staff, library) on the cloud, accessed via a website. Hackers targeted this website, disrupted essential services, and conducted various offensive activities. We must identify: the crimes committed, legal consequences, and the broader impact.
+    </div>
+
+    <h3>Crimes Committed by the Hackers</h3>
+
+    <h4>1. Unauthorized Access to Computer Systems</h4>
+    <p>Simply accessing the university's systems without permission is a crime. This is the foundational offence from which all others stem.</p>
+    <p><strong>Indian Law:</strong> IT Act 2000, Section 66 — Unauthorized access to computer systems → up to 3 years imprisonment and fine up to ₹5 lakh.</p>
+
+    <h4>2. Website Defacement</h4>
+    <p>If the hackers altered or took down the university website, it constitutes <strong>cyber vandalism</strong> — destroying or damaging a digital property. This disrupts the university's communication with students and the public.</p>
+
+    <h4>3. DDoS Attack (Disrupting Essential Services)</h4>
+    <p>If the hackers flooded the university's servers to make services unavailable, this is a <strong>Denial of Service attack</strong>. For a university with online admissions, exams, and library access, this causes massive operational disruption.</p>
+    <p><strong>Indian Law:</strong> IT Act S.43(f) — Denial of access to an authorized person → compensation liability.</p>
+
+    <h4>4. Data Theft — Student and Staff Records</h4>
+    <p>Accessing and stealing personal data of students, staff, and library members constitutes <strong>data theft and privacy violation</strong>. This data can be sold on the dark web or used for identity fraud.</p>
+    <p><strong>Indian Law:</strong> IT Act S.43(b) — Unauthorized download/extraction of data; IT Act S.66C — Identity theft.</p>
+
+    <h4>5. Breach of Privileged Access</h4>
+    <p>The university's website provided <strong>privileged access to different entities</strong> (students, staff, library). Hackers exploiting this system accessed data beyond their authorization — a serious breach of access controls.</p>
+
+    <h4>6. Cyber Espionage (if Research Data is Stolen)</h4>
+    <p>International universities conduct valuable research. If hackers steal research data, intellectual property, or grant information, it constitutes <strong>cyber espionage</strong> — especially serious if foreign nation-state actors are involved.</p>
+
+    <h3>Consequences of These Illegal Acts</h3>
+    <table class="data-table">
+      <thead><tr><th>Consequence Type</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Criminal Prosecution</td><td>Hackers face imprisonment and heavy fines under IT Act and IPC</td></tr>
+        <tr><td>Civil Liability</td><td>University can sue for damages under IT Act S.43 — full compensation for losses</td></tr>
+        <tr><td>Reputational Damage</td><td>University's global ranking, student trust, and research partnerships suffer</td></tr>
+        <tr><td>Regulatory Penalties</td><td>Under GDPR (if EU students are affected), fines up to €20 million or 4% of annual turnover</td></tr>
+        <tr><td>Operational Disruption</td><td>Exams postponed, admissions halted, library services unavailable — direct educational harm</td></tr>
+        <tr><td>Incident Response Costs</td><td>Emergency forensic investigation, system restoration, legal fees, and public communication costs</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Applicable Laws</h3>
+    <ul>
+      <li><strong>IT Act 2000, S.66:</strong> Hacking — 3 years imprisonment + ₹5 lakh fine</li>
+      <li><strong>IT Act 2000, S.43:</strong> Damage to computer / unauthorized access — full civil compensation</li>
+      <li><strong>IPC S.425:</strong> Mischief (damaging property) — criminal charges</li>
+      <li><strong>GDPR (EU):</strong> If any EU student data is breached — massive financial penalties</li>
+      <li><strong>Budapest Convention on Cybercrime:</strong> For cross-border international prosecution of hackers</li>
+    </ul>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>IT Act 2000 (Amended 2008): https://www.meity.gov.in/content/information-technology-act</li>
+        <li>Budapest Convention on Cybercrime: https://www.coe.int/en/web/cybercrime/the-budapest-convention</li>
+        <li>GDPR: https://gdpr-info.eu/art-83-gdpr</li>
+        <li>National Cyber Crime Reporting Portal: https://cybercrime.gov.in</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q4 OR-b — CYBER WARFARE
+══════════════════════════════════════ -->
+<section class="question-block" id="q4or-b">
+  <div class="q-label">Question 4 · OR · Part B</div>
+  <h2 class="q-title">What is Cyber Warfare? Explain.</h2>
+  <span class="marks-badge">3 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Cyber Warfare</strong> refers to the use of digital attacks by one nation-state against another to cause damage, disruption, espionage, or destruction — equivalent to traditional military warfare, but fought in cyberspace.
+    </div>
+
+    <h4>Key Characteristics</h4>
+    <ul>
+      <li>Attacks are sponsored or conducted by government/military organizations</li>
+      <li>Targets include critical infrastructure: power grids, water systems, military networks, financial systems</li>
+      <li>Can cause physical destruction (e.g., factory explosions via SCADA system hacking)</li>
+      <li>Extremely difficult to attribute — attackers hide behind proxies</li>
+    </ul>
+
+    <h4>Types of Cyber Warfare Attacks</h4>
+    <ul>
+      <li><strong>Espionage:</strong> Stealing classified government or military secrets</li>
+      <li><strong>Sabotage:</strong> Destroying critical systems (e.g., Stuxnet destroyed Iran's nuclear centrifuges)</li>
+      <li><strong>Propaganda:</strong> Using social media to spread disinformation and destabilize society</li>
+      <li><strong>DDoS on Government Sites:</strong> Disrupting government services during conflict</li>
+    </ul>
+
+    <div class="example-box">
+      <div class="ex-label">Real Case — Stuxnet (2010)</div>
+      A highly sophisticated computer worm (believed to be created by US and Israel) physically destroyed Iran's nuclear centrifuges by sending wrong commands to industrial control systems — the first known cyber weapon to cause real physical damage.
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>NATO Cooperative Cyber Defence Centre: https://ccdcoe.org</li>
+        <li>Stuxnet documentation — Symantec: https://www.symantec.com/content/en/us/enterprise/media/security_response/whitepapers/w32_stuxnet_dossier.pdf</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     Q5a — THREAT MANAGEMENT & RESPONSE
+══════════════════════════════════════ -->
+<section class="question-block" id="q5a">
+  <div class="q-label">Question 5 · Part A</div>
+  <h2 class="q-title">Give the Importance of Threat Management and Response</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Threat Management</strong> is the continuous process of identifying, assessing, and responding to cybersecurity threats before, during, and after they occur. <strong>Incident Response</strong> is the structured approach for handling the aftermath of a security breach. Together, they form the backbone of an organization's security operations.
+    </div>
+
+    <h3>Importance of Threat Management</h3>
+
+    <h4>1. Early Detection Saves Enormous Damage</h4>
+    <p>The average time to detect a breach is <strong>194 days</strong> (IBM 2023). Organizations with strong threat management detect attacks in hours — not months. Early detection means less data stolen, less systems compromised, and much lower recovery costs.</p>
+
+    <h4>2. Protects Business Continuity</h4>
+    <p>Unmanaged threats can shut down an entire business. Threat management ensures that even when attacks happen, critical systems remain available or are quickly restored — preventing lost revenue and operational chaos.</p>
+
+    <h4>3. Prioritizes Resources Effectively</h4>
+    <p>Organizations face hundreds of potential threats. Threat management uses risk scoring to prioritize which threats need immediate attention vs which are low risk — so security teams focus effort where it matters most.</p>
+
+    <h4>4. Reduces Financial Losses</h4>
+    <p>The global average cost of a data breach is $4.45 million (IBM, 2023). Effective threat management and quick incident response can reduce this cost by up to 30%, according to the same report.</p>
+
+    <h4>5. Satisfies Legal and Regulatory Requirements</h4>
+    <p>Laws like GDPR (72-hour breach notification), HIPAA, and India's DPDP Act 2023 require organizations to have active threat monitoring and incident response procedures. Compliance protects the organization from legal penalties.</p>
+
+    <h4>6. Maintains Customer and Stakeholder Trust</h4>
+    <p>How quickly and professionally an organization responds to a breach defines how much trust it retains. A well-managed response that quickly contains a breach and communicates transparently preserves brand reputation far better than a chaotic, slow response.</p>
+
+    <h4>7. Builds Organizational Resilience</h4>
+    <p>Each threat that is identified, responded to, and learned from makes the organization stronger. Over time, threat management builds a mature security culture where security is everyone's responsibility.</p>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">Fig 5.1 — Incident Response Lifecycle (NIST SP 800-61)</div>
+      <div class="flow-diagram">
+        <div class="flow-step"><div class="flow-node fn-1"><span class="step-num">1</span>Preparation</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-2"><span class="step-num">2</span>Detection &amp; Analysis</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-3"><span class="step-num">3</span>Containment</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-4"><span class="step-num">4</span>Eradication</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-5"><span class="step-num">5</span>Recovery</div></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step"><div class="flow-node fn-6"><span class="step-num">6</span>Post-Incident Review</div></div>
+      </div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>NIST SP 800-61 Rev.2 — Computer Security Incident Handling Guide: https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final</li>
+        <li>IBM Cost of Data Breach Report 2023: https://www.ibm.com/reports/data-breach</li>
+        <li>CISA Incident Response Resources: https://www.cisa.gov/topics/cyber-threats-and-advisories/information-sharing/incident-reporting</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q5b — CHALLENGES IN DIGITAL EVIDENCE
+══════════════════════════════════════ -->
+<section class="question-block" id="q5b">
+  <div class="q-label">Question 5 · Part B</div>
+  <h2 class="q-title">What are the Challenges Associated with Collecting and Preserving Digital Evidence from Different Types of Devices?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Digital Evidence</strong> is any data stored or transmitted in digital form that can be used as evidence in a legal case — files, emails, logs, photos, messages, browsing history. Collecting and preserving it correctly is both technically difficult and legally critical.
+    </div>
+
+    <h3>General Challenges</h3>
+
+    <h4>1. Volatility of Digital Evidence</h4>
+    <p>Some digital data is extremely temporary — RAM (Random Access Memory) data, running processes, network connections, and encryption keys exist only while the device is powered on. If the device is switched off without proper forensic capture, this evidence is <strong>lost forever</strong>.</p>
+
+    <h4>2. Chain of Custody</h4>
+    <p>Every person who handles digital evidence must be documented. If the chain of custody is broken — even accidentally — the evidence may be deemed <strong>inadmissible in court</strong>. Courts require proof that evidence was not tampered with from the moment it was collected.</p>
+
+    <h4>3. Data Integrity — Preventing Contamination</h4>
+    <p>Simply turning on a device, connecting it to a network, or opening a file changes metadata and can corrupt evidence. Forensic investigators must use <strong>write blockers</strong> (hardware devices that prevent any writing to the evidence drive) and create verified forensic copies (hash-verified disk images) before any analysis.</p>
+
+    <h3>Device-Specific Challenges</h3>
+
+    <h4>4. Smartphones</h4>
+    <ul>
+      <li>Strong encryption (Apple iOS uses hardware encryption) — even with the device in hand, data may be inaccessible without the PIN.</li>
+      <li>Remote wipe capability — the owner (or a third party) can erase all data remotely via iCloud/Google Find My Device.</li>
+      <li>Diverse operating systems (iOS, Android, HarmonyOS) require different forensic tools.</li>
+      <li>Cloud-synced data may be stored in another country — requiring international legal cooperation (MLATs).</li>
+    </ul>
+
+    <h4>5. Cloud Storage</h4>
+    <ul>
+      <li>Data is stored on servers in foreign jurisdictions — investigators need court orders in multiple countries.</li>
+      <li>Cloud providers may encrypt data, or data may be stored across multiple geographic locations.</li>
+      <li>Data can be deleted quickly by the suspect or automatically overwritten by the cloud platform.</li>
+    </ul>
+
+    <h4>6. IoT Devices (Smart Watches, Smart TVs, Home Assistants)</h4>
+    <ul>
+      <li>Non-standard formats and proprietary operating systems make extraction very difficult.</li>
+      <li>Limited storage — data is often sent to the cloud rather than stored on the device itself.</li>
+      <li>Little standardization in forensic tools for extracting evidence from IoT devices.</li>
+    </ul>
+
+    <h4>7. Encrypted Communications</h4>
+    <p>Apps like Signal, WhatsApp (end-to-end encrypted), and ProtonMail make it nearly impossible to read message content even after device seizure, because messages are encrypted with keys only the device holds.</p>
+
+    <h4>8. Anti-Forensics by Suspects</h4>
+    <p>Sophisticated criminals use anti-forensic tools — file shredders, steganography (hiding data inside images), encrypted containers (VeraCrypt), and log cleaners — to deliberately destroy or hide digital evidence before investigators arrive.</p>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>NIST SP 800-101 Rev.1 — Mobile Device Forensics: https://csrc.nist.gov/publications/detail/sp/800-101/rev-1/final</li>
+        <li>NIST SP 800-86 — Guide to Integrating Forensic Techniques: https://csrc.nist.gov/publications/detail/sp/800-86/final</li>
+        <li>Interpol Digital Forensics Resources: https://www.interpol.int/Crimes/Cybercrime/Digital-forensics</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="or-divider">— OR —</div>
+
+<!-- ══════════════════════════════════════
+     Q5 OR-a — CHALLENGES FOR DIGITAL FORENSIC INVESTIGATORS
+══════════════════════════════════════ -->
+<section class="question-block" id="q5or-a">
+  <div class="q-label">Question 5 · OR · Part A</div>
+  <h2 class="q-title">What are the Major Challenges Faced by Digital Forensic Investigators?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      <strong>Digital Forensic Investigators</strong> are specialists who collect, preserve, analyze, and present digital evidence in legal proceedings. Their job is extremely challenging — combining deep technical skills with strict legal procedures, all under time pressure.
+    </div>
+
+    <h4>1. Rapidly Evolving Technology</h4>
+    <p>New devices, operating systems, and apps emerge constantly. Forensic tools that work for today's smartphones may be useless for next year's model. Investigators must <strong>continuously learn and update their skillset</strong> — but training is expensive and time-consuming.</p>
+
+    <h4>2. Encryption and Password Protection</h4>
+    <p>Modern devices use strong encryption (256-bit AES) that is practically impossible to break by force. If a suspect refuses to provide the password, investigators may be legally blocked from accessing the evidence. Countries have varying laws on whether suspects can be compelled to provide passwords.</p>
+
+    <h4>3. Volume of Data</h4>
+    <p>A single seized computer may contain terabytes of data — millions of files, emails, and logs. Manually reviewing everything is impossible. Investigators rely on keyword search tools, but relevant evidence can still be easily missed in the sheer volume of data.</p>
+
+    <h4>4. Jurisdiction and Cross-Border Issues</h4>
+    <p>Cybercrime is global. A hacker in Country A may attack a victim in Country B using servers in Country C. Each country has different laws, and investigators need formal international cooperation agreements (Mutual Legal Assistance Treaties — MLATs) to obtain evidence from foreign servers — a process that can take months or years.</p>
+
+    <h4>5. Anti-Forensic Techniques Used by Criminals</h4>
+    <p>Criminals actively try to prevent investigation by: overwriting data with file shredders, using encrypted communication apps, hiding files using steganography, using Tor browser to hide IP addresses, and setting devices to auto-wipe after failed login attempts.</p>
+
+    <h4>6. Maintaining Legal Admissibility</h4>
+    <p>Evidence must be collected following exact legal procedures or it will be thrown out of court. This means: proper search warrants, unbroken chain of custody, verified forensic copies, and detailed documentation of every step taken. A single procedural mistake can invalidate months of work.</p>
+
+    <h4>7. Cloud and Virtual Environment Challenges</h4>
+    <p>Evidence in cloud systems (AWS, Azure, Google Drive) may be stored across servers in multiple countries, may auto-delete, and may be co-mingled with data from thousands of other users — making targeted extraction legally and technically complex.</p>
+
+    <h4>8. Resource Limitations</h4>
+    <p>Police cyber forensic labs often lack the budget for the latest tools (tools like Cellebrite UFED cost thousands of dollars per license), and experienced forensic examiners are in short supply — creating massive backlogs. In India, CERT-IN and state cyber cells are often stretched thin.</p>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>NIST Digital Forensics Publications: https://csrc.nist.gov/topics/technologies/digital-forensics</li>
+        <li>SANS Digital Forensics &amp; Incident Response: https://www.sans.org/digital-forensics-incident-response</li>
+        <li>CERT-IN India: https://www.cert-in.org.in</li>
+        <li>Interpol Cybercrime: https://www.interpol.int/Crimes/Cybercrime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q5 OR-b — EMAIL HEADER FORENSIC ANALYSIS
+══════════════════════════════════════ -->
+<section class="question-block" id="q5or-b">
+  <div class="q-label">Question 5 · OR · Part B</div>
+  <h2 class="q-title">What Information Can Be Retrieved from an Email Header During Forensic Analysis?</h2>
+  <span class="marks-badge">5 Marks</span>
+  <div class="ans">
+    <div class="concept-box">
+      Every email carries a <strong>header</strong> — a block of technical metadata automatically added by each mail server the email passes through. Most email clients hide this information from regular users, but forensic investigators can reveal it. Email headers are one of the most valuable sources of evidence in cybercrime investigations involving phishing, fraud, harassment, and spam.
+    </div>
+
+    <h3>Key Information Retrieved from Email Headers</h3>
+
+    <h4>1. Sender's IP Address (Most Critical)</h4>
+    <p>The <strong>"Received: from"</strong> field in the header shows the IP address of the mail server that sent the email. By tracing this IP address, investigators can identify the <strong>geographic location and internet service provider (ISP)</strong> of the sender — and subpoena the ISP for the account holder's identity.</p>
+    <div class="example-box"><div class="ex-label">Example Header Field</div>Received: from mail.attacker.com (192.168.45.12) by mailserver.com</div>
+
+    <h4>2. Message Routing Path</h4>
+    <p>Email headers contain a <strong>chain of "Received" entries</strong> — one for each server the email passed through. Reading from bottom to top shows the complete journey of the email from sender to recipient. This reveals if the email was routed through anonymizing servers or VPNs.</p>
+
+    <h4>3. Timestamp of Each Server Hop</h4>
+    <p>Each "Received" entry includes an exact <strong>date and time</strong> with timezone. This builds a precise timeline — useful for establishing when a threat was sent, correlating with suspect's known whereabouts, or identifying unusual delays that suggest routing manipulation.</p>
+
+    <h4>4. Original Sender Address ("From" and "Reply-To")</h4>
+    <p>The <strong>"From:"</strong> field shows the claimed sender — but this can be faked (spoofed). The <strong>"Return-Path:"</strong> and <strong>"Reply-To:"</strong> fields often reveal the actual email address where replies would go, which is harder to fake and may expose the real attacker.</p>
+
+    <h4>5. Mail Server Authentication Results</h4>
+    <p>Modern headers include authentication results:</p>
+    <ul>
+      <li><strong>SPF (Sender Policy Framework):</strong> Verifies the email was sent from an authorized server for that domain</li>
+      <li><strong>DKIM (DomainKeys Identified Mail):</strong> A digital signature verifying the email was not tampered with in transit</li>
+      <li><strong>DMARC:</strong> Policy that tells receiving servers what to do if SPF/DKIM fail</li>
+    </ul>
+    <p>If SPF or DKIM fails, it confirms the email was <strong>spoofed</strong> — the sender is not who they claim to be.</p>
+
+    <h4>6. Message ID</h4>
+    <p>A unique <strong>"Message-ID"</strong> is generated by the originating mail server. This ID can help investigators request logs from the email service provider and conclusively link the email to a specific account and session.</p>
+
+    <h4>7. User Agent / X-Mailer</h4>
+    <p>Some email clients include an <strong>"X-Mailer"</strong> or <strong>"User-Agent"</strong> field that reveals the email software used to compose the message — e.g., Microsoft Outlook 2021, Thunderbird 102, or a specific mobile device. This narrows down what type of device was used.</p>
+
+    <h4>8. Content Type and Encoding</h4>
+    <p>Reveals how the email body was encoded — plain text, HTML, MIME multipart. Useful when investigating emails with hidden malicious attachments or embedded tracking pixels.</p>
+
+    <table class="data-table">
+      <thead><tr><th>Header Field</th><th>Forensic Value</th></tr></thead>
+      <tbody>
+        <tr><td>Received: from</td><td>Sender's IP address and routing path</td></tr>
+        <tr><td>Date:</td><td>Exact timestamp of sending</td></tr>
+        <tr><td>From: / Reply-To:</td><td>Claimed sender vs actual reply destination</td></tr>
+        <tr><td>Message-ID:</td><td>Unique email identifier for subpoenas</td></tr>
+        <tr><td>SPF / DKIM / DMARC</td><td>Detect email spoofing</td></tr>
+        <tr><td>X-Mailer / User-Agent</td><td>Email client / device used</td></tr>
+        <tr><td>X-Originating-IP</td><td>Original sender's IP (if added by provider)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ref-box">
+      <div class="ref-label">Official References</div>
+      <ul>
+        <li>RFC 5322 — Internet Message Format (Email Headers Standard): https://tools.ietf.org/html/rfc5322</li>
+        <li>NIST SP 800-86 — Email Forensics: https://csrc.nist.gov/publications/detail/sp/800-86/final</li>
+        <li>MXToolbox Email Header Analyzer (Tool): https://mxtoolbox.com/EmailHeaders.aspx</li>
+        <li>SANS Email Forensics Cheat Sheet: https://www.sans.org/cyber-security-courses/email-forensics</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<footer class="page-footer">
+  PD2852 · [6432]-2007 · ECS 563 MJ-EC21-4 · Essentials of Cyber Security · 2024 Pattern · Complete Answer Key &nbsp;|&nbsp; F.Y. M.C.A. (Management)
+</footer>
+
+
+<!-- CHARTS -->
+<script>
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Threat Landscape Growth Drivers
+new Chart(document.getElementById('threatLandscapeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['IoT Devices','Ransomware Growth','Cloud Misconfig','Phishing Attacks','Nation-State APTs','Supply Chain'],
+    datasets: [{
+      label: 'Relative Threat Impact (0-10)',
+      data: [8, 9, 7, 9, 8, 8],
+      backgroundColor: ['rgba(231,76,60,0.75)','rgba(192,57,43,0.85)','rgba(52,152,219,0.75)','rgba(243,156,18,0.8)','rgba(142,68,173,0.8)','rgba(231,76,60,0.65)'],
+      borderColor: '#0a0a0a',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 10, title: { display: true, text: 'Impact Score' }, grid: { color: '#eee' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Threat Types Radar
+new Chart(document.getElementById('threatTypesChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Malware','Ransomware','Phishing','DDoS','Insider Threats','SQL Injection','Zero-Day'],
+    datasets: [{
+      label: 'Frequency (2024)',
+      data: [9, 8, 10, 7, 7, 6, 5],
+      backgroundColor: 'rgba(231,76,60,0.2)',
+      borderColor: '#c0392b',
+      borderWidth: 3,
+      pointBackgroundColor: '#c0392b',
+      pointRadius: 5
+    },{
+      label: 'Business Impact',
+      data: [8, 10, 7, 8, 9, 7, 9],
+      backgroundColor: 'rgba(52,152,219,0.2)',
+      borderColor: '#2980b9',
+      borderWidth: 3,
+      pointBackgroundColor: '#2980b9',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#ddd' } } }
+  }
+});
+</script>
+
+</body>
+</html>
