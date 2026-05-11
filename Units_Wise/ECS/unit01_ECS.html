@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Evolution of Cyber Security | ECS 563 MCA Notes</title>
+<link rel="stylesheet" href="/css/unit_css_master.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav class="top-nav">
+  <a href="#" class="nav-brand"><span>ECS 563</span> · Cyber Security Notes</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">MENU</button>
+  <ul class="nav-links">
+    <li><a href="ECS_Index.html"> Home</a></li>
+    <li><a href="unit01_ECS.html" class="active">Unit 1</a></li>
+    <li><a href="unit02_ECS.html">Unit 2</a></li>
+    <li><a href="#">Unit 3</a></li>
+    <li><a href="#">Unit 4</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ PAGE HEADER ═══════════════ -->
+<header class="page-header">
+  <div class="unit-badge">Unit 01 · ECS 563 MJ-EC21-4</div>
+  <h1>Evolution of Cyber Security</h1>
+  <div class="subject-line">F.Y. M.C.A. (Management) · Semester II · 2024 Pattern · Savitribai Phule Pune University</div>
+  <div class="quick-info">
+    <div class="quick-info-item">Topics Covered<strong>5 Topics</strong></div>
+    <div class="quick-info-item">Exam Weightage<strong>~10 Marks</strong></div>
+    <div class="quick-info-item">Study Mode<strong>Regular + Last Night</strong></div>
+    <div class="quick-info-item">Difficulty<strong>Foundation Level</strong></div>
+  </div>
+</header>
+
+<!-- ═══════════════ TOC ═══════════════ -->
+<div class="toc-wrap">
+  <div class="toc-box">
+    <h3>Topics in This Unit</h3>
+    <ol>
+      <li><a href="#t1-1">1.1 — Evolution of Cyber Security</a></li>
+      <li><a href="#t1-2">1.2 — Cyber Security: Increasing Threat Landscape</a></li>
+      <li><a href="#t1-3">1.3 — Introduction to Cyber Security</a></li>
+      <li><a href="#t1-4">1.4 — Confidentiality, Integrity &amp; Availability (CIA Triad)</a></li>
+      <li><a href="#t1-5">1.5 — Security Management, Frameworks &amp; Standards</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<main class="content-wrap">
+
+<!-- ══════════════════════════════════════
+     TOPIC 1.1 — EVOLUTION OF CYBER SECURITY
+══════════════════════════════════════ -->
+<section class="topic-section" id="t1-1">
+  <div class="topic-label">Topic 1.1</div>
+  <h2 class="topic-title">Evolution of Cyber Security</h2>
+
+  <div class="concept-box">
+    <strong>Cyber Security</strong> did not appear overnight. It has evolved over decades — growing alongside the internet, computers, and digital technology. Every time technology advanced, new threats appeared, and new security solutions had to be invented.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Last Night Tip</div>
+    Remember the 5 eras of evolution. Each era = new technology → new threat → new security response. That's the pattern.
+  </div>
+
+  <h3>Era 1 — The Pre-Internet Era (1960s–1980s)</h3>
+  <p>Computers in this era were large mainframes accessible only to universities, research labs, and the military. There was almost no networking — computers were mostly standalone. Security was purely physical: <strong>lock the room, only trusted people get access</strong>.</p>
+  <p>The first known computer "worm" — not a security threat but a self-replicating program — was the <strong>Creeper program (1971)</strong>, created on ARPANET (the predecessor to the internet). It moved from computer to computer and displayed "I'm the creeper, catch me if you can!" The first "antivirus" — called <strong>Reaper</strong> — was written to delete it.</p>
+
+  <div class="case-box">
+    <div class="case-label">🕰️ Historical Milestone</div>
+    <strong>1983 — First use of the word "Virus":</strong> Fred Cohen officially described the concept of a computer virus in his academic paper — a program that can infect other programs by modifying them. This was the beginning of malware as we know it.
+  </div>
+
+  <h3>Era 2 — The Early Internet Era (1988–1999)</h3>
+  <p>ARPANET grew into the public internet. Email, websites, and online communication became widespread. With connectivity came the first wave of real cyber threats.</p>
+  <p>The <strong>Morris Worm (1988)</strong> was the first major internet attack. Created by Robert Tappan Morris, it infected ~6,000 computers (about 10% of the entire internet at the time), caused millions of dollars in damage, and led to the creation of the first <strong>Computer Emergency Response Team (CERT)</strong>.</p>
+  <p>During the 1990s, antivirus software became a commercial product, firewalls were introduced, and basic password-based authentication became standard.</p>
+
+  <h3>Era 3 — The Dot-Com and E-Commerce Era (2000–2007)</h3>
+  <p>The internet exploded. Online banking, e-commerce, and email became everyday activities. Criminals recognized the financial opportunity — cybercrime shifted from curiosity-driven hacking to <strong>profit-motivated attacks</strong>.</p>
+  <ul>
+    <li>Credit card fraud, phishing emails, and identity theft emerged as major threats</li>
+    <li>The <strong>ILOVEYOU virus (2000)</strong> spread via email and caused $10 billion in damage worldwide</li>
+    <li>SSL (Secure Sockets Layer) encryption was introduced for secure online transactions</li>
+    <li>Governments started creating cybercrime laws (India's IT Act 2000)</li>
+  </ul>
+
+  <h3>Era 4 — The Advanced Persistent Threat Era (2008–2015)</h3>
+  <p>Attacks became more sophisticated, targeted, and organized. Nation-states started using cyberattacks as a tool of warfare. Organized criminal groups operated like businesses — with specializations, customer support (for ransomware victims), and profit-sharing.</p>
+  <p><strong>Stuxnet (2010)</strong> — believed to be created by US and Israel — became the world's first known cyber weapon. It physically destroyed Iran's nuclear centrifuges by sending incorrect commands to industrial machines. This proved that cyberattacks can cause real physical destruction.</p>
+
+  <h3>Era 5 — The Modern Era: AI, Cloud &amp; IoT (2016–Present)</h3>
+  <p>Today's threat landscape is the most complex in history. Three technology revolutions have dramatically expanded the attack surface:</p>
+  <ul>
+    <li><strong>IoT (Internet of Things):</strong> Billions of smart devices — fridges, cameras, industrial sensors — connected to the internet with minimal security</li>
+    <li><strong>Cloud Computing:</strong> Sensitive organizational data moved to cloud platforms that can be misconfigured and exposed</li>
+    <li><strong>Artificial Intelligence:</strong> Both attackers and defenders now use AI — AI-powered malware that adapts to evade detection, and AI-powered security tools that detect threats in real time</li>
+  </ul>
+
+  <!-- TIMELINE DIAGRAM -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.1 — Evolution of Cyber Security: Timeline</div>
+    <!-- Inline SVG timeline — Unit 1 custom style -->
+    <svg viewBox="0 0 820 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;">
+      <!-- spine -->
+      <line x1="30" y1="160" x2="790" y2="160" stroke="#0a0a0a" stroke-width="3"/>
+      <!-- arrowhead -->
+      <polygon points="790,154 804,160 790,166" fill="#0a0a0a"/>
+
+      <!-- Era 1 -->
+      <circle cx="80" cy="160" r="10" fill="#fff3cd" stroke="#e6ac00" stroke-width="2.5"/>
+      <line x1="80" y1="150" x2="80" y2="80" stroke="#e6ac00" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="20" y="30" width="120" height="50" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="80" y="52" text-anchor="middle" font-size="9" fill="#8a6500" font-weight="700">1960s–1980s</text>
+      <text x="80" y="66" text-anchor="middle" font-size="8" fill="#5a4000">Physical Security</text>
+      <text x="80" y="77" text-anchor="middle" font-size="8" fill="#5a4000">Mainframes Only</text>
+
+      <!-- Era 2 -->
+      <circle cx="220" cy="160" r="10" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2.5"/>
+      <line x1="220" y1="170" x2="220" y2="230" stroke="#0c8da0" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="160" y="230" width="120" height="50" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="1.5"/>
+      <text x="220" y="252" text-anchor="middle" font-size="9" fill="#065a68" font-weight="700">1988–1999</text>
+      <text x="220" y="266" text-anchor="middle" font-size="8" fill="#065a68">Morris Worm</text>
+      <text x="220" y="277" text-anchor="middle" font-size="8" fill="#065a68">CERT Created</text>
+
+      <!-- Era 3 -->
+      <circle cx="380" cy="160" r="10" fill="#d4edda" stroke="#1a7a34" stroke-width="2.5"/>
+      <line x1="380" y1="150" x2="380" y2="80" stroke="#1a7a34" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="320" y="30" width="120" height="50" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="380" y="52" text-anchor="middle" font-size="9" fill="#1a7a34" font-weight="700">2000–2007</text>
+      <text x="380" y="66" text-anchor="middle" font-size="8" fill="#1a7a34">E-Commerce Era</text>
+      <text x="380" y="77" text-anchor="middle" font-size="8" fill="#1a7a34">IT Act 2000</text>
+
+      <!-- Era 4 -->
+      <circle cx="540" cy="160" r="10" fill="#f8d7da" stroke="#c0392b" stroke-width="2.5"/>
+      <line x1="540" y1="170" x2="540" y2="230" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="480" y="230" width="120" height="50" rx="3" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="540" y="252" text-anchor="middle" font-size="9" fill="#922b21" font-weight="700">2008–2015</text>
+      <text x="540" y="266" text-anchor="middle" font-size="8" fill="#922b21">APT / Stuxnet</text>
+      <text x="540" y="277" text-anchor="middle" font-size="8" fill="#922b21">Nation-State Attacks</text>
+
+      <!-- Era 5 -->
+      <circle cx="700" cy="160" r="10" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2.5"/>
+      <line x1="700" y1="150" x2="700" y2="80" stroke="#6f42c1" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="640" y="30" width="130" height="50" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.5"/>
+      <text x="705" y="52" text-anchor="middle" font-size="9" fill="#4a1d96" font-weight="700">2016–Present</text>
+      <text x="705" y="66" text-anchor="middle" font-size="8" fill="#4a1d96">AI + IoT + Cloud</text>
+      <text x="705" y="77" text-anchor="middle" font-size="8" fill="#4a1d96">Ransomware-as-Service</text>
+
+      <!-- Year labels on spine -->
+      <text x="80" y="185" text-anchor="middle" font-size="8" fill="#7a7a74">~1970</text>
+      <text x="220" y="185" text-anchor="middle" font-size="8" fill="#7a7a74">~1988</text>
+      <text x="380" y="185" text-anchor="middle" font-size="8" fill="#7a7a74">~2000</text>
+      <text x="540" y="185" text-anchor="middle" font-size="8" fill="#7a7a74">~2008</text>
+      <text x="700" y="185" text-anchor="middle" font-size="8" fill="#7a7a74">~2016</text>
+    </svg>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Stallings, W. — Cryptography and Network Security, Pearson</li>
+      <li>Morris Worm — CERT/CC: https://www.cert.org/historical/advisories/CA-1988-01.cfm</li>
+      <li>Stuxnet documentation — Symantec: https://www.symantec.com</li>
+      <li>CERT-IN History: https://www.cert-in.org.in</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 1.2 — INCREASING THREAT LANDSCAPE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t1-2">
+  <div class="topic-label">Topic 1.2</div>
+  <h2 class="topic-title">Cyber Security: Increasing Threat Landscape</h2>
+
+  <div class="concept-box">
+    The <strong>Threat Landscape</strong> means the full picture of all possible cyber threats at any given time. It is called "increasing" because as technology grows and more systems connect online, the number and variety of threats keeps growing — faster than security can keep up.
+  </div>
+
+  <h3>Why is the Threat Landscape Expanding?</h3>
+
+  <h4>1. More Devices = More Targets</h4>
+  <p>Every new device connected to the internet is a new potential entry point for an attacker. In 2010, there were about 12.5 billion internet-connected devices. By 2025, this number crossed <strong>75 billion devices</strong> — including smartphones, smart TVs, industrial sensors, medical equipment, and vehicles.</p>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Case</div>
+    <strong>Mirai Botnet (2016):</strong> Hackers used 600,000 insecure IoT devices (webcams, routers, baby monitors) to launch a massive DDoS attack that took down Twitter, Netflix, Reddit, and GitHub for hours. The devices were hacked simply because their owners never changed the default password.
+  </div>
+
+  <h4>2. Ransomware Explosion</h4>
+  <p>Ransomware attacks grew by <strong>150% between 2020 and 2022</strong> (IBM X-Force). Attackers now offer "Ransomware-as-a-Service" — even non-technical criminals can buy ransomware kits and launch attacks. Hospitals, schools, and governments are prime targets because they desperately need their data and will pay quickly.</p>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Case</div>
+    <strong>WannaCry Ransomware (2017):</strong> Infected 200,000+ computers across 150 countries in a single day. The UK National Health Service (NHS) had to cancel 19,000 appointments. Total estimated damage: $4–8 billion.
+  </div>
+
+  <h4>3. Cloud Misconfigurations</h4>
+  <p>Organizations moved to cloud platforms (AWS, Azure, Google Cloud) quickly — but many misconfigured their storage. A "publicly accessible" S3 bucket in AWS can expose millions of files to anyone on the internet. According to IBM, cloud misconfiguration is responsible for <strong>15% of all data breaches</strong>.</p>
+
+  <h4>4. Phishing and Social Engineering</h4>
+  <p>Phishing is now highly targeted. Attackers research victims on LinkedIn, Instagram, and company websites, then send convincing personalized emails pretending to be a trusted person. <strong>91% of all cyberattacks begin with a phishing email</strong> (KnowBe4, 2023).</p>
+
+  <h4>5. Supply Chain Attacks</h4>
+  <p>Instead of attacking a well-defended company directly, attackers compromise a small, trusted software vendor that the company uses — and deliver malware through a legitimate software update.</p>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Case</div>
+    <strong>SolarWinds Attack (2020):</strong> Hackers (believed to be Russian state-sponsored) added malicious code into a SolarWinds software update. Because SolarWinds was trusted by 18,000 organizations — including the US Treasury, Pentagon, and Microsoft — the malware reached all of them through a legitimate update.
+  </div>
+
+  <h4>6. AI-Powered Attacks</h4>
+  <p>Attackers now use AI to: write more convincing phishing emails (using ChatGPT-like tools), create deepfake videos of CEOs authorizing fraudulent wire transfers, automatically discover software vulnerabilities, and make malware that changes its code to avoid antivirus detection.</p>
+
+  <!-- THREAT GROWTH CHART -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.2 — Cybercrime Damage Cost Worldwide (Billions USD) — Growing Threat</div>
+    <div class="chart-container">
+      <canvas id="threatGrowthChart"></canvas>
+    </div>
+  </div>
+
+  <!-- THREAT LANDSCAPE SVG MAP -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.3 — Today's Threat Landscape: Attack Surface Map</div>
+    <svg viewBox="0 0 780 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;">
+      <!-- Central org -->
+      <rect x="310" y="140" width="160" height="80" rx="4" fill="#0a0a0a" stroke="#0a0a0a"/>
+      <text x="390" y="173" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">YOUR</text>
+      <text x="390" y="188" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">ORGANIZATION</text>
+      <text x="390" y="203" text-anchor="middle" font-size="9" fill="#aaa">Systems · Data · People</text>
+
+      <!-- Threat nodes with colored circles -->
+      <!-- Ransomware -->
+      <circle cx="100" cy="80" r="50" fill="#fde8d8" stroke="#e67e22" stroke-width="2.5"/>
+      <text x="100" y="73" text-anchor="middle" font-size="9" fill="#922b21" font-weight="700">RANSOMWARE</text>
+      <text x="100" y="87" text-anchor="middle" font-size="8" fill="#922b21">Encrypts all data</text>
+      <text x="100" y="100" text-anchor="middle" font-size="8" fill="#922b21">Demands ransom</text>
+      <line x1="147" y1="107" x2="313" y2="153" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+      <!-- Phishing -->
+      <circle cx="680" cy="80" r="50" fill="#fff3cd" stroke="#e6ac00" stroke-width="2.5"/>
+      <text x="680" y="73" text-anchor="middle" font-size="9" fill="#8a6500" font-weight="700">PHISHING</text>
+      <text x="680" y="87" text-anchor="middle" font-size="8" fill="#8a6500">Fake emails</text>
+      <text x="680" y="100" text-anchor="middle" font-size="8" fill="#8a6500">Steal credentials</text>
+      <line x1="633" y1="107" x2="467" y2="153" stroke="#e6ac00" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+      <!-- IoT -->
+      <circle cx="80" cy="290" r="50" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2.5"/>
+      <text x="80" y="283" text-anchor="middle" font-size="9" fill="#065a68" font-weight="700">IoT ATTACKS</text>
+      <text x="80" y="297" text-anchor="middle" font-size="8" fill="#065a68">Smart devices</text>
+      <text x="80" y="310" text-anchor="middle" font-size="8" fill="#065a68">Default passwords</text>
+      <line x1="127" y1="263" x2="313" y2="207" stroke="#0c8da0" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+      <!-- DDoS -->
+      <circle cx="390" cy="310" r="45" fill="#f8d7da" stroke="#c0392b" stroke-width="2.5"/>
+      <text x="390" y="303" text-anchor="middle" font-size="9" fill="#922b21" font-weight="700">DDoS</text>
+      <text x="390" y="317" text-anchor="middle" font-size="8" fill="#922b21">Flood servers</text>
+      <text x="390" y="329" text-anchor="middle" font-size="8" fill="#922b21">Service down</text>
+      <line x1="390" y1="265" x2="390" y2="220" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+      <!-- Supply Chain -->
+      <circle cx="700" cy="290" r="50" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2.5"/>
+      <text x="700" y="278" text-anchor="middle" font-size="9" fill="#4a1d96" font-weight="700">SUPPLY</text>
+      <text x="700" y="291" text-anchor="middle" font-size="9" fill="#4a1d96" font-weight="700">CHAIN</text>
+      <text x="700" y="305" text-anchor="middle" font-size="8" fill="#4a1d96">Vendor malware</text>
+      <line x1="653" y1="263" x2="467" y2="207" stroke="#6f42c1" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+      <!-- Insider -->
+      <circle cx="390" cy="40" r="38" fill="#d4edda" stroke="#1a7a34" stroke-width="2.5"/>
+      <text x="390" y="33" text-anchor="middle" font-size="9" fill="#1a7a34" font-weight="700">INSIDER</text>
+      <text x="390" y="47" text-anchor="middle" font-size="9" fill="#1a7a34" font-weight="700">THREAT</text>
+      <line x1="390" y1="78" x2="390" y2="140" stroke="#1a7a34" stroke-width="1.5" stroke-dasharray="5 4"/>
+    </svg>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>IBM X-Force Threat Intelligence Index 2024: https://www.ibm.com/reports/threat-intelligence</li>
+      <li>Verizon DBIR 2023: https://www.verizon.com/business/resources/reports/dbir</li>
+      <li>Cybercrime Magazine — Global Cybercrime Costs: https://cybersecurityventures.com</li>
+      <li>CERT-IN Annual Report 2023: https://www.cert-in.org.in</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 1.3 — INTRODUCTION TO CYBER SECURITY
+══════════════════════════════════════ -->
+<section class="topic-section" id="t1-3">
+  <div class="topic-label">Topic 1.3</div>
+  <h2 class="topic-title">Introduction to Cyber Security</h2>
+
+  <div class="concept-box">
+    <strong>Cyber Security</strong> is the practice of protecting computers, servers, mobile devices, electronic systems, networks, and data from malicious attacks, damage, or unauthorized access. It covers everything from individual device protection to securing entire national infrastructure.
+  </div>
+
+  <h3>Key Definitions</h3>
+
+  <h4>Cyber Security (NIST Definition)</h4>
+  <p><em>"The prevention of damage to, protection of, and restoration of computers, electronic communications systems, electronic communications services, wire communication, and electronic communication, including information contained therein, to ensure its availability, integrity, authentication, confidentiality, and nonrepudiation."</em></p>
+
+  <h4>Simple Definition</h4>
+  <p>Cyber security is like a <strong>security guard system for the digital world</strong> — it protects your data, devices, and networks from theft, damage, and unauthorized access, just like a lock and security camera protect your home.</p>
+
+  <h3>Core Goals of Cyber Security</h3>
+  <p>Cyber security aims to protect three core properties of information — remembered as the <strong>CIA Triad</strong> (covered in detail in Topic 1.4):</p>
+  <ul>
+    <li><strong>Confidentiality:</strong> Only authorized people can see the data</li>
+    <li><strong>Integrity:</strong> Data is accurate and has not been tampered with</li>
+    <li><strong>Availability:</strong> Data and systems are accessible when needed</li>
+  </ul>
+
+  <h3>Domains of Cyber Security</h3>
+  <p>Cyber security is not just one thing — it covers multiple specialized areas:</p>
+
+  <!-- SVG Domain Map — Unit 1 style -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.4 — Domains of Cyber Security</div>
+    <svg viewBox="0 0 780 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9px;">
+      <!-- Row 1 -->
+      <g>
+        <rect x="20" y="20" width="160" height="70" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+        <text x="100" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#8a6500">Network Security</text>
+        <text x="100" y="60" text-anchor="middle" fill="#5a4000">Protecting networks from</text>
+        <text x="100" y="73" text-anchor="middle" fill="#5a4000">intruders &amp; attacks</text>
+      </g>
+      <g>
+        <rect x="200" y="20" width="160" height="70" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+        <text x="280" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#065a68">Application Security</text>
+        <text x="280" y="60" text-anchor="middle" fill="#065a68">Securing software from</text>
+        <text x="280" y="73" text-anchor="middle" fill="#065a68">bugs &amp; vulnerabilities</text>
+      </g>
+      <g>
+        <rect x="380" y="20" width="160" height="70" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+        <text x="460" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#1a7a34">Information Security</text>
+        <text x="460" y="60" text-anchor="middle" fill="#1a7a34">Protecting data from</text>
+        <text x="460" y="73" text-anchor="middle" fill="#1a7a34">unauthorized access</text>
+      </g>
+      <g>
+        <rect x="560" y="20" width="200" height="70" rx="3" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+        <text x="660" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#922b21">Operational Security</text>
+        <text x="660" y="60" text-anchor="middle" fill="#922b21">Processes &amp; decisions</text>
+        <text x="660" y="73" text-anchor="middle" fill="#922b21">for data management</text>
+      </g>
+
+      <!-- Row 2 -->
+      <g>
+        <rect x="20" y="110" width="160" height="70" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2"/>
+        <text x="100" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#4a1d96">Cloud Security</text>
+        <text x="100" y="150" text-anchor="middle" fill="#4a1d96">Securing cloud-stored</text>
+        <text x="100" y="163" text-anchor="middle" fill="#4a1d96">data &amp; services</text>
+      </g>
+      <g>
+        <rect x="200" y="110" width="160" height="70" rx="3" fill="#fde8d8" stroke="#e67e22" stroke-width="2"/>
+        <text x="280" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#7d3c00">Endpoint Security</text>
+        <text x="280" y="150" text-anchor="middle" fill="#7d3c00">Securing devices like</text>
+        <text x="280" y="163" text-anchor="middle" fill="#7d3c00">laptops, phones</text>
+      </g>
+      <g>
+        <rect x="380" y="110" width="160" height="70" rx="3" fill="#cfe2ff" stroke="#1a68d1" stroke-width="2"/>
+        <text x="460" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#0a3d91">Identity &amp; Access</text>
+        <text x="460" y="150" text-anchor="middle" fill="#0a3d91">Who can access</text>
+        <text x="460" y="163" text-anchor="middle" fill="#0a3d91">what and when</text>
+      </g>
+      <g>
+        <rect x="560" y="110" width="200" height="70" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+        <text x="660" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#155724">Disaster Recovery</text>
+        <text x="660" y="150" text-anchor="middle" fill="#155724">Restoring operations</text>
+        <text x="660" y="163" text-anchor="middle" fill="#155724">after an attack</text>
+      </g>
+
+      <!-- Row 3 centred -->
+      <g>
+        <rect x="190" y="200" width="185" height="60" rx="3" fill="#f0f0ee" stroke="#0a0a0a" stroke-width="2"/>
+        <text x="282" y="224" text-anchor="middle" font-size="10" font-weight="700" fill="#0a0a0a">Digital Forensics</text>
+        <text x="282" y="240" text-anchor="middle" fill="#3a3a36">Investigating cybercrimes</text>
+      </g>
+      <g>
+        <rect x="395" y="200" width="185" height="60" rx="3" fill="#f0f0ee" stroke="#0a0a0a" stroke-width="2"/>
+        <text x="487" y="224" text-anchor="middle" font-size="10" font-weight="700" fill="#0a0a0a">User Education</text>
+        <text x="487" y="240" text-anchor="middle" fill="#3a3a36">Training people is critical</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3>Types of Cyber Attacks (Overview)</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Attack Type</th><th>Simple Explanation</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Malware</td><td>Bad software that harms your system</td><td>Virus, worm, ransomware</td></tr>
+      <tr><td>Phishing</td><td>Fake emails/websites to steal your info</td><td>Fake bank login page</td></tr>
+      <tr><td>DDoS</td><td>Flood a website with traffic to crash it</td><td>Taking down a bank website</td></tr>
+      <tr><td>Man-in-Middle</td><td>Secretly reading messages between two people</td><td>Intercepting banking app traffic on public Wi-Fi</td></tr>
+      <tr><td>SQL Injection</td><td>Tricking a database through a web form</td><td>Extracting all usernames &amp; passwords</td></tr>
+      <tr><td>Social Engineering</td><td>Tricking humans into revealing secrets</td><td>Pretending to be IT support on phone</td></tr>
+      <tr><td>Ransomware</td><td>Locks your files, demands payment</td><td>WannaCry hospital attacks</td></tr>
+      <tr><td>Zero-Day</td><td>Exploits an unknown software bug</td><td>Stuxnet exploiting Windows flaw</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Why is Cyber Security Important Today?</h3>
+  <ul>
+    <li>Everything is digital — banking, healthcare, education, government services all run online</li>
+    <li>A single successful cyberattack can cause <strong>financial ruin, reputational damage, and legal liability</strong></li>
+    <li>Global cybercrime damage costs are expected to reach <strong>$10.5 trillion annually by 2025</strong> (Cybersecurity Ventures)</li>
+    <li>Cyber security is now considered a <strong>national security priority</strong> by every major government</li>
+  </ul>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST Cybersecurity Definition: https://www.nist.gov/cyberframework</li>
+      <li>Cybersecurity Ventures — $10.5 trillion report: https://cybersecurityventures.com/cybercrime-damages-6-trillion-by-2021</li>
+      <li>Stallings, W. &amp; Brown, L. — Computer Security: Principles and Practice, Pearson</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 1.4 — CIA TRIAD
+══════════════════════════════════════ -->
+<section class="topic-section" id="t1-4">
+  <div class="topic-label">Topic 1.4</div>
+  <h2 class="topic-title">Confidentiality, Integrity, and Availability — The CIA Triad</h2>
+
+  <div class="concept-box">
+    The <strong>CIA Triad</strong> is the most fundamental model in all of cybersecurity. Every security decision, policy, and control ultimately comes back to protecting one or more of these three properties: <strong>Confidentiality, Integrity, and Availability</strong>. If any one of the three is broken, a security breach has occurred.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip</div>
+    CIA Triad is the single most important concept in Unit 1. Always define all three, give an example for each, and remember how each can be violated. This appears directly in exam questions.
+  </div>
+
+  <!-- CIA Diagram SVG -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.5 — The CIA Triad Model</div>
+    <svg viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;margin:0 auto;font-family:'Source Serif 4',serif;">
+      <!-- Triangle sides -->
+      <!-- C (top) to I (bottom-left): -->
+      <line x1="250" y1="30" x2="90" y2="290" stroke="#0a0a0a" stroke-width="3"/>
+      <!-- C (top) to A (bottom-right): -->
+      <line x1="250" y1="30" x2="410" y2="290" stroke="#0a0a0a" stroke-width="3"/>
+      <!-- I to A (base): -->
+      <line x1="90" y1="290" x2="410" y2="290" stroke="#0a0a0a" stroke-width="3"/>
+
+      <!-- CONFIDENTIALITY (top) -->
+      <circle cx="250" cy="30" r="52" fill="#d1ecf1" stroke="#0c8da0" stroke-width="3"/>
+      <text x="250" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#065a68">CONFI-</text>
+      <text x="250" y="35" text-anchor="middle" font-size="10" font-weight="700" fill="#065a68">DENTIALITY</text>
+      <text x="250" y="52" text-anchor="middle" font-size="8" fill="#0c8da0">Only auth. access</text>
+
+      <!-- INTEGRITY (bottom-left) -->
+      <circle cx="90" cy="290" r="52" fill="#d4edda" stroke="#1a7a34" stroke-width="3"/>
+      <text x="90" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#1a7a34">INTEGRITY</text>
+      <text x="90" y="299" text-anchor="middle" font-size="8" fill="#1a7a34">Data is accurate</text>
+      <text x="90" y="312" text-anchor="middle" font-size="8" fill="#1a7a34">&amp; unaltered</text>
+
+      <!-- AVAILABILITY (bottom-right) -->
+      <circle cx="410" cy="290" r="52" fill="#fff3cd" stroke="#e6ac00" stroke-width="3"/>
+      <text x="410" y="284" text-anchor="middle" font-size="10" font-weight="700" fill="#8a6500">AVAILABILITY</text>
+      <text x="410" y="299" text-anchor="middle" font-size="8" fill="#8a6500">Accessible when</text>
+      <text x="410" y="312" text-anchor="middle" font-size="8" fill="#8a6500">needed</text>
+
+      <!-- Center label -->
+      <circle cx="250" cy="200" r="35" fill="#0a0a0a"/>
+      <text x="250" y="196" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">CIA</text>
+      <text x="250" y="210" text-anchor="middle" font-size="8" fill="#aaa">TRIAD</text>
+    </svg>
+  </div>
+
+  <h3>1. Confidentiality</h3>
+  <p><strong>Simple Definition:</strong> Only the right people can see the right information. Unauthorized people should never be able to read sensitive data.</p>
+
+  <h4>How to Achieve Confidentiality?</h4>
+  <ul>
+    <li><strong>Encryption:</strong> Convert data into unreadable code. Only someone with the correct key can decode it. (e.g., WhatsApp uses end-to-end encryption)</li>
+    <li><strong>Access Control:</strong> Assign permissions — only authorized users can open a file (e.g., only the doctor can view patient records)</li>
+    <li><strong>Authentication:</strong> Passwords, PINs, biometrics to verify identity before granting access</li>
+    <li><strong>Multi-Factor Authentication (MFA):</strong> Require two or more proofs — password + OTP + fingerprint</li>
+  </ul>
+
+  <h4>How is Confidentiality Violated?</h4>
+  <ul>
+    <li>Data theft — stealing a database of user passwords</li>
+    <li>Eavesdropping — intercepting an unencrypted network connection</li>
+    <li>Phishing — tricking a user into revealing their password</li>
+    <li>Shoulder surfing — physically watching someone type a password</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Simple Analogy</div>
+    Confidentiality is like your <strong>private diary with a lock</strong>. Only you have the key. If someone breaks the lock and reads it, confidentiality is broken.
+  </div>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Violation of Confidentiality</div>
+    <strong>Aadhaar Data Breach (2018):</strong> A Tribune India investigation found that unauthorized operators were selling access to the entire Aadhaar database for ₹500, exposing personal details of 1.1 billion Indians — a massive confidentiality breach.
+  </div>
+
+  <h3>2. Integrity</h3>
+  <p><strong>Simple Definition:</strong> Data must be accurate, complete, and unchanged from its original form. No one should be able to modify data without authorization, and any modification should be detectable.</p>
+
+  <h4>How to Achieve Integrity?</h4>
+  <ul>
+    <li><strong>Hashing:</strong> A mathematical function (SHA-256) creates a unique "fingerprint" of a file. If even one character changes, the hash changes completely — detecting tampering</li>
+    <li><strong>Digital Signatures:</strong> Prove the data came from who it claims and has not been changed</li>
+    <li><strong>Version Control:</strong> Track all changes to files/code with timestamps and author info</li>
+    <li><strong>Input Validation:</strong> Prevent malformed or malicious data from being saved to databases</li>
+    <li><strong>Audit Logs:</strong> Record who changed what, when, and from where</li>
+  </ul>
+
+  <h4>How is Integrity Violated?</h4>
+  <ul>
+    <li>SQL Injection — attackers modify database records</li>
+    <li>Man-in-the-Middle attack — attacker intercepts and modifies a transaction</li>
+    <li>Malware — changes system files to hide its presence or cause damage</li>
+    <li>Insider tampering — an employee modifies financial records for fraud</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Simple Analogy</div>
+    Integrity is like a <strong>sealed envelope</strong>. If you receive it with the seal broken, you know someone tampered with the letter inside. A hash is the digital version of that seal.
+  </div>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Violation of Integrity</div>
+    <strong>Bangladesh Bank Heist (2016):</strong> Hackers compromised the SWIFT banking communication system and modified transaction messages, instructing the Federal Reserve Bank of New York to transfer $81 million to fraudulent accounts in the Philippines. The integrity of the financial messages was completely compromised.
+  </div>
+
+  <h3>3. Availability</h3>
+  <p><strong>Simple Definition:</strong> Authorized users must be able to access systems, networks, and data whenever they need it. If a system is unavailable when needed, it's just as damaging as a theft.</p>
+
+  <h4>How to Achieve Availability?</h4>
+  <ul>
+    <li><strong>Redundancy:</strong> Multiple backup systems so if one fails, another takes over (e.g., multiple servers, backup power generators)</li>
+    <li><strong>DDoS Protection:</strong> Services like Cloudflare absorb massive traffic floods to prevent servers from crashing</li>
+    <li><strong>Regular Backups:</strong> Maintain current, tested backups so systems can be restored quickly after attack</li>
+    <li><strong>Load Balancing:</strong> Distribute traffic across multiple servers to prevent any single server from being overwhelmed</li>
+    <li><strong>Disaster Recovery Plan (DRP):</strong> A pre-planned process for restoring systems after a major failure or attack</li>
+  </ul>
+
+  <h4>How is Availability Violated?</h4>
+  <ul>
+    <li>DDoS attack — flooding a server with traffic until it crashes</li>
+    <li>Ransomware — encrypting all files so the system is unusable</li>
+    <li>Power failure without backup systems</li>
+    <li>Physical destruction of hardware</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Simple Analogy</div>
+    Availability is like an <strong>ATM machine</strong>. Even if the money is safe inside, if the machine is broken or out of service, you can't withdraw your money — availability has failed.
+  </div>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Violation of Availability</div>
+    <strong>GitHub DDoS Attack (2018):</strong> GitHub was hit with the largest DDoS attack ever recorded at that time — 1.35 terabits per second of traffic — making GitHub completely unavailable for 10 minutes. Even 10 minutes of downtime cost developers worldwide enormous productivity loss.
+  </div>
+
+  <h3>Summary: CIA Triad at a Glance</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Property</th><th>Question It Answers</th><th>Main Threat</th><th>Main Defence</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Confidentiality</strong></td><td>Can only the right people see this?</td><td>Data theft, phishing, eavesdropping</td><td>Encryption, access control, MFA</td></tr>
+      <tr><td><strong>Integrity</strong></td><td>Is this data accurate and unmodified?</td><td>SQL injection, MitM, malware</td><td>Hashing, digital signatures, audit logs</td></tr>
+      <tr><td><strong>Availability</strong></td><td>Can users access systems when needed?</td><td>DDoS, ransomware, hardware failure</td><td>Redundancy, backups, DDoS protection</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ Important — Beyond CIA: The Parkerian Hexad</div>
+    Some textbooks mention an extended model called the <strong>Parkerian Hexad</strong> which adds three more properties to CIA: <strong>Possession/Control</strong> (who controls the data), <strong>Authenticity</strong> (verifying the source), and <strong>Utility</strong> (usefulness of the data). For your exam, the CIA Triad is the core requirement.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST SP 800-53 — Security and Privacy Controls: https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final</li>
+      <li>Stallings, W. — Cryptography and Network Security, 8th Ed., Pearson</li>
+      <li>Anderson, R. — Security Engineering, 3rd Ed., Wiley</li>
+      <li>Aadhaar Breach — TRAI Report 2018</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 1.5 — SECURITY FRAMEWORKS & STANDARDS
+══════════════════════════════════════ -->
+<section class="topic-section" id="t1-5">
+  <div class="topic-label">Topic 1.5</div>
+  <h2 class="topic-title">Security Management, Frameworks and Standards</h2>
+
+  <div class="concept-box">
+    A <strong>Security Framework</strong> is like a <em>recipe book for cybersecurity</em>. It gives organizations a structured, step-by-step guide on what controls, policies, and procedures to implement in order to protect their information systems. Frameworks tell you <strong>what to do</strong>; tools and technology tell you <strong>how to do it</strong>.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip</div>
+    Know at least 5 frameworks with their full names, what they focus on, and who uses them. This is a direct 5-mark question in the paper.
+  </div>
+
+  <h3>Why are Security Frameworks Needed?</h3>
+  <ul>
+    <li>Without a framework, security becomes a patchwork of random tools with no coherent strategy</li>
+    <li>Frameworks ensure all security areas are covered — not just the obvious ones</li>
+    <li>They help organizations prove compliance to regulators, auditors, and customers</li>
+    <li>They provide a common language for discussing security across departments and organizations</li>
+  </ul>
+
+  <h3>Major Security Frameworks</h3>
+
+  <h4>1. NIST Cybersecurity Framework (NIST CSF)</h4>
+  <p>Developed by the US <strong>National Institute of Standards and Technology</strong>. Arguably the most widely used cybersecurity framework in the world. Organized around <strong>5 Core Functions</strong>:</p>
+
+  <!-- NIST CSF Flow -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.6 — NIST Cybersecurity Framework: 5 Core Functions</div>
+    <svg viewBox="0 0 780 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;">
+      <!-- 5 boxes -->
+      <rect x="10"  y="20" width="138" height="80" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="2.5"/>
+      <rect x="162" y="20" width="138" height="80" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2.5"/>
+      <rect x="314" y="20" width="138" height="80" rx="3" fill="#f8d7da" stroke="#c0392b" stroke-width="2.5"/>
+      <rect x="466" y="20" width="138" height="80" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2.5"/>
+      <rect x="618" y="20" width="148" height="80" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="2.5"/>
+
+      <!-- Arrows -->
+      <polygon points="152,58 162,60 152,62" fill="#0a0a0a"/>
+      <line x1="148" y1="60" x2="162" y2="60" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="304,58 314,60 304,62" fill="#0a0a0a"/>
+      <line x1="300" y1="60" x2="314" y2="60" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="456,58 466,60 456,62" fill="#0a0a0a"/>
+      <line x1="452" y1="60" x2="466" y2="60" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="608,58 618,60 608,62" fill="#0a0a0a"/>
+      <line x1="604" y1="60" x2="618" y2="60" stroke="#0a0a0a" stroke-width="2"/>
+
+      <!-- Labels -->
+      <text x="79"  y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#8a6500">IDENTIFY</text>
+      <text x="79"  y="66" text-anchor="middle" font-size="8" fill="#8a6500">Know your assets</text>
+      <text x="79"  y="79" text-anchor="middle" font-size="8" fill="#8a6500">&amp; risks</text>
+
+      <text x="231" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#065a68">PROTECT</text>
+      <text x="231" y="66" text-anchor="middle" font-size="8" fill="#065a68">Implement</text>
+      <text x="231" y="79" text-anchor="middle" font-size="8" fill="#065a68">safeguards</text>
+
+      <text x="383" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#922b21">DETECT</text>
+      <text x="383" y="66" text-anchor="middle" font-size="8" fill="#922b21">Find threats</text>
+      <text x="383" y="79" text-anchor="middle" font-size="8" fill="#922b21">early</text>
+
+      <text x="535" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#4a1d96">RESPOND</text>
+      <text x="535" y="66" text-anchor="middle" font-size="8" fill="#4a1d96">Take action</text>
+      <text x="535" y="79" text-anchor="middle" font-size="8" fill="#4a1d96">on incidents</text>
+
+      <text x="692" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#155724">RECOVER</text>
+      <text x="692" y="66" text-anchor="middle" font-size="8" fill="#155724">Restore</text>
+      <text x="692" y="79" text-anchor="middle" font-size="8" fill="#155724">operations</text>
+    </svg>
+  </div>
+
+  <p><strong>Who uses it?</strong> US federal agencies, healthcare organizations, banks, IT companies globally. NIST CSF v2.0 was released in February 2024 and adds a 6th function: <strong>GOVERN</strong>.</p>
+
+  <h4>2. ISO/IEC 27001</h4>
+  <p>An <strong>international standard</strong> published by the International Organization for Standardization (ISO) and the International Electrotechnical Commission (IEC). It specifies requirements for establishing, implementing, maintaining, and continually improving an <strong>Information Security Management System (ISMS)</strong>.</p>
+  <p>Organizations can get <strong>certified</strong> against ISO 27001 by an accredited certification body. This certification tells customers, partners, and regulators that the organization has a robust, verified security management system.</p>
+  <ul>
+    <li>ISO 27001 has <strong>114 security controls</strong> (in Annex A) covering 14 domains including access control, cryptography, physical security, and incident management</li>
+    <li>Complemented by ISO 27002 (implementation guidance) and ISO 27005 (risk management)</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Example</div>
+    A software company in Pune wants to work with a German client. The German client asks for ISO 27001 certification as proof that the company's data handling is secure. The Pune company undergoes a 6-month audit and gets certified.
+  </div>
+
+  <h4>3. COBIT (Control Objectives for Information and Related Technologies)</h4>
+  <p>Developed by <strong>ISACA</strong> (Information Systems Audit and Control Association). COBIT is primarily an <strong>IT Governance framework</strong> — it helps organizations align their IT strategy with business goals while managing risk and ensuring compliance.</p>
+  <p>COBIT 2019 (current version) organizes governance into <strong>6 principles</strong> and covers domains like: Plan &amp; Organize, Acquire &amp; Implement, Deliver &amp; Support, Monitor &amp; Evaluate.</p>
+  <p><strong>Who uses it?</strong> Large enterprises, auditors, IT governance teams, and financial regulators.</p>
+
+  <h4>4. PCI-DSS (Payment Card Industry Data Security Standard)</h4>
+  <p>Developed by the <strong>PCI Security Standards Council</strong>, which includes Visa, MasterCard, American Express, and Discover. This standard is <strong>mandatory</strong> for any organization that processes, stores, or transmits credit/debit card information.</p>
+
+  <p>PCI-DSS v4.0 (2022) has <strong>12 core requirements</strong>:</p>
+  <ol>
+    <li>Install and maintain network security controls (firewalls)</li>
+    <li>Apply secure configurations to all system components</li>
+    <li>Protect stored account data with encryption</li>
+    <li>Protect cardholder data with strong cryptography during transmission</li>
+    <li>Protect all systems against malware</li>
+    <li>Develop and maintain secure systems and software</li>
+    <li>Restrict access to cardholder data on a need-to-know basis</li>
+    <li>Identify users and authenticate access to system components</li>
+    <li>Restrict physical access to cardholder data</li>
+    <li>Log and monitor all access to system components and cardholder data</li>
+    <li>Test security systems and networks regularly</li>
+    <li>Support information security with organizational policies</li>
+  </ol>
+
+  <h4>5. CIS Controls (Center for Internet Security)</h4>
+  <p>A prioritized set of <strong>18 cybersecurity best practices</strong> (CIS Controls v8, published 2021). Designed to be practical and immediately actionable. Organized into 3 Implementation Groups based on organization size and resources.</p>
+  <p>Top Controls include: Inventory of Enterprise Assets, Inventory of Software Assets, Data Protection, Secure Configuration, Account Management, and Continuous Vulnerability Management.</p>
+  <p><strong>Why it's popular:</strong> It tells you exactly what to do in priority order — start with the most impactful security controls first.</p>
+
+  <h4>6. HIPAA (Health Insurance Portability and Accountability Act)</h4>
+  <p>A US law that sets mandatory standards for protecting <strong>patient health information (PHI)</strong>. Requires healthcare organizations to implement: Technical Safeguards (encryption, access controls), Administrative Safeguards (policies, training, audits), and Physical Safeguards (secure facilities, device controls).</p>
+
+  <h4>7. IT Act 2000 &amp; DPDP Act 2023 (India)</h4>
+  <p>India's primary legal framework for cybersecurity and data protection. The <strong>IT Act 2000</strong> defines cybercrimes and their penalties. The <strong>Digital Personal Data Protection Act 2023 (DPDPA)</strong> establishes the rights of individuals over their personal data and the obligations of organizations that collect it.</p>
+
+  <!-- Framework comparison chart -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.7 — Security Frameworks: Focus Area vs Adoption Rate</div>
+    <div class="chart-container">
+      <canvas id="frameworkChart"></canvas>
+    </div>
+  </div>
+
+  <h3>Comprehensive Comparison Table</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Framework</th><th>Full Name</th><th>Focus</th><th>Best For</th><th>Certifiable?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>NIST CSF</strong></td><td>NIST Cybersecurity Framework</td><td>General cybersecurity</td><td>All sectors</td><td>No (guideline)</td></tr>
+      <tr><td><strong>ISO 27001</strong></td><td>ISO/IEC 27001:2022</td><td>Info security management</td><td>All organizations</td><td>Yes ✓</td></tr>
+      <tr><td><strong>COBIT</strong></td><td>Control Objectives for IT</td><td>IT governance</td><td>Enterprises, auditors</td><td>Yes (via ISACA)</td></tr>
+      <tr><td><strong>PCI-DSS</strong></td><td>Payment Card Industry DSS</td><td>Card payment security</td><td>Finance, e-commerce</td><td>Yes (mandatory)</td></tr>
+      <tr><td><strong>CIS Controls</strong></td><td>Center for Internet Security Controls v8</td><td>Prioritized security actions</td><td>All sizes</td><td>No (guideline)</td></tr>
+      <tr><td><strong>HIPAA</strong></td><td>Health Insurance Portability &amp; Accountability Act</td><td>Patient data protection</td><td>Healthcare</td><td>Legal compliance</td></tr>
+      <tr><td><strong>IT Act / DPDPA</strong></td><td>Digital Personal Data Protection Act 2023</td><td>Personal data rights &amp; duties</td><td>India-based organizations</td><td>Legal compliance</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Security Management: Key Concepts</h3>
+
+  <h4>Risk Management</h4>
+  <p>The process of identifying, assessing, and prioritizing risks, then deciding how to handle each risk — either by reducing it (mitigate), accepting it, avoiding it, or transferring it (insurance).</p>
+  <p>Formula: <strong>Risk = Threat × Vulnerability × Impact</strong></p>
+
+  <h4>Security Policy</h4>
+  <p>A formal document that defines an organization's rules and expectations for protecting its information assets. Three levels:</p>
+  <ul>
+    <li><strong>EISP (Enterprise Information Security Policy):</strong> Highest level — covers the entire organization, all departments</li>
+    <li><strong>ISSP (Issue-Specific Security Policy):</strong> Covers a specific technology or topic (e.g., email use policy, ERP security policy)</li>
+    <li><strong>SysSP (System-Specific Security Policy):</strong> Technical rules for a specific system (e.g., firewall configuration rules)</li>
+  </ul>
+
+  <h4>Security Controls</h4>
+  <p>Three categories of security controls — remember as <strong>PTT</strong>:</p>
+  <ul>
+    <li><strong>Physical Controls:</strong> Locks, security guards, CCTV cameras, biometric door access</li>
+    <li><strong>Technical Controls:</strong> Firewalls, antivirus, encryption, IDS/IPS, multi-factor authentication</li>
+    <li><strong>Administrative Controls:</strong> Policies, user training, background checks, security audits</li>
+  </ul>
+
+  <div class="conclusion-box">
+    <div class="con-label">Unit 1 — Key Takeaway</div>
+    <p>Security frameworks are the backbone of any organization's cybersecurity strategy. They ensure nothing is missed. Choose your framework based on your industry (HIPAA for healthcare, PCI-DSS for payments, ISO 27001 for general certification) and implement the CIA Triad as your fundamental guiding principle for every security decision.</p>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">Official References</div>
+    <ul>
+      <li>NIST CSF v2.0: https://www.nist.gov/cyberframework</li>
+      <li>ISO/IEC 27001:2022: https://www.iso.org/isoiec-27001-information-security.html</li>
+      <li>COBIT 2019: https://www.isaca.org/resources/cobit</li>
+      <li>PCI-DSS v4.0: https://www.pcisecuritystandards.org</li>
+      <li>CIS Controls v8: https://www.cisecurity.org/controls</li>
+      <li>DPDP Act 2023, India: https://www.meity.gov.in/data-protection-framework</li>
+      <li>IT Act 2000: https://www.meity.gov.in/content/information-technology-act</li>
+    </ul>
+  </div>
+</section>
+
+</main><!-- end .content-wrap -->
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>ECS 563 · Essentials of Cyber Security · Unit 01 · 2024 Pattern</span>
+    <div class="footer-links">
+      <a href="unit02_ECS.html">Unit 2 →</a>
+      <a href="#">Unit 3 →</a>
+      <a href="#">Unit 4 →</a>
+    </div>
+    <span>F.Y. M.C.A. (Management) · SPPU</span>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+// Nav mobile toggle close on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+
+// Back to top visibility
+window.addEventListener('scroll', () => {
+  const btn = document.querySelector('.back-top');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Cybercrime cost growth chart
+new Chart(document.getElementById('threatGrowthChart'), {
+  type: 'line',
+  data: {
+    labels: ['2015','2016','2017','2018','2019','2020','2021','2022','2023','2025*'],
+    datasets: [{
+      label: 'Global Cybercrime Damage Cost (Billion USD)',
+      data: [3000, 4000, 5000, 6000, 7500, 9000, 11000, 14000, 17000, 10500],
+      borderColor: '#c0392b',
+      backgroundColor: 'rgba(192,57,43,0.08)',
+      borderWidth: 3,
+      pointBackgroundColor: '#c0392b',
+      pointRadius: 5,
+      tension: 0.3,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() + 'B' } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'USD Billion' },
+        grid: { color: '#eee' },
+        ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'T' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Frameworks adoption chart
+new Chart(document.getElementById('frameworkChart'), {
+  type: 'bar',
+  data: {
+    labels: ['NIST CSF','ISO 27001','COBIT','PCI-DSS','CIS Controls','HIPAA','IT Act/DPDPA'],
+    datasets: [
+      {
+        label: 'Global Adoption (out of 10)',
+        data: [9, 9, 7, 8, 8, 6, 5],
+        backgroundColor: 'rgba(10,10,10,0.8)',
+        borderColor: '#0a0a0a',
+        borderWidth: 2
+      },
+      {
+        label: 'Ease of Implementation (out of 10)',
+        data: [7, 5, 4, 6, 8, 5, 6],
+        backgroundColor: 'rgba(231,76,60,0.7)',
+        borderColor: '#c0392b',
+        borderWidth: 2
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { beginAtZero: true, max: 10, title: { display: true, text: 'Score (out of 10)' }, grid: { color: '#eee' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

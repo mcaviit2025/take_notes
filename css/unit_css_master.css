@@ -1,0 +1,584 @@
+/* ═══════════════════════════════════════════════════════
+   CYBER SECURITY NOTES — SHARED STYLESHEET
+   Used by: unit01.html, unit02.html, unit03.html, unit04.html
+   To add a new unit: create unitXX.html and link this CSS.
+   Unit-specific diagram styles go inline inside each HTML file.
+   ═══════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ── RESET & ROOT ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black:       #0a0a0a;
+  --white:       #fafaf8;
+  --gray-100:    #f0f0ee;
+  --gray-200:    #ddddd9;
+  --gray-300:    #b8b8b2;
+  --gray-500:    #7a7a74;
+  --gray-700:    #3a3a36;
+  --border:      2px solid #0a0a0a;
+  --border-thin: 1px solid #c0c0bc;
+  --nav-h:       60px;
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.8;
+  padding-top: var(--nav-h);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION BAR
+   ═══════════════════════════════════════════════════════ */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 1000;
+  border-bottom: 3px solid #333;
+}
+
+.nav-brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #aaa;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-brand span { color: #fff; font-weight: 600; }
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.4rem 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #aaa;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.nav-links a:hover {
+  color: #fff;
+  border-color: #555;
+  background: #1a1a1a;
+}
+.nav-links a.active {
+  color: #fff;
+  border-color: #fff;
+  background: transparent;
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid #555;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 680px) {
+  .nav-toggle { display: block; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    background: var(--black);
+    flex-direction: column;
+    padding: 0.75rem 1.5rem 1rem;
+    border-bottom: 2px solid #333;
+    gap: 0.15rem;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 0.5rem 0.5rem; border-color: #333; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PAGE HEADER
+   ═══════════════════════════════════════════════════════ */
+.page-header {
+  border-bottom: 4px solid var(--black);
+  padding: 3rem 2rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.page-header .unit-badge {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  padding: 0.25rem 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.page-header .subject-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  letter-spacing: 0.08em;
+}
+.page-header .quick-info {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+}
+.quick-info-item {
+  background: var(--gray-100);
+  border: var(--border-thin);
+  padding: 0.5rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.quick-info-item strong { color: var(--black); display: block; font-size: 1rem; font-family: 'Playfair Display', serif; text-transform: none; letter-spacing: 0; }
+
+/* ═══════════════════════════════════════════════════════
+   TOC (TABLE OF CONTENTS)
+   ═══════════════════════════════════════════════════════ */
+.toc-wrap {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+.toc-box {
+  background: var(--gray-100);
+  border: var(--border);
+  padding: 1.5rem 2rem;
+}
+.toc-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  border-bottom: var(--border-thin);
+  padding-bottom: 0.5rem;
+}
+.toc-box ol { padding-left: 1.2rem; columns: 2; column-gap: 2rem; }
+.toc-box li { margin: 0.35rem 0; break-inside: avoid; }
+.toc-box a { color: var(--black); text-decoration: none; font-size: 0.9rem; }
+.toc-box a:hover { text-decoration: underline; }
+@media(max-width:600px){ .toc-box ol { columns: 1; } }
+
+/* ═══════════════════════════════════════════════════════
+   MAIN CONTENT WRAPPER
+   ═══════════════════════════════════════════════════════ */
+.content-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOPIC SECTIONS
+   ═══════════════════════════════════════════════════════ */
+.topic-section {
+  margin: 3.5rem 0;
+  border-top: 3px solid var(--black);
+  padding-top: 1.5rem;
+}
+
+.topic-label {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  padding: 0.2rem 0.75rem;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.topic-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 1.2rem;
+}
+
+/* ── Sub-headings ── */
+.topic-section h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  margin: 1.8rem 0 0.5rem;
+  border-bottom: var(--border-thin);
+  padding-bottom: 0.3rem;
+}
+.topic-section h4 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.2rem 0 0.4rem;
+  color: var(--gray-700);
+}
+.topic-section p { margin: 0.6rem 0; }
+.topic-section ul, .topic-section ol { padding-left: 1.5rem; margin: 0.6rem 0; }
+.topic-section li { margin: 0.4rem 0; }
+.topic-section strong { font-weight: 600; }
+.topic-section em { font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════
+   CALLOUT BOXES
+   ═══════════════════════════════════════════════════════ */
+
+/* Definition / Key Concept */
+.concept-box {
+  background: var(--gray-100);
+  border-left: 4px solid var(--black);
+  padding: 1rem 1.4rem;
+  margin: 1.2rem 0;
+  font-style: italic;
+}
+.concept-box strong { font-style: normal; }
+
+/* Example */
+.example-box {
+  border: var(--border-thin);
+  border-left: 4px solid #444;
+  padding: 1rem 1.4rem;
+  margin: 1.2rem 0;
+  background: #fff;
+}
+.example-box .ex-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  margin-bottom: 0.4rem;
+}
+
+/* Real-world case */
+.case-box {
+  background: #fff9ec;
+  border: 1px solid #e6ac00;
+  border-left: 4px solid #e6ac00;
+  padding: 1rem 1.4rem;
+  margin: 1.2rem 0;
+}
+.case-box .case-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a07800;
+  margin-bottom: 0.4rem;
+}
+
+/* Remember / Exam Tip */
+.tip-box {
+  background: #edfaf1;
+  border: 1px solid #27ae60;
+  border-left: 4px solid #27ae60;
+  padding: 1rem 1.4rem;
+  margin: 1.2rem 0;
+}
+.tip-box .tip-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a7a34;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+/* Warning / Important */
+.warn-box {
+  background: #fdf2f2;
+  border: 1px solid #c0392b;
+  border-left: 4px solid #c0392b;
+  padding: 1rem 1.4rem;
+  margin: 1.2rem 0;
+}
+.warn-box .warn-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #c0392b;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+/* Conclusion / Key Takeaway (dark) */
+.conclusion-box {
+  background: var(--black);
+  color: var(--white);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.conclusion-box .con-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.55;
+  margin-bottom: 0.4rem;
+}
+.conclusion-box p { font-weight: 600; }
+
+/* Reference */
+.ref-box {
+  background: var(--gray-100);
+  border: var(--border-thin);
+  border-left: 4px solid var(--gray-500);
+  padding: 0.9rem 1.3rem;
+  margin: 1.5rem 0;
+  font-size: 0.88rem;
+}
+.ref-box .ref-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+}
+.ref-box ul { padding-left: 0; list-style: none; }
+.ref-box li { margin: 0.3rem 0; font-size: 0.85rem; }
+.ref-box li::before { content: "↳ "; color: var(--gray-500); }
+
+/* ═══════════════════════════════════════════════════════
+   TABLES
+   ═══════════════════════════════════════════════════════ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.9rem;
+}
+.data-table th {
+  background: var(--black);
+  color: var(--white);
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.data-table td {
+  padding: 0.55rem 0.9rem;
+  border-bottom: var(--border-thin);
+  vertical-align: top;
+}
+.data-table tr:nth-child(even) td { background: var(--gray-100); }
+.data-table tr:last-child td { font-weight: 600; background: var(--gray-200); }
+/* override last-child bold for normal tables */
+.data-table.no-bold tr:last-child td { font-weight: normal; background: var(--gray-100); }
+
+/* ═══════════════════════════════════════════════════════
+   DIAGRAM WRAPPER (used around inline SVG / flow diagrams)
+   ═══════════════════════════════════════════════════════ */
+.diagram-wrap {
+  margin: 1.5rem 0;
+  border: var(--border);
+  padding: 1.2rem;
+  background: #fff;
+}
+.diagram-wrap .diagram-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  margin-bottom: 1rem;
+  border-bottom: var(--border-thin);
+  padding-bottom: 0.4rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   COMPARE GRID
+   ═══════════════════════════════════════════════════════ */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+.compare-card { border: var(--border); padding: 1rem; }
+.compare-card h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: var(--border-thin);
+  color: var(--black);
+}
+.compare-card ul { padding-left: 1.2rem; font-size: 0.9rem; }
+.compare-card li { margin: 0.3rem 0; }
+@media(max-width:600px){ .compare-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   3-COLUMN GRID (for CIA triad, frameworks, etc.)
+   ═══════════════════════════════════════════════════════ */
+.three-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+.three-card {
+  border: var(--border);
+  padding: 1rem;
+  text-align: center;
+}
+.three-card .card-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.three-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+.three-card p { font-size: 0.88rem; text-align: left; }
+@media(max-width:600px){ .three-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   CHART CONTAINER
+   ═══════════════════════════════════════════════════════ */
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.chart-container canvas { max-width: 100%; }
+
+/* ═══════════════════════════════════════════════════════
+   FORMULA BOX
+   ═══════════════════════════════════════════════════════ */
+.formula-box {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DIVIDER
+   ═══════════════════════════════════════════════════════ */
+.section-divider {
+  border: none;
+  border-top: var(--border-thin);
+  margin: 3rem 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PAGE FOOTER
+   ═══════════════════════════════════════════════════════ */
+.page-footer {
+  background: var(--black);
+  color: #888;
+  padding: 1.5rem 2rem;
+  margin-top: 4rem;
+  text-align: center;
+}
+.page-footer .footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.page-footer span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+.page-footer .footer-links { display: flex; gap: 1.2rem; }
+.page-footer a {
+  color: #666;
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+.page-footer a:hover { color: #fff; }
+
+/* ═══════════════════════════════════════════════════════
+   BACK TO TOP BUTTON
+   ═══════════════════════════════════════════════════════ */
+.back-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  width: 42px;
+  height: 42px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  font-family: 'JetBrains Mono', monospace;
+}
+.back-top.visible { display: flex; }
+.back-top:hover { background: #333; }
+
+/* ═══════════════════════════════════════════════════════
+   PRINT STYLES
+   ═══════════════════════════════════════════════════════ */
+@media print {
+  .top-nav, .back-top { display: none; }
+  body { padding-top: 0; }
+  .topic-section { break-inside: avoid; }
+}

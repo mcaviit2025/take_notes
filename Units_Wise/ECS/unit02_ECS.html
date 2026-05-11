@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Networking Basics & Security Infrastructure | ECS 563 MCA Notes</title>
+<link rel="stylesheet" href="/css/unit_css_master.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<!-- Unit 2 specific inline styles for custom diagrams -->
+<style>
+  /* ── NETWORK NODE STYLES (unit-2 diagrams) ── */
+  .net-wrap {
+    overflow-x: auto;
+  }
+
+  /* ── POLICY PILL ── */
+  .policy-pill {
+    display: inline-block;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.9rem;
+    margin: 0.25rem 0.2rem;
+    text-transform: uppercase;
+  }
+  .policy-pill.blue  { background: #0c8da0; }
+  .policy-pill.green { background: #1a7a34; }
+  .policy-pill.red   { background: #c0392b; }
+  .policy-pill.gold  { background: #e6ac00; color: #000; }
+  .policy-pill.purple{ background: #6f42c1; }
+
+  /* ── PHASE STRIP (for BCP / IR phases) ── */
+  .phase-strip {
+    display: flex;
+    gap: 0;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+  }
+  .phase-block {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.9rem 0.6rem;
+    text-align: center;
+    border-right: 2px solid #fff;
+    font-family: 'Source Serif 4', serif;
+  }
+  .phase-block:last-child { border-right: none; }
+  .phase-block .ph-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .phase-block .ph-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .phase-block .ph-desc {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+  .ph-prepare { background: #fff3cd; color: #8a6500; }
+  .ph-detect  { background: #d1ecf1; color: #065a68; }
+  .ph-contain { background: #f8d7da; color: #922b21; }
+  .ph-eradicate{ background: #e2d9f3; color: #4a1d96; }
+  .ph-recover { background: #d4edda; color: #155724; }
+  .ph-lessons { background: #fde8d8; color: #7d3c00; }
+
+  /* ── CASE STUDY BOX (distinct from regular case-box) ── */
+  .casestudy-box {
+    border: 3px solid var(--black);
+    margin: 2rem 0;
+  }
+  .casestudy-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.8rem 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .casestudy-header h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+  }
+  .casestudy-header .cs-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    text-transform: uppercase;
+  }
+  .casestudy-body {
+    padding: 1.3rem 1.4rem;
+  }
+  .casestudy-body h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--gray-500);
+    margin: 1rem 0 0.4rem;
+    border-bottom: var(--border-thin);
+    padding-bottom: 0.3rem;
+  }
+  .casestudy-body p { margin: 0.5rem 0; }
+  .casestudy-body ul { padding-left: 1.4rem; }
+  .casestudy-body li { margin: 0.35rem 0; font-size: 0.95rem; }
+  .cs-verdict {
+    background: var(--gray-100);
+    border-top: 2px solid var(--black);
+    padding: 0.9rem 1.4rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .cs-verdict span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── LAYER STACK (OSI / Network layers) ── */
+  .layer-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 1rem 0;
+    max-width: 520px;
+  }
+  .layer-row {
+    display: flex;
+    align-items: stretch;
+    gap: 3px;
+  }
+  .layer-num {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .layer-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 150px;
+    padding: 0.55rem 0.8rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  .layer-desc {
+    flex: 1;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+  }
+  .layer-eg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray-500);
+    width: 150px;
+    padding: 0.55rem 0.6rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* OSI layer colours */
+  .l7 { background: #fde8d8; } .l7 .layer-name { color: #7d3c00; }
+  .l6 { background: #fff3cd; } .l6 .layer-name { color: #8a6500; }
+  .l5 { background: #d4edda; } .l5 .layer-name { color: #155724; }
+  .l4 { background: #d1ecf1; } .l4 .layer-name { color: #065a68; }
+  .l3 { background: #cfe2ff; } .l3 .layer-name { color: #0a3d91; }
+  .l2 { background: #e2d9f3; } .l2 .layer-name { color: #4a1d96; }
+  .l1 { background: #f8d7da; } .l1 .layer-name { color: #922b21; }
+
+  /* ── COMPARISON: 3 policy types ── */
+  .policy-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .policy-col { padding: 1.1rem 1rem; border-right: 2px solid var(--black); }
+  .policy-col:last-child { border-right: none; }
+  .policy-col h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: var(--border-thin);
+  }
+  .policy-col ul { padding-left: 1.1rem; font-size: 0.85rem; }
+  .policy-col li { margin: 0.35rem 0; }
+  .policy-col.eisp { background: #fff9ec; }
+  .policy-col.issp { background: #eef8ff; }
+  .policy-col.syssp{ background: #f0faf2; }
+  @media(max-width:600px){
+    .policy-trio { grid-template-columns: 1fr; }
+    .policy-col { border-right: none; border-bottom: 2px solid var(--black); }
+    .policy-col:last-child { border-bottom: none; }
+    .phase-strip { flex-wrap: wrap; }
+    .phase-block { min-width: 45%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAVIGATION ════════════ -->
+<nav class="top-nav">
+  <a href="ECS_Index.html" class="nav-brand"><span>ECS 563</span> · Cyber Security Notes</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">MENU</button>
+  <ul class="nav-links">
+    <li><a href="ECS_Index.html> Home</a></li>
+    <li><a href="unit01_ECS.html">Unit 1</a></li>
+    <li><a href="#" class="active">Unit 2</a></li>
+    <li><a href="#">Unit 3</a></li>
+    <li><a href="#">Unit 4</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════ PAGE HEADER ════════════ -->
+<header class="page-header">
+  <div class="unit-badge">Unit 02 · ECS 563 MJ-EC21-4</div>
+  <h1>Networking Basics &amp;<br>Security Infrastructure</h1>
+  <div class="subject-line">F.Y. M.C.A. (Management) · Semester II · 2024 Pattern · Savitribai Phule Pune University</div>
+  <div class="quick-info">
+    <div class="quick-info-item">Topics Covered<strong>6 Topics</strong></div>
+    <div class="quick-info-item">Exam Weightage<strong>~10–12 Marks</strong></div>
+    <div class="quick-info-item">Key Focus<strong>Policies &amp; Planning</strong></div>
+    <div class="quick-info-item">Difficulty<strong>Intermediate</strong></div>
+  </div>
+</header>
+
+<!-- ════════════ TOC ════════════ -->
+<div class="toc-wrap">
+  <div class="toc-box">
+    <h3>Topics in This Unit</h3>
+    <ol>
+      <li><a href="#t2-1">2.1 — Network Design and Configuration</a></li>
+      <li><a href="#t2-2">2.2 — Data Transfer Governance in Cyber Space</a></li>
+      <li><a href="#t2-3">2.3 — Security Infrastructure</a></li>
+      <li><a href="#t2-4">2.4 — Contingency Planning: IR, DR &amp; BCP</a></li>
+      <li><a href="#t2-5">2.5 — Cyber Security Policy: EISP, ISSP, SysSP</a></li>
+      <li><a href="#t2-6">2.6 — Case Studies of Cyber Policy</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="content-wrap">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.1 — NETWORK DESIGN & CONFIGURATION
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-1">
+  <div class="topic-label">Topic 2.1</div>
+  <h2 class="topic-title">Network Design and Configuration</h2>
+
+  <div class="concept-box">
+    <strong>Network Design</strong> is the process of planning the layout, topology, components, and protocols of a computer network so that it meets the organization's needs for speed, security, scalability, and reliability. Good network design is the foundation of all network security — you cannot secure a badly designed network.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Last Night Tip</div>
+    Know the OSI model (7 layers), 3–4 network topologies, and the three network zones (LAN/MAN/WAN). Understand what a DMZ is — it appears in exam questions directly.
+  </div>
+
+  <h3>The OSI Model — 7 Layers of Network Communication</h3>
+  <p>The <strong>OSI (Open Systems Interconnection) Model</strong> is a conceptual framework that describes how data travels from one computer to another across a network. Every layer has a specific job. Understanding OSI is critical because attacks happen at specific layers, and defences are designed per layer.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.1 — OSI Model: 7 Layers with Security Relevance</div>
+    <div class="layer-stack">
+      <div class="layer-row l7">
+        <div class="layer-num">7</div>
+        <div class="layer-name">Application</div>
+        <div class="layer-desc">User-facing apps and protocols communicate here</div>
+        <div class="layer-eg">HTTP, SMTP, DNS, FTP</div>
+      </div>
+      <div class="layer-row l6">
+        <div class="layer-num">6</div>
+        <div class="layer-name">Presentation</div>
+        <div class="layer-desc">Data format, encryption &amp; compression</div>
+        <div class="layer-eg">SSL/TLS, JPEG, ASCII</div>
+      </div>
+      <div class="layer-row l5">
+        <div class="layer-num">5</div>
+        <div class="layer-name">Session</div>
+        <div class="layer-desc">Opens, manages, and closes connections</div>
+        <div class="layer-eg">NetBIOS, RPC, PPTP</div>
+      </div>
+      <div class="layer-row l4">
+        <div class="layer-num">4</div>
+        <div class="layer-name">Transport</div>
+        <div class="layer-desc">Reliable delivery, flow control, ports</div>
+        <div class="layer-eg">TCP, UDP</div>
+      </div>
+      <div class="layer-row l3">
+        <div class="layer-num">3</div>
+        <div class="layer-name">Network</div>
+        <div class="layer-desc">Logical addressing &amp; routing between networks</div>
+        <div class="layer-eg">IP, ICMP, Routers</div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-num">2</div>
+        <div class="layer-name">Data Link</div>
+        <div class="layer-desc">Physical addressing, error detection</div>
+        <div class="layer-eg">MAC, Ethernet, Switches</div>
+      </div>
+      <div class="layer-row l1">
+        <div class="layer-num">1</div>
+        <div class="layer-name">Physical</div>
+        <div class="layer-desc">Raw bits transmitted over cables/wireless</div>
+        <div class="layer-eg">Cables, Hubs, Wi-Fi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-label">Simple Way to Remember OSI Layers (Top → Bottom)</div>
+    <strong>"All People Seem To Need Data Processing"</strong><br>
+    Application · Presentation · Session · Transport · Network · Data Link · Physical
+  </div>
+
+  <h3>Network Topologies</h3>
+  <p>A <strong>topology</strong> is the arrangement of devices in a network — how they are physically or logically connected. The choice of topology affects performance, cost, security, and fault tolerance.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.2 — Common Network Topologies</div>
+    <svg viewBox="0 0 780 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:10px;">
+
+      <!-- BUS topology -->
+      <text x="90" y="20" text-anchor="middle" font-weight="700" font-size="11" fill="#0a0a0a">BUS</text>
+      <line x1="20" y1="70" x2="160" y2="70" stroke="#0a0a0a" stroke-width="3"/>
+      <circle cx="50"  cy="70" r="12" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <circle cx="90"  cy="70" r="12" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <circle cx="130" cy="70" r="12" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <line x1="50"  cy="58" x1="50" y1="58" x2="50" y2="42"  stroke="#0c8da0" stroke-width="1.5"/>
+      <line x1="90"  cy="58" x1="90" y1="58" x2="90" y2="42"  stroke="#0c8da0" stroke-width="1.5"/>
+      <line x1="130" cy="58" x1="130" y1="58" x2="130" y2="42" stroke="#0c8da0" stroke-width="1.5"/>
+      <rect x="20" y="70" width="10" height="10" fill="#c0392b"/>
+      <rect x="150" y="70" width="10" height="10" fill="#c0392b"/>
+      <text x="90" y="120" text-anchor="middle" font-size="9" fill="#7a7a74">Single cable backbone</text>
+      <text x="90" y="133" text-anchor="middle" font-size="9" fill="#7a7a74">Simple but single point of failure</text>
+
+      <!-- STAR topology -->
+      <text x="310" y="20" text-anchor="middle" font-weight="700" font-size="11" fill="#0a0a0a">STAR</text>
+      <circle cx="310" cy="75" r="16" fill="#0a0a0a"/>
+      <text x="310" y="79" text-anchor="middle" font-size="8" fill="#fff">HUB</text>
+      <circle cx="250" cy="45"  r="11" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <circle cx="370" cy="45"  r="11" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <circle cx="240" cy="100" r="11" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <circle cx="380" cy="100" r="11" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <circle cx="310" cy="115" r="11" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <line x1="260" y1="51" x2="295" y2="65" stroke="#1a7a34" stroke-width="1.5"/>
+      <line x1="360" y1="51" x2="324" y2="65" stroke="#1a7a34" stroke-width="1.5"/>
+      <line x1="250" y1="90" x2="295" y2="80" stroke="#1a7a34" stroke-width="1.5"/>
+      <line x1="370" y1="90" x2="326" y2="80" stroke="#1a7a34" stroke-width="1.5"/>
+      <line x1="310" y1="104" x2="310" y2="91" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="310" y="148" text-anchor="middle" font-size="9" fill="#7a7a74">All devices connect to central hub</text>
+      <text x="310" y="161" text-anchor="middle" font-size="9" fill="#7a7a74">Most common in LANs today</text>
+
+      <!-- RING topology -->
+      <text x="530" y="20" text-anchor="middle" font-weight="700" font-size="11" fill="#0a0a0a">RING</text>
+      <circle cx="530" cy="75" r="40" fill="none" stroke="#e6ac00" stroke-width="2.5" stroke-dasharray="6 3"/>
+      <circle cx="530" cy="35" r="11" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <circle cx="570" cy="75" r="11" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <circle cx="530" cy="115" r="11" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <circle cx="490" cy="75" r="11" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <text x="530" y="148" text-anchor="middle" font-size="9" fill="#7a7a74">Data travels in one direction</text>
+      <text x="530" y="161" text-anchor="middle" font-size="9" fill="#7a7a74">Token Ring, FDDI networks</text>
+
+      <!-- MESH -->
+      <text x="690" y="20" text-anchor="middle" font-weight="700" font-size="11" fill="#0a0a0a">MESH</text>
+      <circle cx="660" cy="50"  r="11" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="720" cy="50"  r="11" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="660" cy="100" r="11" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+      <circle cx="720" cy="100" r="11" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+      <line x1="671" y1="50" x2="709" y2="50"  stroke="#c0392b" stroke-width="1.5"/>
+      <line x1="660" y1="61" x2="660" y2="89"  stroke="#c0392b" stroke-width="1.5"/>
+      <line x1="720" y1="61" x2="720" y2="89"  stroke="#c0392b" stroke-width="1.5"/>
+      <line x1="671" y1="100" x2="709" y2="100" stroke="#c0392b" stroke-width="1.5"/>
+      <line x1="669" y1="58" x2="711" y2="92"  stroke="#c0392b" stroke-width="1.5"/>
+      <line x1="711" y1="58" x2="669" y2="92"  stroke="#c0392b" stroke-width="1.5"/>
+      <text x="690" y="148" text-anchor="middle" font-size="9" fill="#7a7a74">Every device connects to every other</text>
+      <text x="690" y="161" text-anchor="middle" font-size="9" fill="#7a7a74">Highly redundant, used in WANs</text>
+
+      <!-- Label row -->
+      <text x="90" y="170" text-anchor="middle" font-size="9" fill="#922b21">✗ Single failure = entire network down</text>
+      <text x="310" y="175" text-anchor="middle" font-size="9" fill="#1a7a34">✓ Easy to add/remove devices</text>
+      <text x="530" y="175" text-anchor="middle" font-size="9" fill="#8a6500">⚠ One failure breaks the ring</text>
+      <text x="690" y="175" text-anchor="middle" font-size="9" fill="#1a7a34">✓ Most fault-tolerant topology</text>
+    </svg>
+  </div>
+
+  <h3>Network Types by Scale</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Type</th><th>Full Name</th><th>Coverage</th><th>Example</th><th>Speed</th></tr></thead>
+    <tbody>
+      <tr><td><strong>PAN</strong></td><td>Personal Area Network</td><td>1–10 metres</td><td>Bluetooth earphones, smartwatch</td><td>~3 Mbps</td></tr>
+      <tr><td><strong>LAN</strong></td><td>Local Area Network</td><td>Building / campus</td><td>Office network, college Wi-Fi</td><td>100Mbps – 10Gbps</td></tr>
+      <tr><td><strong>MAN</strong></td><td>Metropolitan Area Network</td><td>City-wide</td><td>City cable TV network, ISP in Pune</td><td>10–100 Mbps</td></tr>
+      <tr><td><strong>WAN</strong></td><td>Wide Area Network</td><td>Country / global</td><td>The Internet, bank's national network</td><td>Variable</td></tr>
+      <tr><td><strong>VPN</strong></td><td>Virtual Private Network</td><td>Any distance</td><td>Employees working from home securely</td><td>Depends on ISP</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key Network Configuration Concepts</h3>
+
+  <h4>IP Addressing and Subnetting</h4>
+  <p>Every device on a network needs a unique <strong>IP (Internet Protocol) address</strong>. IPv4 addresses are 32-bit numbers (e.g., 192.168.1.1). <strong>Subnetting</strong> divides a large network into smaller sub-networks, improving performance and security by limiting broadcast traffic and isolating segments.</p>
+  <div class="example-box">
+    <div class="ex-label">Example</div>
+    A hospital divides its network into subnets: <strong>192.168.10.0/24</strong> for clinical systems, <strong>192.168.20.0/24</strong> for administration, and <strong>192.168.30.0/24</strong> for guest Wi-Fi. Each subnet is isolated — a breach in guest Wi-Fi cannot directly reach clinical systems.
+  </div>
+
+  <h4>VLAN (Virtual Local Area Network)</h4>
+  <p>A VLAN allows you to logically segment a physical network into separate virtual networks. Devices on different VLANs cannot communicate directly — even if they are connected to the same physical switch. This is a key security tool for network segmentation.</p>
+
+  <h4>DMZ (Demilitarized Zone)</h4>
+  <p>A <strong>DMZ</strong> is a separate, isolated network segment that sits between the internet (untrusted) and the internal corporate network (trusted). Public-facing servers (web server, email server) are placed in the DMZ. If a web server is compromised, the attacker only reaches the DMZ — not the internal network.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.3 — Network Architecture with DMZ (Most Secure Design)</div>
+    <svg viewBox="0 0 780 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <!-- Internet -->
+      <rect x="10" y="60" width="110" height="80" rx="4" fill="#f8d7da" stroke="#c0392b" stroke-width="2.5"/>
+      <text x="65" y="95" text-anchor="middle" font-size="11" fill="#922b21" font-weight="700">INTERNET</text>
+      <text x="65" y="111" text-anchor="middle" fill="#922b21">(Untrusted)</text>
+      <text x="65" y="126" text-anchor="middle" fill="#922b21">External Users</text>
+
+      <!-- Arrow -->
+      <line x1="122" y1="100" x2="158" y2="100" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="158,95 170,100 158,105" fill="#0a0a0a"/>
+
+      <!-- Outer Firewall -->
+      <rect x="170" y="70" width="90" height="60" rx="3" fill="#0a0a0a"/>
+      <text x="215" y="96" text-anchor="middle" fill="#fff" font-weight="700">OUTER</text>
+      <text x="215" y="110" text-anchor="middle" fill="#fff" font-weight="700">FIREWALL</text>
+      <text x="215" y="124" text-anchor="middle" fill="#aaa" font-size="8">Filters traffic</text>
+
+      <!-- Arrow -->
+      <line x1="262" y1="100" x2="298" y2="100" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="298,95 310,100 298,105" fill="#0a0a0a"/>
+
+      <!-- DMZ -->
+      <rect x="310" y="30" width="155" height="140" rx="4" fill="#fff3cd" stroke="#e6ac00" stroke-width="2.5" stroke-dasharray="6 3"/>
+      <text x="387" y="52" text-anchor="middle" font-size="11" fill="#8a6500" font-weight="700">DMZ</text>
+      <rect x="325" y="60" width="125" height="30" rx="2" fill="#fde8d8" stroke="#e67e22" stroke-width="1.5"/>
+      <text x="387" y="79" text-anchor="middle" fill="#7d3c00">Web Server</text>
+      <rect x="325" y="98" width="125" height="30" rx="2" fill="#fde8d8" stroke="#e67e22" stroke-width="1.5"/>
+      <text x="387" y="117" text-anchor="middle" fill="#7d3c00">Email Server</text>
+      <rect x="325" y="136" width="125" height="28" rx="2" fill="#fde8d8" stroke="#e67e22" stroke-width="1.5"/>
+      <text x="387" y="154" text-anchor="middle" fill="#7d3c00">DNS Server</text>
+
+      <!-- Arrow -->
+      <line x1="467" y1="100" x2="500" y2="100" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="500,95 512,100 500,105" fill="#0a0a0a"/>
+
+      <!-- Inner Firewall -->
+      <rect x="512" y="70" width="90" height="60" rx="3" fill="#0a0a0a"/>
+      <text x="557" y="96" text-anchor="middle" fill="#fff" font-weight="700">INNER</text>
+      <text x="557" y="110" text-anchor="middle" fill="#fff" font-weight="700">FIREWALL</text>
+      <text x="557" y="124" text-anchor="middle" fill="#aaa" font-size="8">Stricter rules</text>
+
+      <!-- Arrow -->
+      <line x1="604" y1="100" x2="638" y2="100" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="638,95 650,100 638,105" fill="#0a0a0a"/>
+
+      <!-- Internal Network -->
+      <rect x="650" y="40" width="120" height="120" rx="4" fill="#d4edda" stroke="#1a7a34" stroke-width="2.5"/>
+      <text x="710" y="68" text-anchor="middle" fill="#155724" font-size="10" font-weight="700">INTERNAL</text>
+      <text x="710" y="82" text-anchor="middle" fill="#155724" font-size="10" font-weight="700">NETWORK</text>
+      <text x="710" y="102" text-anchor="middle" fill="#155724">HR Database</text>
+      <text x="710" y="116" text-anchor="middle" fill="#155724">Finance Server</text>
+      <text x="710" y="130" text-anchor="middle" fill="#155724">ERP System</text>
+      <text x="710" y="148" text-anchor="middle" fill="#1a7a34">(Trusted Zone)</text>
+    </svg>
+  </div>
+
+  <h4>Network Protocols Important for Security</h4>
+  <table class="data-table no-bold">
+    <thead><tr><th>Protocol</th><th>What It Does</th><th>Security Relevance</th></tr></thead>
+    <tbody>
+      <tr><td><strong>HTTPS</strong></td><td>Encrypted HTTP web communication</td><td>Protects login credentials, financial data in transit</td></tr>
+      <tr><td><strong>TLS/SSL</strong></td><td>Encrypts data between client and server</td><td>Foundation of all secure web communication</td></tr>
+      <tr><td><strong>SSH</strong></td><td>Secure remote login to servers</td><td>Replaces insecure Telnet; all admin access should use SSH</td></tr>
+      <tr><td><strong>SFTP</strong></td><td>Secure file transfer</td><td>Replaces insecure FTP; encrypts files in transit</td></tr>
+      <tr><td><strong>DNS</strong></td><td>Converts domain names to IP addresses</td><td>DNS spoofing can redirect users to fake sites</td></tr>
+      <tr><td><strong>DHCP</strong></td><td>Automatically assigns IP addresses</td><td>Rogue DHCP server attack can redirect all traffic</td></tr>
+      <tr><td><strong>VPN</strong></td><td>Encrypted tunnel over public internet</td><td>Secure remote access for employees</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Tanenbaum, A. &amp; Wetherall, D. — Computer Networks, 5th Ed., Pearson</li>
+      <li>Forouzan, B.A. — Data Communications and Networking, McGraw-Hill</li>
+      <li>NIST SP 800-41 Rev.1 — Firewall Guidelines: https://csrc.nist.gov/publications/detail/sp/800-41/rev-1/final</li>
+      <li>Cisco Networking Academy: https://www.netacad.com</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.2 — DATA TRANSFER GOVERNANCE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-2">
+  <div class="topic-label">Topic 2.2</div>
+  <h2 class="topic-title">Essential Components of Data Transfer Governance in Cyber Space</h2>
+
+  <div class="concept-box">
+    <strong>Data Transfer Governance</strong> is the set of rules, policies, controls, and technologies that ensure data moves between systems, organizations, and countries in a way that is <em>secure, authorized, legally compliant, and verifiable</em>. It answers: Who can send what data, to whom, how, and with what protections?
+  </div>
+
+  <h3>Why Data Transfer Governance Matters</h3>
+  <p>Every day, organizations transfer massive amounts of data — customer records, financial transactions, health reports, intellectual property. Without governance:</p>
+  <ul>
+    <li>Sensitive data can be intercepted during transmission (confidentiality breach)</li>
+    <li>Data can be modified in transit without detection (integrity breach)</li>
+    <li>Unauthorized parties can receive data they should never see (privacy violation)</li>
+    <li>Organizations can face fines for violating data protection laws (legal/compliance risk)</li>
+  </ul>
+
+  <h3>Essential Components of Data Transfer Governance</h3>
+
+  <h4>1. Data Classification</h4>
+  <p>Before transferring data, you must know <em>what kind of data it is</em>. Organizations classify data into levels and apply different transfer rules to each level.</p>
+  <table class="data-table no-bold">
+    <thead><tr><th>Classification Level</th><th>Examples</th><th>Transfer Rule</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Public</strong></td><td>Press releases, marketing brochures</td><td>Can be transferred freely</td></tr>
+      <tr><td><strong>Internal</strong></td><td>Employee handbook, internal memos</td><td>Transfer within organization only</td></tr>
+      <tr><td><strong>Confidential</strong></td><td>Customer database, financial reports</td><td>Encrypted transfer, authorized recipients only</td></tr>
+      <tr><td><strong>Restricted / Top Secret</strong></td><td>Medical records, defense data, trade secrets</td><td>Highest controls — strict authorization, audit trail required</td></tr>
+    </tbody>
+  </table>
+
+  <h4>2. Encryption in Transit</h4>
+  <p>All sensitive data must be <strong>encrypted before it travels across any network</strong>. Encryption makes the data unreadable to anyone who intercepts it — only the intended recipient with the correct key can decode it.</p>
+  <ul>
+    <li><strong>TLS 1.3</strong> — Standard for encrypting web traffic (HTTPS). All banking, government, and healthcare websites must use TLS 1.3.</li>
+    <li><strong>SFTP / FTPS</strong> — Encrypted file transfer protocols replacing insecure FTP</li>
+    <li><strong>VPN (IPSec / SSL)</strong> — Creates an encrypted tunnel for all data between two endpoints</li>
+    <li><strong>S/MIME or PGP</strong> — Email encryption standards for sensitive communications</li>
+    <li><strong>AES-256</strong> — The encryption algorithm standard for data at rest (stored data)</li>
+  </ul>
+
+  <h4>3. Access Authorization and Authentication</h4>
+  <p>Only <strong>verified, authorized users or systems</strong> should be allowed to send or receive sensitive data. This requires:</p>
+  <ul>
+    <li><strong>Digital Certificates (PKI):</strong> Cryptographically verify the identity of the sender and receiver before any data transfer begins</li>
+    <li><strong>API Keys / OAuth Tokens:</strong> For system-to-system data transfers, each system must authenticate using a secure token</li>
+    <li><strong>Role-Based Access Control (RBAC):</strong> Only users whose job requires accessing specific data can receive it in transfers</li>
+  </ul>
+
+  <h4>4. Data Integrity Verification</h4>
+  <p>After data is transferred, the receiver must be able to confirm that <strong>the data arrived exactly as sent</strong> — not modified or corrupted in transit.</p>
+  <ul>
+    <li><strong>Hashing (SHA-256):</strong> A unique fingerprint is calculated before sending. The receiver calculates it again after receiving. If both hashes match — data is intact. If they differ — data was tampered with or corrupted.</li>
+    <li><strong>Digital Signatures:</strong> The sender signs the data with their private key. The receiver verifies with the sender's public key — confirming both identity and integrity.</li>
+    <li><strong>Checksums and CRC:</strong> Simpler integrity checks used in network protocols</li>
+  </ul>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.4 — Secure Data Transfer: End-to-End Process</div>
+    <svg viewBox="0 0 780 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <!-- Sender -->
+      <rect x="10" y="50" width="110" height="80" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="65" y="80" text-anchor="middle" font-weight="700" font-size="10" fill="#065a68">SENDER</text>
+      <text x="65" y="96" text-anchor="middle" fill="#065a68">Classify data</text>
+      <text x="65" y="110" text-anchor="middle" fill="#065a68">Encrypt + Sign</text>
+      <text x="65" y="124" text-anchor="middle" fill="#065a68">Calculate hash</text>
+
+      <!-- Arrow 1 -->
+      <line x1="122" y1="90" x2="168" y2="90" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="168,85 180,90 168,95" fill="#0a0a0a"/>
+      <text x="150" y="82" text-anchor="middle" fill="#7a7a74" font-size="8">Encrypted</text>
+      <text x="150" y="107" text-anchor="middle" fill="#7a7a74" font-size="8">+ Signed</text>
+
+      <!-- Network (hostile) -->
+      <rect x="180" y="40" width="130" height="100" rx="3" fill="#fff9ec" stroke="#e6ac00" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="245" y="80" text-anchor="middle" font-weight="700" font-size="10" fill="#8a6500">NETWORK</text>
+      <text x="245" y="95" text-anchor="middle" fill="#8a6500">(Potentially</text>
+      <text x="245" y="109" text-anchor="middle" fill="#8a6500"> hostile)</text>
+      <text x="245" y="128" text-anchor="middle" fill="#c0392b" font-size="8">⚠ Attacker cannot</text>
+      <text x="245" y="140" text-anchor="middle" fill="#c0392b" font-size="8">read or modify</text>
+
+      <!-- Arrow 2 -->
+      <line x1="312" y1="90" x2="358" y2="90" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="358,85 370,90 358,95" fill="#0a0a0a"/>
+
+      <!-- Governance layer -->
+      <rect x="370" y="25" width="145" height="130" rx="3" fill="#f0f0ee" stroke="#3a3a36" stroke-width="2"/>
+      <text x="442" y="48" text-anchor="middle" font-weight="700" font-size="10" fill="#0a0a0a">GOVERNANCE</text>
+      <text x="442" y="62" text-anchor="middle" font-weight="700" font-size="10" fill="#0a0a0a">CONTROLS</text>
+      <text x="442" y="80" text-anchor="middle" fill="#3a3a36">✓ DLP checks data</text>
+      <text x="442" y="95" text-anchor="middle" fill="#3a3a36">✓ Audit log entry</text>
+      <text x="442" y="110" text-anchor="middle" fill="#3a3a36">✓ Policy compliance</text>
+      <text x="442" y="125" text-anchor="middle" fill="#3a3a36">✓ Jurisdiction check</text>
+      <text x="442" y="140" text-anchor="middle" fill="#3a3a36">✓ Retention rules</text>
+
+      <!-- Arrow 3 -->
+      <line x1="517" y1="90" x2="558" y2="90" stroke="#0a0a0a" stroke-width="2"/>
+      <polygon points="558,85 570,90 558,95" fill="#0a0a0a"/>
+
+      <!-- Receiver -->
+      <rect x="570" y="50" width="130" height="80" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <text x="635" y="78" text-anchor="middle" font-weight="700" font-size="10" fill="#155724">RECEIVER</text>
+      <text x="635" y="94" text-anchor="middle" fill="#155724">Verify signature</text>
+      <text x="635" y="108" text-anchor="middle" fill="#155724">Check hash</text>
+      <text x="635" y="122" text-anchor="middle" fill="#155724">Decrypt &amp; use</text>
+    </svg>
+  </div>
+
+  <h4>5. Data Loss Prevention (DLP)</h4>
+  <p>DLP tools monitor all outgoing data transfers — email, USB uploads, cloud storage, web forms — and <strong>automatically block any transfer that violates data policies</strong>. For example, a DLP system can detect if someone is emailing a file containing 1,000 credit card numbers and block it before it leaves.</p>
+
+  <h4>6. Audit Logs and Traceability</h4>
+  <p>Every data transfer must be logged with: who sent it, what was sent, to whom, when, from which device, and using which protocol. These logs serve as:</p>
+  <ul>
+    <li>Evidence in security incident investigations</li>
+    <li>Compliance proof for regulators (GDPR audit requirements)</li>
+    <li>Detection of unusual patterns (an employee suddenly transferring 50GB at midnight)</li>
+  </ul>
+
+  <h4>7. Legal and Jurisdictional Compliance</h4>
+  <p>Data cannot always be transferred freely across international borders. Laws restrict cross-border data flows:</p>
+  <ul>
+    <li><strong>GDPR (EU):</strong> EU personal data can only be transferred to countries with adequate data protection laws. Transferring EU data to a non-compliant country without safeguards is illegal.</li>
+    <li><strong>India's DPDP Act 2023:</strong> The government can restrict transfer of certain categories of personal data to foreign countries.</li>
+    <li><strong>RBI Guidelines:</strong> Indian banking and payment data must be stored and processed within India (data localization).</li>
+  </ul>
+
+  <h4>8. Data Retention and Disposal Policy</h4>
+  <p>Data that is no longer needed must be <strong>securely deleted</strong> — not just regular "delete" which can be recovered, but cryptographic erasure or physical destruction for storage media. Data must not be kept longer than legally required (to limit breach exposure) and must be kept at least as long as legally required (for audit purposes).</p>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>GDPR Articles 44–49 — Cross-Border Data Transfer Rules: https://gdpr-info.eu/chapter-5</li>
+      <li>DPDP Act 2023, Government of India: https://www.meity.gov.in/data-protection-framework</li>
+      <li>NIST SP 800-111 — Storage Encryption: https://csrc.nist.gov/publications/detail/sp/800-111/final</li>
+      <li>RBI Data Localization Circular: https://www.rbi.org.in/Scripts/BS_CircularIndexDisplay.aspx?Id=11244</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.3 — SECURITY INFRASTRUCTURE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-3">
+  <div class="topic-label">Topic 2.3</div>
+  <h2 class="topic-title">Security Infrastructure</h2>
+
+  <div class="concept-box">
+    <strong>Security Infrastructure</strong> refers to the entire collection of hardware, software, policies, and processes that work together to protect an organization's information systems. Think of it as the complete security system of a building — not just the lock on the front door, but every camera, guard, alarm, and emergency exit working together.
+  </div>
+
+  <h3>Core Components of Security Infrastructure</h3>
+
+  <h4>1. Firewall</h4>
+  <p>A firewall is the <strong>first line of defense</strong> at the network boundary. It inspects incoming and outgoing network traffic and blocks anything that violates defined rules.</p>
+  <ul>
+    <li><strong>Packet Filtering Firewall:</strong> Checks packet header data (source IP, destination IP, port, protocol). Fast but basic — cannot inspect packet content.</li>
+    <li><strong>Stateful Inspection Firewall:</strong> Tracks the state of network connections. Knows whether an incoming packet belongs to an already-established connection or is suspicious.</li>
+    <li><strong>Next-Generation Firewall (NGFW):</strong> Combines traditional firewall features with application awareness, user identity tracking, SSL inspection, and IPS. Palo Alto, Fortinet, and Check Point are popular NGFW vendors.</li>
+    <li><strong>Web Application Firewall (WAF):</strong> Specifically protects web applications from attacks like SQL injection, XSS, and CSRF by inspecting HTTP/HTTPS traffic.</li>
+  </ul>
+
+  <h4>2. Intrusion Detection and Prevention Systems (IDS/IPS)</h4>
+  <p>These systems watch network traffic for signs of attacks and either alert security teams (IDS) or automatically block the attack (IPS).</p>
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>IDS — Intrusion Detection System</h4>
+      <ul>
+        <li>Passive — watches and reports only</li>
+        <li>Detects known attack patterns (signatures) or anomalies</li>
+        <li>Sends alerts to security team</li>
+        <li>Does NOT block traffic</li>
+        <li>Like a smoke detector — it alarms but doesn't spray water</li>
+      </ul>
+    </div>
+    <div class="compare-card">
+      <h4>IPS — Intrusion Prevention System</h4>
+      <ul>
+        <li>Active — detects AND blocks attacks</li>
+        <li>Sits inline with network traffic</li>
+        <li>Can drop malicious packets in real time</li>
+        <li>Risk of false positives blocking legitimate traffic</li>
+        <li>Like a sprinkler system — detects and acts automatically</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>3. SIEM (Security Information and Event Management)</h4>
+  <p>A SIEM is like a <strong>central command center</strong> for security. It collects logs and security events from every system across the organization (firewalls, servers, applications, endpoints) and correlates them to detect attack patterns that no single system would notice alone.</p>
+  <div class="example-box">
+    <div class="ex-label">Example of SIEM Correlation</div>
+    A firewall log shows a port scan at 2am. An application log shows 50 failed login attempts at 2:05am. An admin log shows a new user account created at 2:10am. Individually, each looks suspicious. SIEM connects all three and alerts: <strong>"Active attack in progress — possible unauthorized access."</strong>
+  </div>
+  <p>Popular SIEM tools: <strong>Splunk, IBM QRadar, Microsoft Sentinel, ArcSight.</strong></p>
+
+  <h4>4. Antivirus and Endpoint Detection &amp; Response (EDR)</h4>
+  <p>Traditional <strong>antivirus</strong> software detects known malware using signature databases. Modern <strong>EDR</strong> tools go further — they monitor endpoint behavior in real time, detect novel threats (zero-days) that have no known signature, and allow remote investigation and containment of compromised devices.</p>
+
+  <h4>5. Identity and Access Management (IAM)</h4>
+  <p>IAM systems manage who can access which resources. Key components:</p>
+  <ul>
+    <li><strong>Single Sign-On (SSO):</strong> One login gives access to all authorized systems</li>
+    <li><strong>Multi-Factor Authentication (MFA):</strong> Requires two or more verification methods</li>
+    <li><strong>Privileged Access Management (PAM):</strong> Extra controls for administrator accounts — the most powerful and dangerous accounts</li>
+    <li><strong>Directory Services (LDAP / Active Directory):</strong> Central database of all users, groups, and permissions</li>
+  </ul>
+
+  <h4>6. VPN (Virtual Private Network)</h4>
+  <p>A VPN creates an <strong>encrypted tunnel</strong> between a user's device and the corporate network over the public internet. Essential for remote workers — without a VPN, their traffic travels unencrypted over potentially hostile public networks.</p>
+
+  <h4>7. PKI (Public Key Infrastructure)</h4>
+  <p>PKI is the system that manages <strong>digital certificates</strong> — used to verify identities online. When you see the padlock icon in your browser, PKI is behind it. It uses a pair of keys: a public key (shared openly) and a private key (kept secret by the owner).</p>
+
+  <h4>8. Honeypots</h4>
+  <p>Deliberately vulnerable fake systems designed to attract attackers. When an attacker interacts with a honeypot, security teams learn about their tools, techniques, and entry methods — without any real systems being harmed.</p>
+
+  <!-- Security Infrastructure overview diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.5 — Security Infrastructure: Layered Defence Model</div>
+    <svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <!-- Concentric layers from outside in -->
+      <!-- Layer 5: outermost -->
+      <ellipse cx="340" cy="190" rx="330" ry="185" fill="#fdf2f2" stroke="#c0392b" stroke-width="2.5"/>
+      <text x="340" y="22" text-anchor="middle" font-size="10" fill="#922b21" font-weight="700">PERIMETER: Firewall · IDS/IPS · WAF · DDoS Protection</text>
+
+      <!-- Layer 4 -->
+      <ellipse cx="340" cy="190" rx="270" ry="150" fill="#fff9ec" stroke="#e6ac00" stroke-width="2"/>
+      <text x="340" y="55" text-anchor="middle" font-size="9" fill="#8a6500" font-weight="700">NETWORK: VPN · VLAN · DMZ · Network Monitoring</text>
+
+      <!-- Layer 3 -->
+      <ellipse cx="340" cy="190" rx="210" ry="115" fill="#eef8ff" stroke="#0c8da0" stroke-width="2"/>
+      <text x="340" y="90" text-anchor="middle" font-size="9" fill="#065a68" font-weight="700">ENDPOINT: Antivirus · EDR · Patch Management</text>
+
+      <!-- Layer 2 -->
+      <ellipse cx="340" cy="190" rx="150" ry="80" fill="#edf9ef" stroke="#1a7a34" stroke-width="2"/>
+      <text x="340" y="125" text-anchor="middle" font-size="9" fill="#155724" font-weight="700">APPLICATION: WAF · Code Security · MFA</text>
+
+      <!-- Core -->
+      <ellipse cx="340" cy="190" rx="90" ry="47" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2.5"/>
+      <text x="340" y="184" text-anchor="middle" font-size="10" fill="#4a1d96" font-weight="700">DATA</text>
+      <text x="340" y="198" text-anchor="middle" font-size="9" fill="#4a1d96">Encryption · DLP · Backup</text>
+
+      <!-- Side label: Monitoring across all -->
+      <text x="20" y="190" text-anchor="middle" font-size="9" fill="#0a0a0a" font-weight="700" transform="rotate(-90,20,190)">SIEM · MONITORING · AUDIT LOGS (All Layers)</text>
+    </svg>
+  </div>
+
+  <h3>Zero Trust Architecture (Modern Approach)</h3>
+  <p>Traditional security assumed: <em>"everything inside the network is trusted."</em> Zero Trust flips this: <strong>"Trust no one — verify everything, every time."</strong></p>
+  <p>Zero Trust principles:</p>
+  <ul>
+    <li>Verify identity for every user, every access request — no exceptions, even for internal users</li>
+    <li>Apply least privilege — give minimum access needed for each task</li>
+    <li>Assume breach — act as if attackers are already inside; monitor continuously</li>
+    <li>Micro-segmentation — divide the network into tiny zones so a breach in one area cannot spread</li>
+  </ul>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST SP 800-207 — Zero Trust Architecture: https://csrc.nist.gov/publications/detail/sp/800-207/final</li>
+      <li>NIST SP 800-94 — IDS/IPS Guide: https://csrc.nist.gov/publications/detail/sp/800-94/final</li>
+      <li>NIST SP 800-113 — VPN Guide: https://csrc.nist.gov/publications/detail/sp/800-113/final</li>
+      <li>Stallings, W. — Network Security Essentials, Pearson</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.4 — CONTINGENCY PLANNING
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-4">
+  <div class="topic-label">Topic 2.4</div>
+  <h2 class="topic-title">Contingency Planning — Incident Response, Disaster Recovery &amp; BCP</h2>
+
+  <div class="concept-box">
+    <strong>Contingency Planning</strong> is the process of preparing an organization to handle unexpected, disruptive events — cyberattacks, natural disasters, power failures, pandemics — so that critical operations can continue or be restored as quickly as possible. The three key pillars are: <strong>Incident Response (IR), Disaster Recovery (DR), and Business Continuity Planning (BCP).</strong>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip</div>
+    Know the difference between IR, DR, and BCP — they are often confused. IR = reacting to a security incident. DR = restoring IT systems after a disaster. BCP = keeping the whole business running during and after a disaster.
+  </div>
+
+  <h3>The Three Pillars Explained</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Pillar</th><th>Focus</th><th>Timeline</th><th>Key Question</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Incident Response (IR)</strong></td><td>Respond to a specific security incident</td><td>Hours to days</td><td>"How do we handle this attack right now?"</td></tr>
+      <tr><td><strong>Disaster Recovery (DR)</strong></td><td>Restore IT systems after a major disruption</td><td>Days to weeks</td><td>"How do we get our systems back online?"</td></tr>
+      <tr><td><strong>Business Continuity Plan (BCP)</strong></td><td>Keep the entire business functioning during any crisis</td><td>Ongoing during crisis</td><td>"How do we keep operating no matter what happens?"</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Part A — Incident Response (IR)</h3>
+  <p>An <strong>Incident Response Plan (IRP)</strong> is a documented, pre-planned procedure for detecting, responding to, containing, and recovering from cybersecurity incidents. Having a plan <em>before</em> an attack happens means you respond systematically rather than in panic.</p>
+
+  <p>NIST defines 4 phases of Incident Response (NIST SP 800-61):</p>
+
+  <div class="phase-strip">
+    <div class="phase-block ph-prepare">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Preparation</span>
+      <span class="ph-desc">Form IR team, define roles, set up tools, write playbooks, train staff <em>before</em> incidents occur</span>
+    </div>
+    <div class="phase-block ph-detect">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Detection &amp; Analysis</span>
+      <span class="ph-desc">Identify that an incident has occurred, classify severity, and understand what happened and how</span>
+    </div>
+    <div class="phase-block ph-contain">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Containment, Eradication &amp; Recovery</span>
+      <span class="ph-desc">Stop the attack spreading, remove malware, restore clean systems from backup</span>
+    </div>
+    <div class="phase-block ph-lessons">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Post-Incident Activity</span>
+      <span class="ph-desc">Document lessons learned, update policies, improve defences, report to regulators if required</span>
+    </div>
+  </div>
+
+  <h4>Key Incident Response Roles</h4>
+  <ul>
+    <li><strong>Incident Response Manager:</strong> Leads the entire response; makes decisions under pressure</li>
+    <li><strong>Security Analyst:</strong> Investigates the attack technically; traces what happened</li>
+    <li><strong>Forensic Investigator:</strong> Collects and preserves digital evidence</li>
+    <li><strong>Communications Officer:</strong> Manages internal and external communication during the incident</li>
+    <li><strong>Legal/Compliance Team:</strong> Advises on legal obligations (notification requirements, law enforcement)</li>
+  </ul>
+
+  <h4>Incident Classification Levels</h4>
+  <table class="data-table no-bold">
+    <thead><tr><th>Level</th><th>Severity</th><th>Example</th><th>Response Time</th></tr></thead>
+    <tbody>
+      <tr><td>Level 1</td><td>Low</td><td>Single spam email, one failed login</td><td>Within 24 hours</td></tr>
+      <tr><td>Level 2</td><td>Medium</td><td>Malware on one workstation, policy violation</td><td>Within 4–8 hours</td></tr>
+      <tr><td>Level 3</td><td>High</td><td>Ransomware spreading, server compromised</td><td>Within 1–2 hours</td></tr>
+      <tr><td>Level 4</td><td>Critical</td><td>Data breach, full network compromise, CEO fraud</td><td>Immediate — all hands</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Part B — Disaster Recovery (DR)</h3>
+  <p><strong>Disaster Recovery</strong> focuses specifically on restoring IT infrastructure and data after a major disruption — whether from a cyberattack, natural disaster (flood, earthquake), fire, or major hardware failure.</p>
+
+  <h4>Key DR Metrics</h4>
+  <ul>
+    <li><strong>RPO (Recovery Point Objective):</strong> How much data can we afford to lose? If RPO = 4 hours, we back up every 4 hours. If a disaster strikes, we lose at most 4 hours of data.</li>
+    <li><strong>RTO (Recovery Time Objective):</strong> How quickly must systems be back online? If RTO = 2 hours, all critical systems must be restored within 2 hours of a disaster.</li>
+  </ul>
+
+  <div class="example-box">
+    <div class="ex-label">Example — Hospital DR Plan</div>
+    A hospital's RTO for its patient management system is <strong>30 minutes</strong> (any longer and patient safety is at risk). Its RPO is <strong>1 hour</strong> (it backs up patient data every hour). The hospital maintains a hot standby server that can take over in under 30 minutes.
+  </div>
+
+  <h4>Types of Recovery Sites</h4>
+  <table class="data-table no-bold">
+    <thead><tr><th>Site Type</th><th>Description</th><th>Recovery Time</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hot Site</strong></td><td>Fully operational duplicate — hardware, software, data all ready. Switch over immediately.</td><td>Minutes to hours</td><td>Very High</td></tr>
+      <tr><td><strong>Warm Site</strong></td><td>Has hardware and connectivity but needs data restoration and software configuration</td><td>Hours to a day</td><td>Medium</td></tr>
+      <tr><td><strong>Cold Site</strong></td><td>Just the physical space and power — no equipment. Must buy and install everything.</td><td>Days to weeks</td><td>Low</td></tr>
+      <tr><td><strong>Cloud DR</strong></td><td>Data and systems replicated to cloud (AWS, Azure). Spin up on-demand when needed.</td><td>Minutes to hours</td><td>Pay-as-you-go</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Part C — Business Continuity Plan (BCP)</h3>
+  <p>A <strong>BCP</strong> is broader than DR. While DR focuses on IT recovery, BCP covers the entire organization — every department, every process, every resource needed to keep the business operating during and after any type of crisis.</p>
+
+  <h4>BCP Development Process</h4>
+  <div class="phase-strip">
+    <div class="phase-block ph-prepare">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Scope &amp; Planning</span>
+      <span class="ph-desc">Define what functions are critical and what risks to plan for</span>
+    </div>
+    <div class="phase-block ph-detect">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Business Impact Analysis (BIA)</span>
+      <span class="ph-desc">Identify which processes, if disrupted, cause the most damage; calculate financial and operational impact</span>
+    </div>
+    <div class="phase-block ph-contain">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Identify Alternatives</span>
+      <span class="ph-desc">For each critical process, design a workaround if primary systems fail</span>
+    </div>
+    <div class="phase-block ph-eradicate">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Write the BCP</span>
+      <span class="ph-desc">Document procedures, responsibilities, communication plans, and recovery steps</span>
+    </div>
+    <div class="phase-block ph-recover">
+      <span class="ph-num">5</span>
+      <span class="ph-title">Test and Train</span>
+      <span class="ph-desc">Conduct tabletop exercises and full drills; update based on lessons</span>
+    </div>
+    <div class="phase-block ph-lessons">
+      <span class="ph-num">6</span>
+      <span class="ph-title">Maintain and Update</span>
+      <span class="ph-desc">Review BCP annually and after every major change or incident</span>
+    </div>
+  </div>
+
+  <h4>Business Impact Analysis (BIA)</h4>
+  <p>BIA is the most critical step in BCP development. It identifies:</p>
+  <ul>
+    <li>Which business functions are mission-critical (cannot stop without severe consequences)</li>
+    <li>The maximum tolerable downtime (MTD) for each function</li>
+    <li>The financial, reputational, legal, and safety impact of disruption</li>
+    <li>Dependencies — which processes depend on which systems, people, and vendors</li>
+  </ul>
+
+  <div class="case-box">
+    <div class="case-label">🌍 Real-World Application</div>
+    <strong>COVID-19 Pandemic (2020):</strong> Organizations with strong BCPs quickly shifted to remote work, maintained customer service, and sustained revenue. Those without BCPs struggled for months — losing customers, missing obligations, and scrambling to improvise. The pandemic was the largest real-world BCP test in history.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST SP 800-61 Rev.2 — Computer Security Incident Handling Guide: https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final</li>
+      <li>NIST SP 800-34 Rev.1 — Contingency Planning Guide: https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final</li>
+      <li>ISO 22301 — Business Continuity Management Systems: https://www.iso.org/iso-22301-business-continuity.html</li>
+      <li>Whitman &amp; Mattord — Management of Information Security, Cengage</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.5 — CYBER SECURITY POLICY: EISP / ISSP / SYSSP
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-5">
+  <div class="topic-label">Topic 2.5</div>
+  <h2 class="topic-title">Cyber Security Policy — EISP, ISSP and SysSP</h2>
+
+  <div class="concept-box">
+    A <strong>Security Policy</strong> is a formal, written document that states the organization's rules, expectations, and responsibilities regarding the protection of its information assets. Without a policy, security is just individual effort with no accountability. Policies are the bridge between management decisions and actual technical controls.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip — Very Important</div>
+    EISP, ISSP, and SysSP are a hierarchy: EISP is at the TOP (entire organization), ISSP is in the MIDDLE (specific technology topics), SysSP is at the BOTTOM (specific technical systems). This distinction always comes in exam questions.
+  </div>
+
+  <h3>The Three Levels of Security Policy</h3>
+
+  <div class="policy-trio">
+    <div class="policy-col eisp">
+      <h4>EISP<br><small style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:normal;">Enterprise Information Security Policy</small></h4>
+      <ul>
+        <li>Highest level policy in the organization</li>
+        <li>Set by senior management / Board of Directors</li>
+        <li>Covers the entire organization — all departments, all employees</li>
+        <li>Defines overall security vision, goals, and responsibilities</li>
+        <li>Does NOT go into technical detail</li>
+        <li>All other policies must align with EISP</li>
+        <li>Reviewed annually minimum</li>
+      </ul>
+    </div>
+    <div class="policy-col issp">
+      <h4>ISSP<br><small style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:normal;">Issue-Specific Security Policy</small></h4>
+      <ul>
+        <li>Mid-level policy for a specific topic or technology</li>
+        <li>Separate ISSP for each issue: email, internet use, ERP, remote access, BYOD</li>
+        <li>Addresses a specific area in detail</li>
+        <li>Includes: authorized use, prohibited actions, responsibilities, violations &amp; penalties</li>
+        <li>Applies to users of that specific technology</li>
+        <li>Updated when the technology or threat changes</li>
+      </ul>
+    </div>
+    <div class="policy-col syssp">
+      <h4>SysSP<br><small style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:normal;">System-Specific Security Policy</small></h4>
+      <ul>
+        <li>Lowest level — most technical and specific</li>
+        <li>Written for a particular system (firewall, web server, database)</li>
+        <li>Two types: Managerial guidance (what the system should achieve) and Technical specifications (exact configuration rules)</li>
+        <li>Written by IT security staff, not management</li>
+        <li>Example: Firewall rule: "Block all inbound traffic on port 23 (Telnet)"</li>
+        <li>Reviewed whenever the system changes</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>EISP — Enterprise Information Security Policy</h3>
+  <p>The EISP is the organization's <strong>security constitution</strong>. It does not tell employees which passwords to use — it tells them that protecting information is everyone's responsibility and defines what happens if they fail to do so.</p>
+
+  <h4>Components of a Good EISP</h4>
+  <ul>
+    <li><strong>Statement of Purpose:</strong> Why does this policy exist? What is it trying to protect?</li>
+    <li><strong>Information Security Goals:</strong> Alignment with CIA Triad; specific organizational security objectives</li>
+    <li><strong>Scope:</strong> Who does this apply to? (All employees, contractors, vendors, visitors)</li>
+    <li><strong>Roles and Responsibilities:</strong> CISO, department heads, all employees — who is accountable for what</li>
+    <li><strong>Risk Management Framework:</strong> How the organization identifies and manages security risks</li>
+    <li><strong>Compliance Requirements:</strong> Which laws and regulations must be followed (IT Act, GDPR, HIPAA)</li>
+    <li><strong>Enforcement and Penalties:</strong> Consequences for policy violations — from warnings to termination to legal action</li>
+    <li><strong>Policy Review Schedule:</strong> When and how this policy will be reviewed and updated</li>
+  </ul>
+
+  <h3>ISSP — Issue-Specific Security Policy</h3>
+  <p>Each ISSP document tackles <strong>one specific technology or security issue</strong> in detail. Common ISSPs include:</p>
+  <ul>
+    <li><strong>Email Use Policy</strong> — What can and cannot be sent via corporate email</li>
+    <li><strong>Internet &amp; Social Media Policy</strong> — Acceptable use of internet and social platforms on company devices</li>
+    <li><strong>Remote Access / VPN Policy</strong> — Rules for accessing corporate systems from outside the office</li>
+    <li><strong>BYOD Policy (Bring Your Own Device)</strong> — Security requirements for personal devices used for work</li>
+    <li><strong>Cloud Storage Policy</strong> — What data can be uploaded to cloud services</li>
+    <li><strong>ERP Security Policy</strong> — Access controls, authorized use, and monitoring of ERP systems</li>
+  </ul>
+
+  <h4>Standard Structure of an ISSP Document</h4>
+  <ol>
+    <li><strong>Statement of Purpose</strong> — Why this ISSP exists</li>
+    <li><strong>Authorized Access and Usage</strong> — Who may use this technology, for what purposes</li>
+    <li><strong>Prohibited Actions</strong> — Clear list of what is NOT allowed</li>
+    <li><strong>Systems Management</strong> — Who manages and maintains this technology securely</li>
+    <li><strong>Violations and Penalties</strong> — What happens when the policy is broken</li>
+    <li><strong>Policy Review</strong> — When and how this specific ISSP will be updated</li>
+  </ol>
+
+  <div class="example-box">
+    <div class="ex-label">Example — Email Use ISSP</div>
+    <strong>Authorized:</strong> Sending work-related communications, sharing non-confidential documents<br>
+    <strong>Prohibited:</strong> Sending personal emails from corporate account, forwarding internal emails to personal accounts, opening attachments from unknown senders<br>
+    <strong>Penalty for violation:</strong> First offence — written warning. Second offence — suspension. Third offence — termination and possible legal action under IT Act S.66C.
+  </div>
+
+  <h3>SysSP — System-Specific Security Policy</h3>
+  <p>SysSP documents are the most technical. They contain the <strong>exact configuration rules</strong> for a specific system. Two types:</p>
+
+  <h4>Type 1 — Managerial Guidance SysSP</h4>
+  <p>Written guidance for how a system should be configured and managed — in plain language for IT managers. Example: "The web server must use TLS 1.3 or higher. TLS 1.0 and 1.1 must be disabled. HTTP-only access must be redirected to HTTPS."</p>
+
+  <h4>Type 2 — Technical Specification SysSP (Access Control Lists)</h4>
+  <p>The actual technical rules programmed into the system. Example — Firewall ACL rules:</p>
+  <div style="background:#0a0a0a;color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:1rem 1.4rem;margin:0.8rem 0;overflow-x:auto;">
+    <pre>ALLOW   TCP  192.168.1.0/24  ANY   PORT 443  (HTTPS inbound from internal)
+ALLOW   TCP  ANY  192.168.10.5  PORT 25   (SMTP from mail server only)
+DENY    TCP  ANY  ANY   PORT 23   (Block all Telnet - unencrypted)
+DENY    TCP  ANY  ANY   PORT 21   (Block all FTP - use SFTP instead)
+DENY    ALL  ANY  ANY   (Default deny - block everything else)</pre>
+  </div>
+
+  <h3>Policy Hierarchy Summary</h3>
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.6 — Security Policy Hierarchy: EISP → ISSP → SysSP</div>
+    <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;">
+      <!-- EISP (top — widest) -->
+      <polygon points="350,10 680,90 20,90" fill="#fff3cd" stroke="#e6ac00" stroke-width="2.5"/>
+      <text x="350" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#8a6500">EISP</text>
+      <text x="350" y="73" text-anchor="middle" font-size="9" fill="#8a6500">Enterprise · All employees · Set by senior management</text>
+
+      <!-- ISSP (middle) -->
+      <polygon points="350,98 600,178 100,178" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2.5"/>
+      <text x="350" y="138" text-anchor="middle" font-size="12" font-weight="700" fill="#065a68">ISSP</text>
+      <text x="350" y="155" text-anchor="middle" font-size="9" fill="#065a68">Issue-specific · Technology-by-technology · Mid-management</text>
+      <text x="350" y="169" text-anchor="middle" font-size="8" fill="#0c8da0">Email | Internet | VPN | ERP | BYOD | Cloud ...</text>
+
+      <!-- SysSP (bottom — narrowest) -->
+      <polygon points="350,186 520,266 180,266" fill="#d4edda" stroke="#1a7a34" stroke-width="2.5"/>
+      <text x="350" y="226" text-anchor="middle" font-size="12" font-weight="700" fill="#155724">SysSP</text>
+      <text x="350" y="245" text-anchor="middle" font-size="9" fill="#155724">System-specific · Technical rules · Written by IT staff</text>
+      <text x="350" y="259" text-anchor="middle" font-size="8" fill="#1a7a34">Firewall rules | Server config | ACLs | Encryption settings</text>
+    </svg>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Whitman, M. &amp; Mattord, H. — Principles of Information Security, 6th Ed., Cengage</li>
+      <li>Whitman, M. &amp; Mattord, H. — Management of Information Security, 6th Ed., Cengage</li>
+      <li>SANS Security Policy Templates: https://www.sans.org/information-security-policy</li>
+      <li>ISO/IEC 27001:2022 — Annex A Controls: https://www.iso.org/isoiec-27001-information-security.html</li>
+      <li>NIST SP 800-12 Rev.1 — An Introduction to Information Security: https://csrc.nist.gov/publications/detail/sp/800-12/rev-1/final</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 2.6 — CASE STUDIES OF CYBER POLICY
+══════════════════════════════════════ -->
+<section class="topic-section" id="t2-6">
+  <div class="topic-label">Topic 2.6</div>
+  <h2 class="topic-title">Case Studies of Cyber Security Policy</h2>
+
+  <div class="concept-box">
+    Real-world case studies show us what happens when cyber security policies are absent, weak, or well-designed. These cases are selected to illustrate the direct impact of EISP, ISSP, SysSP, contingency planning, and data governance — the topics of Unit 2.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Exam Tip</div>
+    Case studies are asked as 7-mark scenario-based questions. Always structure your answer: What happened → Root cause (which policy failed) → What should have been in place → Legal consequence. These 4 points = full marks.
+  </div>
+
+  <!-- CASE STUDY 1 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 1 — Target Corporation Data Breach</h4>
+      <div class="cs-meta">USA · 2013 · Retail Sector · 40 Million Cards Stolen</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>In November–December 2013, during the US holiday shopping season, hackers stole credit and debit card data of <strong>40 million customers</strong> and personal information of 70 million more from Target Corporation — one of the largest retail chains in America.</p>
+
+      <h5>How the Attack Happened</h5>
+      <ul>
+        <li>Attackers gained access through a <strong>third-party HVAC (air conditioning) vendor</strong> called Fazio Mechanical Services</li>
+        <li>Fazio had network access to Target's systems to monitor energy usage — but there was <strong>no vendor security policy</strong> requiring Fazio to meet Target's security standards</li>
+        <li>Attackers stole Fazio's credentials through a phishing email containing malware (Citadel Trojan)</li>
+        <li>Using Fazio's credentials, they accessed Target's network and eventually reached Point-of-Sale (POS) systems at checkout counters</li>
+        <li>They installed a RAM-scraping malware called <strong>BlackPOS</strong> on 1,800 POS terminals that captured card data as it was being processed</li>
+        <li>Target's own security monitoring tool (FireEye) actually detected the attack and sent alerts — but <strong>no one acted on the alerts</strong></li>
+      </ul>
+
+      <h5>Which Policies Failed?</h5>
+      <ul>
+        <li><strong>EISP failure:</strong> No enterprise-wide policy requiring vendor security compliance before granting network access</li>
+        <li><strong>ISSP failure:</strong> No vendor access management policy defining how third-party vendor access must be restricted and monitored</li>
+        <li><strong>SysSP failure:</strong> POS terminals were not network-segmented from vendor access zones. Firewall rules should have prevented lateral movement from the HVAC network to POS systems</li>
+        <li><strong>Incident Response failure:</strong> Automated alerts were ignored — no functional IRP required action on alerts</li>
+      </ul>
+
+      <h5>What Should Have Been in Place?</h5>
+      <ul>
+        <li>Vendor risk management policy (ISSP) requiring third-party security audits before granting access</li>
+        <li>Network segmentation (SysSP) keeping vendor access completely isolated from customer payment systems</li>
+        <li>An Incident Response Plan requiring investigation of all security alerts within a defined timeframe</li>
+        <li>PCI-DSS compliance properly enforced — PCI-DSS specifically requires segmentation of cardholder data environments</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Legal &amp; Financial Consequence</span>
+      Target paid <strong>$18.5 million</strong> in settlement to 47 US states. CEO and CIO both resigned. Total cost including settlements, legal fees, and security upgrades exceeded <strong>$200 million</strong>. This case became the defining example of supply chain security failure.
+    </div>
+  </div>
+
+  <!-- CASE STUDY 2 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 2 — Sony Pictures Hack &amp; Incident Response Failure</h4>
+      <div class="cs-meta">USA · 2014 · Entertainment Sector · Nation-State Attack</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>In November 2014, hackers (attributed to North Korea, calling themselves the "Guardians of Peace") launched a destructive attack on <strong>Sony Pictures Entertainment</strong>. They stole 100+ terabytes of data and deployed malware that <strong>permanently wiped hard drives</strong> on Sony's entire corporate network — making 70% of Sony's computers completely inoperable.</p>
+
+      <h5>What Was Exposed</h5>
+      <ul>
+        <li>Unreleased films (including "The Interview" — the movie that triggered the attack)</li>
+        <li>Personal data (SSNs, salaries, emails) of all 6,000 Sony employees</li>
+        <li>Embarrassing private emails between executives that were published publicly</li>
+        <li>Four unreleased movies were leaked online</li>
+        <li>Medical records of employees and their families</li>
+      </ul>
+
+      <h5>Policy Failures</h5>
+      <ul>
+        <li><strong>No functioning BCP:</strong> After the attack, employees could not use computers for weeks — no business continuity procedures existed for such a scenario. Employees were told to use pen and paper.</li>
+        <li><strong>No Disaster Recovery plan:</strong> Systems could not be restored because there were no clean, current backups. Many systems were permanently lost.</li>
+        <li><strong>Poor password management (ISSP failure):</strong> Sony stored thousands of administrator passwords in a folder literally named "Passwords" on their network — with no encryption.</li>
+        <li><strong>Weak EISP:</strong> Security was chronically underfunded; the CISO had reportedly warned management for years about inadequate security investment.</li>
+      </ul>
+
+      <h5>What Should Have Been Done?</h5>
+      <ul>
+        <li>A BCP that included procedures for operating without computer access (manual fallback procedures)</li>
+        <li>Regular, tested, <em>offline</em> backups — critical for recovery from destructive malware</li>
+        <li>A password management policy prohibiting cleartext storage of credentials</li>
+        <li>Network segmentation to prevent one breach spreading to the entire corporate network</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Consequence</span>
+      Sony Pictures suffered an estimated <strong>$100 million</strong> in damages. The incident is considered one of the most destructive corporate cyberattacks in history and defined how the industry thinks about destructive (not just data-stealing) cyberattacks.
+    </div>
+  </div>
+
+  <!-- CASE STUDY 3 -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 3 — AIIMS Delhi Ransomware Attack (Indian Context)</h4>
+      <div class="cs-meta">India · November 2022 · Healthcare Sector · Ransomware Attack</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>What Happened</h5>
+      <p>The <strong>All India Institute of Medical Sciences (AIIMS), New Delhi</strong> — India's premier government hospital — suffered a major ransomware attack on November 23, 2022. The attack encrypted the hospital's servers, making all digital patient records inaccessible. AIIMS serves thousands of patients daily, including senior government officials and VIPs.</p>
+
+      <h5>Impact of the Attack</h5>
+      <ul>
+        <li>All hospital services — OPD registrations, lab reports, billing, blood bank — reverted to manual pen-and-paper processes</li>
+        <li>Approximately <strong>1.3 crore (13 million) patient records</strong> were reportedly compromised</li>
+        <li>Emergency, outpatient, inpatient, and lab services were disrupted for over <strong>2 weeks</strong></li>
+        <li>Attackers reportedly demanded a ransom of approximately ₹200 crore in cryptocurrency</li>
+        <li>Five AIIMS servers were affected; data on at least 40 million patient records was at risk</li>
+      </ul>
+
+      <h5>Policy and Infrastructure Failures</h5>
+      <ul>
+        <li><strong>No functional BCP:</strong> While AIIMS could switch to manual processes (which they did), there was no pre-tested manual fallback procedure — causing chaos and delays in critical care</li>
+        <li><strong>Network segmentation failure (SysSP):</strong> Hospital administrative networks and clinical systems were not adequately separated — once one server was compromised, the attack spread laterally</li>
+        <li><strong>No offline backups:</strong> The encrypted servers could not be quickly restored because backup systems were not current or were also network-connected (and thus also encrypted)</li>
+        <li><strong>Insufficient EISP for critical infrastructure:</strong> As a government hospital handling VIP patient data, AIIMS should have followed India's CERT-IN guidelines for critical infrastructure protection — which require mandatory incident reporting within 6 hours</li>
+        <li><strong>No ISSP for medical device security:</strong> Many hospital IoT medical devices (scanners, monitors) were on the same network without separate security controls</li>
+      </ul>
+
+      <h5>Response and Lessons</h5>
+      <ul>
+        <li>CERT-IN (India's cybersecurity agency), NIA, Delhi Police, Intelligence Bureau, and CBI all participated in the investigation</li>
+        <li>China-linked hackers were suspected based on forensic evidence</li>
+        <li>The attack accelerated India's push for a comprehensive National Cybersecurity Strategy for healthcare</li>
+        <li>Post-attack, AIIMS implemented network segmentation, air-gapped backups, and mandatory CERT-IN compliance</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Indian Law — Legal Applicability</span>
+      Under <strong>IT Act 2000, Section 66F</strong> (Cyber Terrorism) and Section 43 (Damage to computer systems), the perpetrators if identified face imprisonment up to life and full compensation liability. AIIMS was also required to report under CERT-IN's 2022 mandatory reporting directive. This case directly led to stricter cybersecurity mandates for government healthcare institutions in India.
+    </div>
+  </div>
+
+  <!-- CASE STUDY 4 — Positive example -->
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Case Study 4 — Microsoft's Zero Trust Policy Implementation (Positive Example)</h4>
+      <div class="cs-meta">USA · 2017–Present · Technology Sector · Policy Success Story</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>Background</h5>
+      <p>After the devastating <strong>NotPetya ransomware attack (2017)</strong> — which caused $10 billion in global damage and partially affected Microsoft's operations — Microsoft undertook one of the most comprehensive cybersecurity policy transformations in corporate history.</p>
+
+      <h5>What Microsoft Did — Policy Overhaul</h5>
+      <ul>
+        <li><strong>EISP rewrite:</strong> Adopted Zero Trust as the enterprise-wide security philosophy — "Assume breach, verify explicitly, use least privilege access"</li>
+        <li><strong>ISSP for every technology domain:</strong> Separate detailed policies for cloud access, device management, identity verification, data classification, and vendor access — all aligned with the new EISP</li>
+        <li><strong>Mandatory MFA (SysSP):</strong> Multi-factor authentication required for all 200,000+ employees globally, for every system access — no exceptions</li>
+        <li><strong>Micro-segmentation:</strong> The corporate network was divided into thousands of small segments so that a breach in any one segment cannot spread to others</li>
+        <li><strong>Vendor security requirements (ISSP):</strong> Every vendor with Microsoft network access must comply with Microsoft's security standards and be audited annually</li>
+      </ul>
+
+      <h5>Outcome — Why This is a Positive Case Study</h5>
+      <ul>
+        <li>Microsoft successfully blocked the massive <strong>SolarWinds supply chain attack</strong> from spreading to its internal systems in 2020, while less prepared organizations were severely compromised</li>
+        <li>After the <strong>Lapsus$ hacking group</strong> briefly compromised one Microsoft employee account in 2022, the breach was <strong>contained within hours</strong> due to micro-segmentation and quick IR — no customer data was exposed</li>
+        <li>Microsoft publishes its security learnings as <strong>public case studies</strong> to help the global community</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Key Lesson — Policy as Prevention</span>
+      Microsoft's case proves that <strong>comprehensive, well-enforced security policies prevent disasters</strong> — not just respond to them. The cost of implementing proper policies is a fraction of the cost of a breach. Microsoft now generates significant revenue from its own security products (Azure Sentinel, Microsoft Defender) built on these learnings.
+    </div>
+  </div>
+
+  <!-- Cross-case comparison chart -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 2.7 — Case Study Comparison: Policy Failures vs Estimated Cost</div>
+    <div class="chart-container">
+      <canvas id="caseStudyChart"></canvas>
+    </div>
+  </div>
+
+  <h3>Summary: Lessons Learned from All Case Studies</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Case</th><th>Primary Policy Gap</th><th>Core Lesson</th></tr></thead>
+    <tbody>
+      <tr><td>Target (2013)</td><td>Vendor security ISSP absent; SysSP network segmentation missing</td><td>Third-party access must be governed by strict policy — not trust</td></tr>
+      <tr><td>Sony Pictures (2014)</td><td>No BCP, no DR, no password management ISSP</td><td>Password policies and disaster recovery are non-negotiable basics</td></tr>
+      <tr><td>AIIMS (2022)</td><td>No offline backups, network segmentation missing, no healthcare-specific ISSP</td><td>Critical infrastructure requires specialized policy and mandatory CERT-IN compliance</td></tr>
+      <tr><td>Microsoft (2017–present)</td><td>N/A — positive example</td><td>Comprehensive, consistently enforced policies + Zero Trust = effective breach containment</td></tr>
+    </tbody>
+  </table>
+
+  <div class="conclusion-box">
+    <div class="con-label">Unit 2 — Final Takeaway</div>
+    <p>Network security is not just about technology — it is about governance, policy, and planning. The strongest firewall in the world cannot protect an organization that has no incident response plan, no vendor security policy, and no disaster recovery strategy. Policy is the foundation; technology is the implementation.</p>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">Official References</div>
+    <ul>
+      <li>Target Breach Investigation Report — US Senate Commerce Committee, 2014</li>
+      <li>FBI Sony Pictures Investigation Statement, 2014: https://www.fbi.gov/news/press-releases/update-on-sony-investigation</li>
+      <li>CERT-IN AIIMS Advisory, 2022: https://www.cert-in.org.in</li>
+      <li>Microsoft Digital Defense Report 2023: https://aka.ms/mddr</li>
+      <li>IT Act 2000, Section 66F — Cyber Terrorism: https://www.meity.gov.in/content/information-technology-act</li>
+      <li>NIST SP 800-34 Rev.1 — Contingency Planning: https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final</li>
+    </ul>
+  </div>
+</section>
+
+</main><!-- end .content-wrap -->
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>ECS 563 · Essentials of Cyber Security · Unit 02 · 2024 Pattern</span>
+    <div class="footer-links">
+      <a href="unit01_ECS.html">← Unit 1</a>
+      <a href="ECS_Index.html">🏠 Home</a>
+      <a href="#">Unit 3 →</a>
+    </div>
+    <span>F.Y. M.C.A. (Management) · SPPU</span>
+  </div>
+</footer>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+// Nav mobile close
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'))
+);
+
+// Back to top
+window.addEventListener('scroll', () => {
+  document.querySelector('.back-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Case Study Cost Comparison
+new Chart(document.getElementById('caseStudyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Target (2013)', 'Sony Pictures (2014)', 'AIIMS Delhi (2022)', 'Microsoft Response*'],
+    datasets: [
+      {
+        label: 'Estimated Financial Damage (USD Million)',
+        data: [200, 100, 35, 0],
+        backgroundColor: ['rgba(192,57,43,0.8)', 'rgba(142,68,173,0.8)', 'rgba(231,76,60,0.8)', 'rgba(46,204,113,0.5)'],
+        borderColor: ['#c0392b', '#8e44ad', '#e74c3c', '#27ae60'],
+        borderWidth: 2
+      },
+      {
+        label: 'Policy Gaps (out of 5)',
+        data: [4, 5, 4, 1],
+        backgroundColor: 'rgba(231,196,15,0.7)',
+        borderColor: '#e6ac00',
+        borderWidth: 2,
+        yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Damage (USD Million)' },
+        grid: { color: '#eee' }
+      },
+      y2: {
+        beginAtZero: true,
+        max: 6,
+        position: 'right',
+        title: { display: true, text: 'Policy Gaps (0–5)' },
+        grid: { display: false }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
