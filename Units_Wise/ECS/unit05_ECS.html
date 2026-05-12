@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Cyber Forensics | ECS 563 MCA Notes</title>
+<link rel="stylesheet" href="unit_css_master.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<!-- ════════ UNIT 5 INLINE STYLES ════════ -->
+<style>
+
+  /* ── FORENSIC TOOL BADGE ── */
+  .ftool-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.22rem 0.7rem;
+    margin: 0.2rem 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+    border-radius: 2px;
+  }
+  .ft-black  { background: var(--black); color: var(--white); }
+  .ft-blue   { background: #0c8da0; color: #fff; }
+  .ft-green  { background: #1a7a34; color: #fff; }
+  .ft-red    { background: #c0392b; color: #fff; }
+  .ft-purple { background: #6f42c1; color: #fff; }
+  .ft-amber  { background: #e6ac00; color: #000; }
+
+  /* ── EVIDENCE TYPE GRID (3-col) ── */
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .ev-card {
+    padding: 1rem 1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .ev-card:nth-child(3n)      { border-right: none; }
+  .ev-card:nth-last-child(-n+3){ border-bottom: none; }
+  .ev-card .ev-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+  .ev-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+  .ev-card p  { font-size: 0.85rem; line-height: 1.55; }
+  .ev-card .ev-eg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.67rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.4rem;
+    border-top: var(--border-thin);
+    padding-top: 0.28rem;
+  }
+  .ev-red    { background: #fdf2f2;  border-left: 4px solid #c0392b; }
+  .ev-amber  { background: #fff9ec;  border-left: 4px solid #e6ac00; }
+  .ev-blue   { background: #eef8ff;  border-left: 4px solid #0c8da0; }
+  .ev-purple { background: #f3f0fa;  border-left: 4px solid #6f42c1; }
+  .ev-green  { background: #f0faf2;  border-left: 4px solid #1a7a34; }
+  .ev-dark   { background: #f0f0ee;  border-left: 4px solid #3a3a36; }
+
+  /* ── LIFECYCLE STRIP (phases) ── */
+  .phase-strip {
+    display: flex;
+    gap: 0;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+  }
+  .phase-block {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.9rem 0.6rem;
+    text-align: center;
+    border-right: 2px solid #fff;
+    font-family: 'Source Serif 4', serif;
+  }
+  .phase-block:last-child { border-right: none; }
+  .phase-block .ph-num   { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:700; display:block; margin-bottom:0.2rem; }
+  .phase-block .ph-title { font-size:0.82rem; font-weight:600; display:block; margin-bottom:0.25rem; }
+  .phase-block .ph-desc  { font-size:0.74rem; line-height:1.4; opacity:0.87; }
+  .ph-f1 { background:#fde8d8; color:#7d3c00; }
+  .ph-f2 { background:#fff3cd; color:#8a6500; }
+  .ph-f3 { background:#d1ecf1; color:#065a68; }
+  .ph-f4 { background:#e2d9f3; color:#4a1d96; }
+  .ph-f5 { background:#d4edda; color:#155724; }
+  .ph-f6 { background:#f8d7da; color:#922b21; }
+  .ph-f7 { background:#f0f0ee; color:#3a3a36; }
+
+  /* ── THREAT RESPONSE TIMELINE ── */
+  .timeline-wrap { overflow-x: auto; margin: 1.2rem 0; }
+  .timeline {
+    display: flex;
+    align-items: flex-start;
+    min-width: 680px;
+    position: relative;
+    padding: 0.6rem 0 1.4rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 48px;
+    left: 30px;
+    right: 30px;
+    height: 3px;
+    background: var(--black);
+    z-index: 0;
+  }
+  .tl-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 4px;
+  }
+  .tl-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--black);
+    border: 3px solid var(--white);
+    box-shadow: 0 0 0 2px var(--black);
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+  .tl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    text-align: center;
+    color: var(--gray-700);
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+  }
+  .tl-body {
+    font-size: 0.79rem;
+    text-align: center;
+    line-height: 1.45;
+    color: var(--gray-700);
+  }
+  .tl-dot.tl-red    { background: #c0392b; box-shadow: 0 0 0 2px #c0392b; }
+  .tl-dot.tl-amber  { background: #e6ac00; box-shadow: 0 0 0 2px #e6ac00; }
+  .tl-dot.tl-blue   { background: #0c8da0; box-shadow: 0 0 0 2px #0c8da0; }
+  .tl-dot.tl-green  { background: #1a7a34; box-shadow: 0 0 0 2px #1a7a34; }
+  .tl-dot.tl-purple { background: #6f42c1; box-shadow: 0 0 0 2px #6f42c1; }
+
+  /* ── EMAIL HEADER MOCKUP ── */
+  .email-mock {
+    border: var(--border);
+    margin: 1.2rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    overflow-x: auto;
+  }
+  .em-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .em-row {
+    display: flex;
+    border-bottom: var(--border-thin);
+    min-width: 460px;
+  }
+  .em-row:last-child { border-bottom: none; }
+  .em-key {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-weight: 700;
+    padding: 0.45rem 0.8rem;
+    min-width: 160px;
+    border-right: var(--border);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .em-val {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    flex: 1;
+    word-break: break-all;
+  }
+  .em-val .em-suspect { color: #c0392b; font-weight: 700; }
+  .em-val .em-ok      { color: #1a7a34; font-weight: 600; }
+  .em-val .em-note    { color: #856404; font-style: italic; }
+
+  /* ── CHALLENGE CARD GRID ── */
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .ch-card {
+    padding: 1rem 1.1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .ch-card:nth-child(even) { border-right: none; }
+  .ch-card:nth-last-child(-n+2) { border-bottom: none; }
+  .ch-card .ch-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+  .ch-card h4 { font-family:'Playfair Display',serif; font-size:0.96rem; margin-bottom:0.3rem; }
+  .ch-card p  { font-size:0.86rem; line-height:1.56; }
+  .ch-card .ch-sol {
+    margin-top: 0.5rem;
+    padding: 0.35rem 0.7rem;
+    background: rgba(0,0,0,0.05);
+    border-left: 3px solid var(--black);
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+  .ch-a { background:#fdf2f2; border-left:4px solid #c0392b; }
+  .ch-b { background:#fff9ec; border-left:4px solid #e6ac00; }
+  .ch-c { background:#eef8ff; border-left:4px solid #0c8da0; }
+  .ch-d { background:#f3f0fa; border-left:4px solid #6f42c1; }
+  .ch-e { background:#f0faf2; border-left:4px solid #1a7a34; }
+  .ch-f { background:#f0f0ee; border-left:4px solid #3a3a36; }
+
+  /* ── CASESTUDY BOX ── */
+  .casestudy-box { border: 3px solid var(--black); margin: 2rem 0; }
+  .casestudy-header {
+    background: var(--black); color: var(--white);
+    padding: 0.8rem 1.4rem;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .casestudy-header h4 {
+    font-family:'Playfair Display',serif; font-size:1.05rem;
+    font-weight:700; color:var(--white); margin:0;
+  }
+  .casestudy-header .cs-meta {
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem;
+    letter-spacing:0.08em; color:#aaa; text-transform:uppercase;
+  }
+  .casestudy-body { padding: 1.3rem 1.4rem; }
+  .casestudy-body h5 {
+    font-family:'JetBrains Mono',monospace; font-size:0.74rem;
+    text-transform:uppercase; letter-spacing:0.09em;
+    color:var(--gray-500); margin:1rem 0 0.4rem;
+    border-bottom:var(--border-thin); padding-bottom:0.3rem;
+  }
+  .casestudy-body p  { margin: 0.5rem 0; }
+  .casestudy-body ul { padding-left: 1.4rem; }
+  .casestudy-body li { margin: 0.35rem 0; font-size: 0.95rem; }
+  .cs-verdict {
+    background: var(--gray-100); border-top: 2px solid var(--black);
+    padding: 0.9rem 1.4rem; font-weight:600; font-size:0.92rem;
+  }
+  .cs-verdict span {
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--gray-500); display:block; margin-bottom:0.3rem;
+  }
+
+  /* ── HASH DISPLAY BOX ── */
+  .hash-box {
+    background: var(--black);
+    color: #a8ff78;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.9rem 1.2rem;
+    margin: 0.8rem 0;
+    overflow-x: auto;
+    border-radius: 2px;
+    line-height: 1.9;
+  }
+  .hash-box .hb-label {
+    color: #aaa;
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .hash-box .hb-match { color: #a8ff78; }
+  .hash-box .hb-fail  { color: #ff6b6b; }
+
+  @media(max-width:680px){
+    .evidence-grid  { grid-template-columns: 1fr; }
+    .ev-card        { border-right:none !important; border-bottom:2px solid var(--black) !important; }
+    .ev-card:last-child { border-bottom:none !important; }
+    .challenge-grid { grid-template-columns: 1fr; }
+    .ch-card        { border-right:none !important; }
+    .phase-strip    { flex-wrap: wrap; }
+    .phase-block    { min-width: 44%; }
+    .em-row         { flex-wrap: wrap; }
+    .em-key         { min-width: 100%; border-right: none; border-bottom: var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAVIGATION ════════════ -->
+<nav class="top-nav">
+  <a href="ECS_Index.html" class="nav-brand"><span>ECS 563</span> · Cyber Security Notes</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">MENU</button>
+  <ul class="nav-links">
+    <li><a href="ECS_Index.html">Home</a></li>
+    <li><a href="unit01_ECS.html">Unit 1</a></li>
+    <li><a href="unit02_ECS.html">Unit 2</a></li>
+    <li><a href="unit03_ECS.html">Unit 3</a></li>
+    <li><a href="unit04_ECS.html">Unit 4</a></li>
+    <li><a href="#" class="active">Unit 5</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════ PAGE HEADER ════════════ -->
+<header class="page-header">
+  <div class="unit-badge">Unit 05 · ECS 563 MJ-EC21-4</div>
+  <h1>Cyber Forensics</h1>
+  <div class="subject-line">F.Y. M.C.A. (Management) · Semester II · 2024 Pattern · Savitribai Phule Pune University</div>
+  <div class="quick-info">
+    <div class="quick-info-item">Topics Covered<strong>6 Topics</strong></div>
+    <div class="quick-info-item">Exam Weightage<strong>~12–14 Marks</strong></div>
+    <div class="quick-info-item">Key Focus<strong>Evidence, Analysis &amp; Lifecycle</strong></div>
+    <div class="quick-info-item">Difficulty<strong>Intermediate–Hard</strong></div>
+  </div>
+</header>
+
+<!-- ════════════ TOC ════════════ -->
+<div class="toc-wrap">
+  <div class="toc-box">
+    <h3>Topics in This Unit</h3>
+    <ol>
+      <li><a href="#t5-1">5.1 — Threat Management and Response</a></li>
+      <li><a href="#t5-2">5.2 — Digital Forensics</a></li>
+      <li><a href="#t5-3">5.3 — Cyber Forensics and Digital Evidence</a></li>
+      <li><a href="#t5-4">5.4 — Forensic Analysis of Email</a></li>
+      <li><a href="#t5-5">5.5 — Digital Forensics Life Cycle</a></li>
+      <li><a href="#t5-6">5.6 — Challenges in Digital Forensics</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="content-wrap">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.1 — THREAT MANAGEMENT AND RESPONSE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-1">
+  <div class="topic-label">Topic 5.1</div>
+  <h2 class="topic-title">Threat Management and Response</h2>
+
+  <div class="concept-box">
+    <strong>Threat Management</strong> is the continuous, structured process of identifying, assessing, prioritising, and responding to security threats before, during, and after they materialise into incidents. It bridges proactive defence (prevention) with reactive response (incident handling) and feeds intelligence into the forensic investigation process.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Last Night Tip</div>
+    Threat Management → Incident Response → Digital Forensics is the natural flow. Know each phase, the NIST IR framework (Prepare → Detect → Contain → Eradicate → Recover → Review), and how forensics fits into the post-incident phase. CERT-IN notification within 6 hours is a mandatory India-specific requirement.
+  </div>
+
+  <h3>Threat Management Life Cycle</h3>
+
+  <div class="phase-strip">
+    <div class="phase-block ph-f1">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Identify</span>
+      <span class="ph-desc">Enumerate all assets, map threat landscape, create asset inventory with risk ratings</span>
+    </div>
+    <div class="phase-block ph-f2">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Detect</span>
+      <span class="ph-desc">SIEM alerts, IDS/IPS triggers, threat intelligence feeds, anomaly detection</span>
+    </div>
+    <div class="phase-block ph-f3">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Triage</span>
+      <span class="ph-desc">Classify severity (Low–Critical), confirm true positive, escalate appropriately</span>
+    </div>
+    <div class="phase-block ph-f4">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Contain</span>
+      <span class="ph-desc">Isolate affected systems, block C2 channels, prevent lateral movement</span>
+    </div>
+    <div class="phase-block ph-f5">
+      <span class="ph-num">5</span>
+      <span class="ph-title">Eradicate</span>
+      <span class="ph-desc">Remove malware, close attack vectors, patch vulnerabilities, revoke compromised credentials</span>
+    </div>
+    <div class="phase-block ph-f6">
+      <span class="ph-num">6</span>
+      <span class="ph-title">Recover</span>
+      <span class="ph-desc">Restore from clean backups, validate integrity, return systems to production</span>
+    </div>
+    <div class="phase-block ph-f7">
+      <span class="ph-num">7</span>
+      <span class="ph-title">Review</span>
+      <span class="ph-desc">Post-incident forensic analysis, lessons learned, update policies &amp; controls</span>
+    </div>
+  </div>
+
+  <h3>Threat Intelligence — Feeding the Response</h3>
+  <p><strong>Threat Intelligence (TI)</strong> is actionable, contextualised information about current and emerging threats — collected from internal logs, open-source feeds (OSINT), commercial vendors, and government advisories. It transforms raw data into meaningful context that improves detection and response speed.</p>
+
+  <table class="data-table no-bold">
+    <thead><tr><th>Intelligence Type</th><th>What It Provides</th><th>Source</th><th>Consumer</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Strategic TI</strong></td>
+        <td>High-level trends, threat actor landscapes, geopolitical context</td>
+        <td>Government reports, vendor annual reports</td>
+        <td>CISO, Board of Directors</td>
+      </tr>
+      <tr>
+        <td><strong>Tactical TI</strong></td>
+        <td>Attacker TTPs (Tactics, Techniques, Procedures) — how they operate</td>
+        <td>MITRE ATT&amp;CK, ISAC sharing</td>
+        <td>Security architects, SOC managers</td>
+      </tr>
+      <tr>
+        <td><strong>Operational TI</strong></td>
+        <td>Specific upcoming or active campaigns — targets, timelines</td>
+        <td>Dark web monitoring, vendor intelligence</td>
+        <td>SOC analysts, incident responders</td>
+      </tr>
+      <tr>
+        <td><strong>Technical TI</strong></td>
+        <td>Indicators of Compromise (IoCs) — malicious IPs, domains, file hashes</td>
+        <td>VirusTotal, CERT-IN feeds, STIX/TAXII</td>
+        <td>Firewall rules, SIEM rules, EDR</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Indicators of Compromise (IoCs)</h3>
+  <p>An <strong>Indicator of Compromise (IoC)</strong> is a piece of forensic data — found in system logs, network traffic, or files — that indicates a security incident has occurred or is in progress. Sharing IoCs across organisations dramatically improves detection speed industry-wide.</p>
+
+  <div class="evidence-grid">
+    <div class="ev-card ev-red">
+      <span class="ev-icon">📍</span>
+      <h4>Network-Based IoCs</h4>
+      <p>Suspicious IP addresses or domains used for command-and-control (C2) communication; unusual DNS queries to known-bad domains; unexpected outbound connections on unusual ports.</p>
+      <div class="ev-eg">eg: DNS query to *.onion proxy, connections to 45.147.228.0/24 (known C2 range)</div>
+    </div>
+    <div class="ev-card ev-amber">
+      <span class="ev-icon">📁</span>
+      <h4>File-Based IoCs</h4>
+      <p>MD5/SHA256 hashes of known malware files; malicious filenames or file paths; unexpected executables in %TEMP% or %AppData% directories; files with mismatched extensions.</p>
+      <div class="ev-eg">eg: SHA256: d41d8cd98f00b204e9800998ecf8427e (known ransomware dropper)</div>
+    </div>
+    <div class="ev-card ev-blue">
+      <span class="ev-icon">🖥️</span>
+      <h4>Host-Based IoCs</h4>
+      <p>New or modified registry keys used for persistence; unexpected scheduled tasks; processes running from unusual paths; disabled security software; new local admin accounts created.</p>
+      <div class="ev-eg">eg: HKCU\Software\Microsoft\Windows\CurrentVersion\Run — unknown entry</div>
+    </div>
+    <div class="ev-card ev-purple">
+      <span class="ev-icon">👤</span>
+      <h4>Behavioural IoCs</h4>
+      <p>Unusual login times; access to sensitive resources outside normal working hours; large data transfers to external storage; privilege escalation attempts; lateral movement across internal systems.</p>
+      <div class="ev-eg">eg: CFO account logging in at 3 AM, accessing HR database, exporting 2 GB of data</div>
+    </div>
+    <div class="ev-card ev-green">
+      <span class="ev-icon">✉️</span>
+      <h4>Email-Based IoCs</h4>
+      <p>Phishing email indicators: spoofed sender domains, mismatched Reply-To headers, links to lookalike domains, suspicious attachments with embedded macros, Base64-encoded payloads in email body.</p>
+      <div class="ev-eg">eg: From: ceo@company.co (not .com), attachment: invoice_2024.doc with macros</div>
+    </div>
+    <div class="ev-card ev-dark">
+      <span class="ev-icon">📜</span>
+      <h4>Log-Based IoCs</h4>
+      <p>Repeated failed login attempts (brute force); sudden spike in 404 errors (web scanning); cleared Windows Event Logs (attacker covering tracks); disabled audit logging; unusual sudo/su commands.</p>
+      <div class="ev-eg">eg: Windows Security Log Event ID 4625 — 5,000 failures in 10 minutes</div>
+    </div>
+  </div>
+
+  <h3>Incident Response — NIST SP 800-61 Framework</h3>
+  <p>The <strong>NIST SP 800-61 Computer Security Incident Handling Guide</strong> is the globally adopted standard for incident response. It defines four phases:</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 5.1 — NIST Incident Response Cycle: Four Phases</div>
+    <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9.5px;">
+      <defs>
+        <marker id="arr51" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+
+      <!-- Phase 1: Preparation -->
+      <rect x="20"  y="40" width="155" height="100" rx="4" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <text x="97"  y="68"  text-anchor="middle" font-family="'JetBrains Mono',monospace" fill="#e6ac00" font-weight="700" font-size="10">01</text>
+      <text x="97"  y="84"  text-anchor="middle" fill="#8a6500" font-weight="700" font-size="10.5">Preparation</text>
+      <text x="97"  y="100" text-anchor="middle" fill="#8a6500" font-size="8.5">Build IR team &amp; playbooks</text>
+      <text x="97"  y="113" text-anchor="middle" fill="#8a6500" font-size="8.5">Deploy SIEM / EDR</text>
+      <text x="97"  y="126" text-anchor="middle" fill="#8a6500" font-size="8.5">Train staff; run drills</text>
+
+      <!-- Arrow 1→2 -->
+      <line x1="177" y1="90" x2="213" y2="90" stroke="#0a0a0a" stroke-width="2" marker-end="url(#arr51)"/>
+
+      <!-- Phase 2: Detection & Analysis -->
+      <rect x="215" y="40" width="155" height="100" rx="4" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="292"  y="68"  text-anchor="middle" font-family="'JetBrains Mono',monospace" fill="#0c8da0" font-weight="700" font-size="10">02</text>
+      <text x="292"  y="84"  text-anchor="middle" fill="#065a68" font-weight="700" font-size="10.5">Detection &amp; Analysis</text>
+      <text x="292"  y="100" text-anchor="middle" fill="#065a68" font-size="8.5">Identify attack vectors</text>
+      <text x="292"  y="113" text-anchor="middle" fill="#065a68" font-size="8.5">Classify incident severity</text>
+      <text x="292"  y="126" text-anchor="middle" fill="#065a68" font-size="8.5">Document &amp; notify CERT-IN</text>
+
+      <!-- Arrow 2→3 -->
+      <line x1="372" y1="90" x2="408" y2="90" stroke="#0a0a0a" stroke-width="2" marker-end="url(#arr51)"/>
+
+      <!-- Phase 3: Containment, Eradication, Recovery -->
+      <rect x="410" y="40" width="155" height="100" rx="4" fill="#f8d7da" stroke="#c0392b" stroke-width="2"/>
+      <text x="487"  y="68"  text-anchor="middle" font-family="'JetBrains Mono',monospace" fill="#c0392b" font-weight="700" font-size="10">03</text>
+      <text x="487"  y="80"  text-anchor="middle" fill="#721c24" font-weight="700" font-size="9.5">Contain · Eradicate</text>
+      <text x="487"  y="92"  text-anchor="middle" fill="#721c24" font-weight="700" font-size="9.5">· Recover</text>
+      <text x="487"  y="108" text-anchor="middle" fill="#721c24" font-size="8.5">Isolate; remove malware</text>
+      <text x="487"  y="121" text-anchor="middle" fill="#721c24" font-size="8.5">Patch; restore from backup</text>
+      <text x="487"  y="134" text-anchor="middle" fill="#721c24" font-size="8.5">Validate clean systems</text>
+
+      <!-- Arrow 3→4 -->
+      <line x1="567" y1="90" x2="603" y2="90" stroke="#0a0a0a" stroke-width="2" marker-end="url(#arr51)"/>
+
+      <!-- Phase 4: Post-Incident -->
+      <rect x="605" y="40" width="100" height="100" rx="4" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <text x="655"  y="68"  text-anchor="middle" font-family="'JetBrains Mono',monospace" fill="#1a7a34" font-weight="700" font-size="10">04</text>
+      <text x="655"  y="83"  text-anchor="middle" fill="#155724" font-weight="700" font-size="9.5">Post-Incident</text>
+      <text x="655"  y="97"  text-anchor="middle" fill="#155724" font-weight="700" font-size="9.5">Activity</text>
+      <text x="655"  y="113" text-anchor="middle" fill="#155724" font-size="8">Forensic analysis</text>
+      <text x="655"  y="126" text-anchor="middle" fill="#155724" font-size="8">Lessons learned</text>
+
+      <!-- Feedback arrow: 4 back to 1 (loop) -->
+      <path d="M655,140 Q655,168 97,168 Q97,152 97,142" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr51)"/>
+      <text x="360" y="178" text-anchor="middle" fill="#555" font-size="8" font-family="'JetBrains Mono',monospace">← Continuous improvement loop</text>
+    </svg>
+  </div>
+
+  <h3>Security Operations Centre (SOC) — Threat Response Hub</h3>
+  <p>The <strong>SOC</strong> is the centralised team and facility responsible for continuous monitoring, detection, and response. SOC analysts work in tiers:</p>
+  <table class="data-table no-bold">
+    <thead><tr><th>Tier</th><th>Role</th><th>Responsibilities</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tier 1 — Analyst</strong></td><td>Alert Triage Analyst</td><td>Monitor SIEM dashboards 24×7; classify alerts; filter false positives; escalate confirmed incidents to Tier 2</td></tr>
+      <tr><td><strong>Tier 2 — Investigator</strong></td><td>Incident Responder</td><td>Investigate escalated incidents; analyse logs and endpoints; perform containment and eradication; coordinate with IT</td></tr>
+      <tr><td><strong>Tier 3 — Expert</strong></td><td>Threat Hunter / Forensic Analyst</td><td>Proactively hunt for hidden threats; conduct digital forensics; reverse-engineer malware; develop new detection rules</td></tr>
+      <tr><td><strong>SOC Manager</strong></td><td>Operations Lead</td><td>Oversee SOC operations; report to CISO; manage staffing, tools, and budget; liaise with legal and compliance teams</td></tr>
+    </tbody>
+  </table>
+
+  <div class="case-box">
+    <div class="case-label">🇮🇳 India — CERT-IN Mandatory Reporting (2022)</div>
+    In April 2022, CERT-IN issued a landmark directive mandating that all organisations — companies, government bodies, banks, ISPs — must report cybersecurity incidents to CERT-IN <strong>within 6 hours</strong> of detection. This includes data breaches, ransomware attacks, unauthorised access, and DDoS attacks. Non-compliance may result in penalties under the IT Act. Organisations must also maintain ICT infrastructure logs for a rolling <strong>180 days</strong> and provide them to CERT-IN on request.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST SP 800-61 Rev.2 — Computer Security Incident Handling Guide: https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final</li>
+      <li>CERT-IN Directions under Sec 70B(6) IT Act (April 2022): https://www.cert-in.org.in</li>
+      <li>SANS Institute — Incident Handler's Handbook: https://www.sans.org/reading-room/whitepapers/incident</li>
+      <li>MITRE ATT&amp;CK Framework: https://attack.mitre.org</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.2 — DIGITAL FORENSICS
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-2">
+  <div class="topic-label">Topic 5.2</div>
+  <h2 class="topic-title">Digital Forensics</h2>
+
+  <div class="concept-box">
+    <strong>Digital Forensics</strong> (also called Computer Forensics or Cyber Forensics) is the application of scientifically proven methods to collect, preserve, analyse, and present digital evidence in a manner that is legally admissible in a court of law. It answers the questions: <em>What happened? How did it happen? Who did it? When did it happen? What data was accessed or stolen?</em>
+  </div>
+
+  <h3>Definition and Scope</h3>
+  <p>Digital Forensics is NOT the same as simply "finding evidence on a computer." It is a rigorous, court-admissible discipline with strict protocols at every stage. The key difference from general IT investigation is:</p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>IT Investigation (Non-Forensic)</h4>
+      <ul>
+        <li>Goal: Fix the problem, restore service quickly</li>
+        <li>May modify evidence (patch, reboot, reinstall)</li>
+        <li>No chain of custody documentation required</li>
+        <li>No admissibility in court — findings may be challenged</li>
+        <li>Typical role: IT administrator or system engineer</li>
+      </ul>
+    </div>
+    <div class="compare-card">
+      <h4>Digital Forensics (Court-Admissible)</h4>
+      <ul>
+        <li>Goal: Preserve and document evidence for legal proceedings</li>
+        <li>Evidence never modified — forensic copies used for analysis</li>
+        <li>Strict chain of custody documentation at every step</li>
+        <li>Findings can be presented in court — legally defensible</li>
+        <li>Typical role: Certified forensic examiner, law enforcement</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Branches of Digital Forensics</h3>
+
+  <div class="evidence-grid">
+    <div class="ev-card ev-blue">
+      <span class="ev-icon">💻</span>
+      <h4>Computer / Disk Forensics</h4>
+      <p>Examination of hard drives, SSDs, USB drives, and optical media. Recovers deleted files, analyses file system metadata, reconstructs timelines, and examines partitions and unallocated space for hidden data.</p>
+      <div class="ev-eg">Tools: Autopsy, FTK, EnCase, Sleuth Kit</div>
+    </div>
+    <div class="ev-card ev-red">
+      <span class="ev-icon">📱</span>
+      <h4>Mobile Device Forensics</h4>
+      <p>Extraction and analysis of data from smartphones, tablets, and wearables. Includes SMS, call logs, location history, app data, encrypted messenger content, and deleted photos. Increasingly critical in Indian cybercrime cases.</p>
+      <div class="ev-eg">Tools: Cellebrite UFED, Oxygen Forensic, Magnet AXIOM</div>
+    </div>
+    <div class="ev-card ev-green">
+      <span class="ev-icon">🌐</span>
+      <h4>Network Forensics</h4>
+      <p>Captures and analyses network traffic (packet captures — PCAPs) to reconstruct attack timelines, identify attacker IP addresses, recover transmitted files, and detect data exfiltration paths.</p>
+      <div class="ev-eg">Tools: Wireshark, NetworkMiner, Zeek, tcpdump</div>
+    </div>
+    <div class="ev-card ev-amber">
+      <span class="ev-icon">🧠</span>
+      <h4>Memory (RAM) Forensics</h4>
+      <p>Captures and analyses the contents of volatile memory (RAM). Critical for detecting fileless malware (which only lives in RAM), decrypting encrypted data, finding encryption keys, and recovering running process information.</p>
+      <div class="ev-eg">Tools: Volatility Framework, Rekall, WinPmem</div>
+    </div>
+    <div class="ev-card ev-purple">
+      <span class="ev-icon">☁️</span>
+      <h4>Cloud Forensics</h4>
+      <p>Investigation of incidents in cloud environments (AWS, Azure, GCP). Challenges include multi-tenancy, lack of physical access, ephemeral resources, and jurisdictional issues. Relies on cloud provider cooperation for log access.</p>
+      <div class="ev-eg">Tools: AWS CloudTrail, Azure Monitor, GCP Cloud Logging</div>
+    </div>
+    <div class="ev-card ev-dark">
+      <span class="ev-icon">✉️</span>
+      <h4>Email Forensics</h4>
+      <p>Examination of email headers, metadata, and content to trace the origin of emails, detect spoofing, prove email-based fraud or harassment, and reconstruct communication timelines. Covered in detail in Topic 5.4.</p>
+      <div class="ev-eg">Tools: MailXaminer, Email Header Analyser, eMailTrackerPro</div>
+    </div>
+  </div>
+
+  <h3>Core Principles of Digital Forensics — The 4 Cs</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Principle</th><th>Description</th><th>Practical Rule</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Collect</strong></td><td>Acquire evidence using validated tools and write-blockers so the original is never altered</td><td>Always image the drive — never work on the original; use hardware write-blockers</td></tr>
+      <tr><td><strong>Conserve (Preserve)</strong></td><td>Maintain the integrity of evidence throughout the investigation using cryptographic hashing</td><td>Hash every evidence item with MD5 + SHA256 immediately after acquisition; re-verify before analysis</td></tr>
+      <tr><td><strong>Correlate</strong></td><td>Cross-reference evidence from multiple sources to reconstruct the complete attack timeline</td><td>Correlate disk artefacts with network logs, memory dumps, and cloud audit trails</td></tr>
+      <tr><td><strong>Communicate</strong></td><td>Document and present findings in clear, non-technical language that a judge and jury can understand</td><td>Write forensic reports that present findings without assuming the reader has technical knowledge</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Hash Verification — The Foundation of Evidence Integrity</h3>
+  <p>Every piece of digital evidence must be cryptographically hashed immediately upon acquisition. If the hash of the evidence at the end of investigation matches the hash at acquisition, the evidence has not been modified — a critical requirement for court admissibility.</p>
+
+  <div class="hash-box">
+    <div class="hb-label">// Forensic Hash Verification — Evidence Integrity Check</div>
+    <br>
+    ORIGINAL DRIVE ACQUISITION — 2024-11-15 09:42:17 IST
+    <br>
+    MD5  : <span class="hb-match">a1b2c3d4e5f6789012345678abcdef01</span>
+    <br>
+    SHA256: <span class="hb-match">3f4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f</span>
+    <br><br>
+    POST-ANALYSIS VERIFICATION — 2024-11-18 14:22:05 IST
+    <br>
+    MD5  : <span class="hb-match">a1b2c3d4e5f6789012345678abcdef01</span>  ← <span class="hb-match">✔ MATCH — Evidence Unmodified</span>
+    <br>
+    SHA256: <span class="hb-match">3f4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f</span>  ← <span class="hb-match">✔ MATCH</span>
+    <br><br>
+    <span class="hb-label">// TAMPERING DETECTION EXAMPLE (if hashes DO NOT match):</span>
+    <br>
+    MD5  : <span class="hb-fail">d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4</span>  ← <span class="hb-fail">✖ MISMATCH — Evidence Compromised / Inadmissible</span>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Casey, E. — Digital Evidence and Computer Crime, 3rd Ed., Academic Press</li>
+      <li>Carrier, B. — File System Forensic Analysis, Addison-Wesley</li>
+      <li>NIST SP 800-86 — Guide to Integrating Forensic Techniques into Incident Response: https://csrc.nist.gov</li>
+      <li>Autopsy Digital Forensics Platform: https://www.autopsy.com</li>
+      <li>Volatility Memory Forensics: https://www.volatilityfoundation.org</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.3 — CYBER FORENSICS AND DIGITAL EVIDENCE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-3">
+  <div class="topic-label">Topic 5.3</div>
+  <h2 class="topic-title">Cyber Forensics and Digital Evidence</h2>
+
+  <div class="concept-box">
+    <strong>Digital Evidence</strong> is any information stored or transmitted in digital form that may be used in a court of law to prove or disprove facts in a legal case. Under the Indian Evidence Act 1872 (and its successor, the Bharatiya Sakshya Adhiniyam 2023), digital evidence is admissible — but only when specific conditions for integrity, authenticity, and proper handling are met.
+  </div>
+
+  <h3>Admissibility of Digital Evidence — Indian Legal Framework</h3>
+  <p>The admissibility of digital evidence in Indian courts is governed primarily by:</p>
+  <ul>
+    <li><strong>Indian Evidence Act, Section 65B</strong> (now Bharatiya Sakshya Adhiniyam 2023, Sec 63): Electronic records are admissible as evidence if they satisfy four conditions — produced by a computer in regular use; the computer was functioning properly; the information was regularly stored in the ordinary course of activities; and a certificate is provided by a responsible official of the organisation.</li>
+    <li><strong>IT Act 2000, Section 79A:</strong> Empowers the central government to designate "Examiner of Electronic Evidence" — only certified examiners can provide expert opinion on digital evidence in courts.</li>
+    <li><strong>CrPC (now BNSS 2023)</strong>: Governs search and seizure of electronic devices; requires warrant except in cases of immediate danger to evidence.</li>
+  </ul>
+
+  <h3>Section 65B Certificate — Critical for Court Admissibility</h3>
+  <p>The <strong>Section 65B certificate</strong> (Bharatiya Sakshya Adhiniyam Sec 63) is mandatory for electronic evidence to be admissible. The certificate must state:</p>
+  <ol>
+    <li>The electronic record was produced by the computer during the relevant period</li>
+    <li>Information was regularly fed into the computer in ordinary course of activities</li>
+    <li>The computer was operating properly — or if it was not, the failure did not affect the record</li>
+    <li>The information in the record reproduces or is derived from such information fed into the computer</li>
+  </ol>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ Landmark Judgment — Anvar P.V. vs P.K. Basheer (2014), Supreme Court</div>
+    The Supreme Court ruled that electronic evidence (a pen drive containing audio recordings) is <strong>inadmissible without a Section 65B certificate</strong>. Even if the evidence is genuine, without the certificate it cannot be considered by the court. This judgment made forensic documentation — particularly the 65B certification — non-negotiable in Indian digital evidence practice.
+  </div>
+
+  <h3>Types of Digital Evidence</h3>
+
+  <div class="evidence-grid">
+    <div class="ev-card ev-blue">
+      <span class="ev-icon">💾</span>
+      <h4>Stored Data</h4>
+      <p>Data permanently or semi-permanently stored on physical media. Includes files, databases, email archives, logs, and deleted data recoverable from unallocated disk space.</p>
+      <div class="ev-eg">Hard drives, SSDs, USB drives, SD cards, optical discs, NAS servers</div>
+    </div>
+    <div class="ev-card ev-red">
+      <span class="ev-icon">🔄</span>
+      <h4>Volatile / Transient Data</h4>
+      <p>Data that exists only while a system is powered on and is lost on shutdown. Highly valuable — may contain encryption keys, running processes, active network connections, and RAM-only malware.</p>
+      <div class="ev-eg">RAM contents, CPU registers, running processes, ARP cache, clipboard data, temp files</div>
+    </div>
+    <div class="ev-card ev-amber">
+      <span class="ev-icon">📡</span>
+      <h4>Network Traffic Data</h4>
+      <p>Packets captured from the network during or after an incident. Can reveal attacker communications, data exfiltration, C2 channels, and the sequence of attack events.</p>
+      <div class="ev-eg">PCAP files, NetFlow records, firewall logs, DNS query logs, proxy logs</div>
+    </div>
+    <div class="ev-card ev-purple">
+      <span class="ev-icon">📲</span>
+      <h4>Mobile Device Data</h4>
+      <p>Data extracted from smartphones — increasingly the most critical source of evidence in Indian cybercrime cases. Includes messages, location history, photos, app data, and deleted content.</p>
+      <div class="ev-eg">SMS/WhatsApp messages, call records, GPS location history, app tokens, photos</div>
+    </div>
+    <div class="ev-card ev-green">
+      <span class="ev-icon">☁️</span>
+      <h4>Cloud and Online Data</h4>
+      <p>Evidence stored in cloud services (email, file storage, collaboration platforms). Requires legal process (court order or mutual legal assistance treaty — MLAT) to obtain from providers in other jurisdictions.</p>
+      <div class="ev-eg">Gmail/Outlook emails, Google Drive files, AWS CloudTrail logs, social media data</div>
+    </div>
+    <div class="ev-card ev-dark">
+      <span class="ev-icon">📋</span>
+      <h4>Metadata</h4>
+      <p>"Data about data" — information embedded in files that reveals creation time, modification time, author, GPS coordinates, device identifier, and software version. Often more valuable than the file content itself.</p>
+      <div class="ev-eg">EXIF data in photos (GPS location, camera model), Word document author, PDF creation timestamp</div>
+    </div>
+  </div>
+
+  <h3>Chain of Custody — The Backbone of Forensic Integrity</h3>
+  <p>The <strong>chain of custody</strong> is a chronological, documented record of who collected, handled, transferred, and analysed a piece of evidence — from the moment of seizure to its presentation in court. Any gap in the chain of custody can render evidence inadmissible.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 5.2 — Chain of Custody: Evidence Flow from Crime Scene to Court</div>
+    <div class="timeline-wrap">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot tl-red"></div>
+          <div class="tl-label">Crime Scene</div>
+          <div class="tl-body">Evidence identified &amp; photographed in place. Seizure logged with date, time, officer name, case no.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-amber"></div>
+          <div class="tl-label">Packaging &amp; Sealing</div>
+          <div class="tl-body">Anti-static bags, evidence seals with tamper-evident tape, unique evidence tag numbers assigned</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-blue"></div>
+          <div class="tl-label">Forensic Lab Receipt</div>
+          <div class="tl-body">Evidence received, logged, condition recorded. Hashes computed immediately on arrival. Written receipt signed</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-blue"></div>
+          <div class="tl-label">Forensic Imaging</div>
+          <div class="tl-body">Bit-for-bit forensic copy created using write-blocker. Original stored securely. All analysis on copy only</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-purple"></div>
+          <div class="tl-label">Analysis Phase</div>
+          <div class="tl-body">Only certified examiner analyses copy. All actions logged with timestamps. Hash re-verified after analysis</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-green"></div>
+          <div class="tl-label">Report &amp; Court</div>
+          <div class="tl-body">Forensic report filed. Section 65B certificate attached. Expert witness testifies. Chain of custody presented</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Forensic Acquisition Methods</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Method</th><th>What It Does</th><th>Use Case</th><th>Tool</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bit-Stream / Disk Image</strong></td><td>Creates an exact sector-by-sector copy of the entire drive including deleted data and unallocated space</td><td>Standard hard drive or SSD acquisition</td><td>dd (Linux), FTK Imager, Guymager</td></tr>
+      <tr><td><strong>Logical Acquisition</strong></td><td>Copies only active files and directories — faster but misses deleted content</td><td>When full imaging is impossible (cloud, live system)</td><td>Robocopy, rsync, Cellebrite (mobile)</td></tr>
+      <tr><td><strong>Live / Triage Acquisition</strong></td><td>Captures volatile data (RAM, running processes, network connections) from a powered-on system</td><td>Investigating active malware, fileless attacks</td><td>WinPmem, Volatility, FTK Imager (live RAM)</td></tr>
+      <tr><td><strong>Selective Acquisition</strong></td><td>Extracts only specific file types, date ranges, or directory paths</td><td>Large-scale investigations where full imaging is impractical</td><td>Autopsy, EnCase with filter criteria</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Indian Evidence Act, Section 65B (now BSA 2023, Sec 63): https://legislative.gov.in</li>
+      <li>Anvar P.V. vs P.K. Basheer — AIR 2015 SC 180 (Supreme Court of India)</li>
+      <li>NIST SP 800-101 Rev.1 — Guidelines on Mobile Device Forensics: https://csrc.nist.gov</li>
+      <li>SWGDE (Scientific Working Group on Digital Evidence): https://www.swgde.org</li>
+      <li>Sammes &amp; Jenkinson — Forensic Computing: A Practitioner's Guide, Springer</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.4 — FORENSIC ANALYSIS OF EMAIL
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-4">
+  <div class="topic-label">Topic 5.4</div>
+  <h2 class="topic-title">Forensic Analysis of Email</h2>
+
+  <div class="concept-box">
+    <strong>Email Forensics</strong> is the process of examining email communications to trace their origin, detect spoofing or forgery, establish authenticity, reconstruct timelines, and recover deleted email evidence — for use in legal proceedings. Email is one of the most common vectors for cybercrime (phishing, fraud, harassment) and simultaneously one of the richest sources of forensic evidence.
+  </div>
+
+  <h3>Email Architecture — How Email Travels</h3>
+  <p>Understanding email forensics requires knowing how email travels from sender to recipient. Each hop in the journey adds metadata that becomes forensic evidence.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 5.3 — Email Journey: From Sender to Recipient (Forensic Trail)</div>
+    <svg viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:8.5px;">
+      <defs>
+        <marker id="arrm" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+
+      <!-- Sender -->
+      <rect x="10" y="50" width="95" height="50" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.8"/>
+      <text x="57" y="72"  text-anchor="middle" fill="#8a6500" font-weight="700">SENDER</text>
+      <text x="57" y="87"  text-anchor="middle" fill="#8a6500">MUA (Outlook,</text>
+      <text x="57" y="98"  text-anchor="middle" fill="#8a6500">Gmail client)</text>
+
+      <!-- Arrow + label -->
+      <line x1="107" y1="75" x2="143" y2="75" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrm)"/>
+      <text x="125" y="67" text-anchor="middle" fill="#555" font-size="7">SMTP</text>
+      <text x="125" y="95" text-anchor="middle" fill="#555" font-size="7">:25/587</text>
+
+      <!-- Sender MTA -->
+      <rect x="145" y="35" width="105" height="80" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="1.8"/>
+      <text x="197" y="57"  text-anchor="middle" fill="#065a68" font-weight="700">SENDER MTA</text>
+      <text x="197" y="72"  text-anchor="middle" fill="#065a68">Mail Transfer</text>
+      <text x="197" y="86"  text-anchor="middle" fill="#065a68">Agent</text>
+      <text x="197" y="100" text-anchor="middle" fill="#065a68" font-size="7.5">Adds Received: header</text>
+      <text x="197" y="111" text-anchor="middle" fill="#065a68" font-size="7.5">DKIM signing here</text>
+
+      <line x1="252" y1="75" x2="288" y2="75" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrm)"/>
+      <text x="270" y="67" text-anchor="middle" fill="#555" font-size="7">SMTP</text>
+      <text x="270" y="95" text-anchor="middle" fill="#555" font-size="7">relay</text>
+
+      <!-- Relay MTA (optional) -->
+      <rect x="290" y="42" width="100" height="66" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.8"/>
+      <text x="340" y="62"  text-anchor="middle" fill="#4a1d96" font-weight="700">RELAY MTA</text>
+      <text x="340" y="77"  text-anchor="middle" fill="#4a1d96">(optional)</text>
+      <text x="340" y="91"  text-anchor="middle" fill="#4a1d96" font-size="7.5">Adds another</text>
+      <text x="340" y="102" text-anchor="middle" fill="#4a1d96" font-size="7.5">Received: header</text>
+
+      <line x1="392" y1="75" x2="428" y2="75" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrm)"/>
+
+      <!-- Recipient MTA -->
+      <rect x="430" y="35" width="110" height="80" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="1.8"/>
+      <text x="485" y="57"  text-anchor="middle" fill="#155724" font-weight="700">RECIPIENT MTA</text>
+      <text x="485" y="72"  text-anchor="middle" fill="#155724">SPF check here</text>
+      <text x="485" y="86"  text-anchor="middle" fill="#155724">DKIM verify here</text>
+      <text x="485" y="100" text-anchor="middle" fill="#155724" font-size="7.5">DMARC policy applied</text>
+      <text x="485" y="111" text-anchor="middle" fill="#155724" font-size="7.5">Adds Received: header</text>
+
+      <line x1="542" y1="75" x2="578" y2="75" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrm)"/>
+      <text x="560" y="67" text-anchor="middle" fill="#555" font-size="7">IMAP</text>
+      <text x="560" y="95" text-anchor="middle" fill="#555" font-size="7">/POP3</text>
+
+      <!-- Recipient mailbox -->
+      <rect x="580" y="50" width="125" height="50" rx="3" fill="#f8d7da" stroke="#c0392b" stroke-width="1.8"/>
+      <text x="642" y="72"  text-anchor="middle" fill="#721c24" font-weight="700">RECIPIENT MUA</text>
+      <text x="642" y="87"  text-anchor="middle" fill="#721c24">Delivered to inbox</text>
+      <text x="642" y="98"  text-anchor="middle" fill="#721c24" font-size="7.5">(Full headers visible here)</text>
+
+      <!-- bottom label -->
+      <text x="360" y="140" text-anchor="middle" fill="#555" font-size="8">
+        Each "Received:" header = one forensic hop. Read bottom-to-top for the true path of the email.
+      </text>
+    </svg>
+  </div>
+
+  <h3>Anatomy of an Email Header — The Forensic Goldmine</h3>
+  <p>The <strong>email header</strong> is invisible to normal users but contains rich forensic metadata. Every mail transfer agent that handles the email adds a <code>Received:</code> header. Reading headers from <strong>bottom to top</strong> reveals the actual path of the email.</p>
+
+  <div class="email-mock">
+    <div class="em-header">Annotated Email Header — Forensic Analysis View (Phishing Example)</div>
+    <div class="em-row">
+      <div class="em-key">From</div>
+      <div class="em-val"><span class="em-suspect">noreply@sbi-alert.com</span> (display: "SBI Bank Alert") <span class="em-note">← Domain impersonation — NOT sbi.co.in</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Reply-To</div>
+      <div class="em-val"><span class="em-suspect">attacker@protonmail.com</span> <span class="em-note">← Reply goes to attacker, not the claimed sender</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">To</div>
+      <div class="em-val">victim@gmail.com</div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Date</div>
+      <div class="em-val">Mon, 11 Nov 2024 03:22:14 +0000 (UTC) <span class="em-note">← 3 AM UTC — unusual hour indicator</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Message-ID</div>
+      <div class="em-val">&lt;abc123@sbi-alert.com&gt; <span class="em-note">← Domain in Message-ID should match From domain — check for mismatch</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">X-Originating-IP</div>
+      <div class="em-val"><span class="em-suspect">185.220.101.47</span> <span class="em-note">← Attacker's IP (or Tor exit node) — key forensic artefact</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Received (hop 3 — LATEST)</div>
+      <div class="em-val">from mail.sbi-alert.com (185.220.101.47) by mx.google.com; Mon, 11 Nov 2024 03:22:16 +0000 <span class="em-note">← Arrived at Google. Timestamp added by Google MTA</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Received (hop 2)</div>
+      <div class="em-val">from relay.anonserver.ru (93.184.216.34) by mail.sbi-alert.com; Mon, 11 Nov 2024 03:22:10 +0000 <span class="em-note">← Russian relay server — deliberate obfuscation hop</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">Received (hop 1 — ORIGIN)</div>
+      <div class="em-val"><span class="em-suspect">from [192.168.1.5] (attacker-vps.digitalocean.com [185.220.101.47])</span>; Mon, 11 Nov 2024 03:21:58 +0000 <span class="em-note">← TRUE ORIGIN — VPS server, likely in a foreign country</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">SPF Result</div>
+      <div class="em-val"><span class="em-suspect">FAIL</span> (sbi-alert.com is not authorised to send for sbi.co.in) <span class="em-note">← SPF failure = spoofing attempt detected</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">DKIM-Signature</div>
+      <div class="em-val"><span class="em-suspect">NONE</span> <span class="em-note">← No DKIM signature — legitimate banks always sign their emails</span></div>
+    </div>
+    <div class="em-row">
+      <div class="em-key">DMARC Result</div>
+      <div class="em-val"><span class="em-suspect">FAIL — policy=reject</span> <span class="em-note">← Should have been rejected; check why it reached inbox (DMARC not enforced at recipient)</span></div>
+    </div>
+  </div>
+
+  <h3>Email Authentication Standards — SPF, DKIM, DMARC</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Standard</th><th>Full Form</th><th>What It Does</th><th>Forensic Relevance</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>SPF</strong></td>
+        <td>Sender Policy Framework</td>
+        <td>Publishes a list of IP addresses authorised to send email on behalf of a domain. Recipient checks if the sending IP is on the list.</td>
+        <td>SPF FAIL proves the email was not sent from an authorised server — strong indicator of spoofing</td>
+      </tr>
+      <tr>
+        <td><strong>DKIM</strong></td>
+        <td>DomainKeys Identified Mail</td>
+        <td>The sender's mail server cryptographically signs the email. Recipient verifies the signature using the public key in the domain's DNS record — proving the email was not modified in transit.</td>
+        <td>DKIM PASS proves email authenticity and integrity. DKIM FAIL means email was modified or forged.</td>
+      </tr>
+      <tr>
+        <td><strong>DMARC</strong></td>
+        <td>Domain-based Message Authentication, Reporting &amp; Conformance</td>
+        <td>Ties SPF and DKIM together and tells recipient servers what to do when either fails — quarantine or reject. Also enables reporting of spoofing attempts back to the domain owner.</td>
+        <td>DMARC reports are crucial forensic intelligence — they reveal all spoofing attempts against a domain, even successful ones</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Email Forensic Investigation Steps</h3>
+  <div class="phase-strip">
+    <div class="phase-block ph-f1">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Preserve</span>
+      <span class="ph-desc">Export email in native format (EML/PST/MBOX) with full headers intact. Hash immediately.</span>
+    </div>
+    <div class="phase-block ph-f2">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Header Analysis</span>
+      <span class="ph-desc">Extract &amp; parse all Received: headers. Identify IP addresses, timestamps, and routing hops. Read bottom-to-top.</span>
+    </div>
+    <div class="phase-block ph-f3">
+      <span class="ph-num">3</span>
+      <span class="ph-title">IP Tracing</span>
+      <span class="ph-desc">WHOIS lookup, geolocation, ASN lookup for each IP. Identify ISP; serve legal order if needed.</span>
+    </div>
+    <div class="phase-block ph-f4">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Auth Verification</span>
+      <span class="ph-desc">Check SPF, DKIM, DMARC results. Detect spoofing, forgery, or tampering.</span>
+    </div>
+    <div class="phase-block ph-f5">
+      <span class="ph-num">5</span>
+      <span class="ph-title">Attachment Analysis</span>
+      <span class="ph-desc">Extract and sandbox any attachments. Analyse for malware, macros, embedded links, steganography.</span>
+    </div>
+    <div class="phase-block ph-f6">
+      <span class="ph-num">6</span>
+      <span class="ph-title">Link Analysis</span>
+      <span class="ph-desc">Examine URLs in body — check redirect chains, domain registration date, hosting IP, SSL certificate.</span>
+    </div>
+    <div class="phase-block ph-f7">
+      <span class="ph-num">7</span>
+      <span class="ph-title">Report</span>
+      <span class="ph-desc">Compile findings with Section 65B certificate. Present timeline of email fraud. Submit for legal proceedings.</span>
+    </div>
+  </div>
+
+  <p>
+    <span class="ftool-badge ft-black">MXToolbox Header Analyser</span>
+    <span class="ftool-badge ft-blue">MailXaminer</span>
+    <span class="ftool-badge ft-blue">eMailTrackerPro</span>
+    <span class="ftool-badge ft-green">Autopsy Email Parser</span>
+    <span class="ftool-badge ft-purple">Wireshark (SMTP capture)</span>
+    <span class="ftool-badge ft-amber">MessageHeader (Google Admin Toolbox)</span>
+    <span class="ftool-badge ft-red">Any.run (attachment sandbox)</span>
+  </p>
+
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Email Forensics Case — Business Email Compromise (BEC) Investigation</h4>
+      <div class="cs-meta">India · 2023 · Financial Fraud · ₹85 Lakh Loss</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>Incident Summary</h5>
+      <p>The CFO of a Pune-based manufacturing firm received an email appearing to be from the CEO, instructing an urgent wire transfer of ₹85 lakhs to a "new supplier" account. The email display name showed "CEO_Name" and the From field showed "ceo@company.co" (not .com). The CFO transferred the funds, and the fraud was discovered only when the real CEO returned from travel.</p>
+      <h5>Forensic Investigation</h5>
+      <ul>
+        <li>Email preserved in .EML format; SHA256 hash recorded for court admissibility</li>
+        <li>Header analysis revealed the email originated from IP <strong>192.0.2.44</strong> in Nigeria — routed through a VPN service in the Netherlands</li>
+        <li>SPF result: <strong>FAIL</strong> — IP not in SPF record for company.co domain</li>
+        <li>DKIM: <strong>NONE</strong> — no digital signature present</li>
+        <li>X-Originating-IP traced to a Vodafone mobile subscriber in Lagos via WHOIS &amp; ASN lookup</li>
+        <li>The beneficiary bank account was a mule account opened with fake Aadhaar in Rajasthan</li>
+      </ul>
+      <h5>Legal Outcome</h5>
+      <ul>
+        <li>FIR filed under IT Act Sec 66D + IPC 420 (cheating)</li>
+        <li>Bank account frozen within 4 hours through the 1930 helpline; ₹42 lakhs recovered</li>
+        <li>International coordination with Nigerian EFCC for further investigation</li>
+        <li>Section 65B certificate issued by the company's IT head and attached to the FIR</li>
+      </ul>
+    </div>
+    <div class="cs-verdict">
+      <span>Prevention Lesson</span>
+      Implement DMARC with policy=reject for the company domain. Establish a mandatory out-of-band verification call for any financial transfer exceeding ₹5 lakhs regardless of email instruction. Enable email client warnings for external sender display name spoofing.
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>RFC 5321 — SMTP Protocol: https://datatracker.ietf.org/doc/html/rfc5321</li>
+      <li>RFC 7208 — SPF: https://datatracker.ietf.org/doc/html/rfc7208</li>
+      <li>RFC 6376 — DKIM: https://datatracker.ietf.org/doc/html/rfc6376</li>
+      <li>RFC 7489 — DMARC: https://datatracker.ietf.org/doc/html/rfc7489</li>
+      <li>MXToolbox Email Header Analyser: https://mxtoolbox.com/EmailHeaders.aspx</li>
+      <li>Cain, A. — Email Forensics: Eliminating Spam, Scams and Phishing, Syngress</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.5 — DIGITAL FORENSICS LIFE CYCLE
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-5">
+  <div class="topic-label">Topic 5.5</div>
+  <h2 class="topic-title">Digital Forensics Life Cycle</h2>
+
+  <div class="concept-box">
+    The <strong>Digital Forensics Life Cycle</strong> (also called the Digital Forensics Process or Methodology) is the structured, repeatable framework of steps that a forensic examiner follows from the moment an incident is reported to the final presentation of evidence in court. Every step must be documented meticulously — any procedural gap can invalidate the entire investigation in court.
+  </div>
+
+  <h3>The 8-Phase Digital Forensics Life Cycle</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 5.4 — Digital Forensics Life Cycle: 8 Phases with Key Actions</div>
+    <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9px;">
+      <defs>
+        <marker id="arr55" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+
+      <!-- Phase blocks, left column -->
+      <!-- 1 Identification -->
+      <rect x="20"  y="20"  width="300" height="72" rx="3" fill="#fde8d8" stroke="#e67e22" stroke-width="2"/>
+      <text x="40"  y="44"  fill="#7d3c00" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">01 — IDENTIFICATION</text>
+      <text x="40"  y="60"  fill="#7d3c00">Recognise that an incident has occurred; scope the</text>
+      <text x="40"  y="74"  fill="#7d3c00">investigation; identify potential sources of evidence</text>
+      <text x="40"  y="85"  fill="#a04000" font-size="8" font-family="'JetBrains Mono',monospace">Key: Logs, devices, people, systems in scope</text>
+
+      <line x1="170" y1="92" x2="170" y2="108" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 2 Preservation -->
+      <rect x="20"  y="110" width="300" height="72" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <text x="40"  y="134" fill="#8a6500" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">02 — PRESERVATION</text>
+      <text x="40"  y="150" fill="#8a6500">Secure the scene; prevent alteration; acquire forensic</text>
+      <text x="40"  y="164" fill="#8a6500">images; hash all evidence; begin chain of custody log</text>
+      <text x="40"  y="175" fill="#a07800" font-size="8" font-family="'JetBrains Mono',monospace">Key: Write-blockers, FTK Imager, MD5+SHA256</text>
+
+      <line x1="170" y1="182" x2="170" y2="198" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 3 Collection -->
+      <rect x="20"  y="200" width="300" height="72" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="40"  y="224" fill="#065a68" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">03 — COLLECTION</text>
+      <text x="40"  y="240" fill="#065a68">Collect all evidence systematically — disk images, RAM</text>
+      <text x="40"  y="254" fill="#065a68">dumps, network captures, mobile data, cloud logs</text>
+      <text x="40"  y="265" fill="#065a68" font-size="8" font-family="'JetBrains Mono',monospace">Key: Order of volatility — collect RAM before disk</text>
+
+      <line x1="170" y1="272" x2="170" y2="288" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 4 Examination -->
+      <rect x="20"  y="290" width="300" height="72" rx="3" fill="#e2d9f3" stroke="#6f42c1" stroke-width="2"/>
+      <text x="40"  y="314" fill="#4a1d96" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">04 — EXAMINATION</text>
+      <text x="40"  y="330" fill="#4a1d96">Extract relevant data from forensic images: deleted files,</text>
+      <text x="40"  y="344" fill="#4a1d96">logs, registry, browser history, communication artefacts</text>
+      <text x="40"  y="355" fill="#4a1d96" font-size="8" font-family="'JetBrains Mono',monospace">Key: Autopsy, EnCase, Sleuth Kit, Volatility</text>
+
+      <!-- Right column -->
+      <!-- 5 Analysis -->
+      <rect x="400" y="290" width="300" height="72" rx="3" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <text x="420" y="314" fill="#155724" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">05 — ANALYSIS</text>
+      <text x="420" y="330" fill="#155724">Interpret findings; establish timeline; correlate evidence</text>
+      <text x="420" y="344" fill="#155724">from multiple sources; identify attacker TTPs; attribute</text>
+      <text x="420" y="355" fill="#155724" font-size="8" font-family="'JetBrains Mono',monospace">Key: Timeline tools, link analysis, MITRE ATT&amp;CK mapping</text>
+
+      <line x1="550" y1="290" x2="550" y2="274" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 6 Reconstruction -->
+      <rect x="400" y="200" width="300" height="72" rx="3" fill="#fdf2f2" stroke="#c0392b" stroke-width="2"/>
+      <text x="420" y="224" fill="#721c24" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">06 — RECONSTRUCTION</text>
+      <text x="420" y="240" fill="#721c24">Re-create the attack sequence; simulate actions in a safe</text>
+      <text x="420" y="254" fill="#721c24">lab environment; verify hypotheses against the evidence</text>
+      <text x="420" y="265" fill="#721c24" font-size="8" font-family="'JetBrains Mono',monospace">Key: Virtual machines, sandbox replays, packet replay</text>
+
+      <line x1="550" y1="200" x2="550" y2="184" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 7 Reporting -->
+      <rect x="400" y="110" width="300" height="72" rx="3" fill="#f0f0ee" stroke="#3a3a36" stroke-width="2"/>
+      <text x="420" y="134" fill="#3a3a36" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">07 — REPORTING</text>
+      <text x="420" y="150" fill="#3a3a36">Prepare forensic report: executive summary + technical</text>
+      <text x="420" y="164" fill="#3a3a36">detail; attach chain of custody; issue Sec 65B certificate</text>
+      <text x="420" y="175" fill="#3a3a36" font-size="8" font-family="'JetBrains Mono',monospace">Key: Factual, objective, non-technical language for court</text>
+
+      <line x1="550" y1="110" x2="550" y2="94" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#arr55)"/>
+
+      <!-- 8 Presentation -->
+      <rect x="400" y="20"  width="300" height="72" rx="3" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="2"/>
+      <text x="420" y="44"  fill="#fff" font-weight="700" font-size="11" font-family="'JetBrains Mono',monospace">08 — PRESENTATION</text>
+      <text x="420" y="60"  fill="#ccc">Expert witness testimony in court; defend methodology;</text>
+      <text x="420" y="74"  fill="#ccc">present findings to judge, jury, or arbitration panel</text>
+      <text x="420" y="85"  fill="#aaa" font-size="8" font-family="'JetBrains Mono',monospace">Key: Clarity, objectivity, defend cross-examination</text>
+
+      <!-- Connecting arrow between columns at middle -->
+      <line x1="322" y1="326" x2="398" y2="326" stroke="#0a0a0a" stroke-width="2" marker-end="url(#arr55)"/>
+      <text x="360" y="320" text-anchor="middle" fill="#555" font-size="8" font-family="'JetBrains Mono',monospace">Exam → Analysis</text>
+
+      <!-- Left bracket label -->
+      <text x="12" y="215" fill="#0a0a0a" font-size="9" font-weight="700" transform="rotate(-90,12,215)" font-family="'JetBrains Mono',monospace">COLLECT → PRESERVE → EXAMINE</text>
+      <!-- Right bracket label -->
+      <text x="712" y="215" fill="#0a0a0a" font-size="9" font-weight="700" transform="rotate(90,712,215)" font-family="'JetBrains Mono',monospace">ANALYSE → REPORT → PRESENT</text>
+    </svg>
+  </div>
+
+  <h3>Order of Volatility — What to Collect First</h3>
+  <p>Digital evidence can disappear. The <strong>Order of Volatility</strong> (RFC 3227) dictates that investigators must collect the most volatile data first, before it is lost. This is critical — rebooting a system before capturing RAM can destroy all in-memory forensic evidence.</p>
+
+  <table class="data-table no-bold">
+    <thead><tr><th>Priority</th><th>Data Type</th><th>Lifetime Without Power</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 (Most Volatile)</strong></td><td>CPU registers &amp; cache</td><td>Microseconds</td><td>Encryption keys, current execution context — almost impossible to capture</td></tr>
+      <tr><td><strong>2</strong></td><td>RAM (Random Access Memory)</td><td>Lost on power-off (seconds if DRAM)</td><td>Running processes, fileless malware, open network connections, encryption keys</td></tr>
+      <tr><td><strong>3</strong></td><td>Swap / Paging file</td><td>Lost on reboot</td><td>May contain data paged out from RAM including passwords and process memory</td></tr>
+      <tr><td><strong>4</strong></td><td>Network state (ARP cache, connections)</td><td>Minutes (ARP timeout)</td><td>Reveals active C2 connections, lateral movement targets</td></tr>
+      <tr><td><strong>5</strong></td><td>Temporary files, print queues</td><td>Hours to days</td><td>May contain documents in process, recent user activity</td></tr>
+      <tr><td><strong>6</strong></td><td>Disk / SSD storage</td><td>Months to years</td><td>Persistent files, installed software, logs, email archives, deleted content in unallocated space</td></tr>
+      <tr><td><strong>7 (Least Volatile)</strong></td><td>Remote / cloud logs, backups</td><td>Years (policy-dependent)</td><td>Historical records, audit trails, backup snapshots</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key Forensic Artefacts by Operating System</h3>
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>Windows Forensic Artefacts</h4>
+      <ul>
+        <li><strong>Windows Registry:</strong> User activity, installed software, USB devices plugged in (USBSTOR), recent documents, auto-run entries</li>
+        <li><strong>Event Logs:</strong> Security (4624=logon, 4625=failed logon, 4648=explicit logon), System, Application logs in .EVTX format</li>
+        <li><strong>Prefetch Files:</strong> Record of applications executed — file name + execution time + run count (<code>C:\Windows\Prefetch\</code>)</li>
+        <li><strong>LNK / Shortcut Files:</strong> Windows creates shortcut files when a document is opened — reveals recently accessed files even if originals deleted</li>
+        <li><strong>Browser History:</strong> Chrome (<code>History</code> SQLite DB), Edge, IE (<code>WebCacheV01.dat</code>) — URLs, search terms, download history</li>
+        <li><strong>NTFS MFT (Master File Table):</strong> Contains metadata for every file on the NTFS volume — creation, modification, access timestamps ($STANDARD_INFORMATION &amp; $FILE_NAME)</li>
+      </ul>
+    </div>
+    <div class="compare-card">
+      <h4>Linux / Android Forensic Artefacts</h4>
+      <ul>
+        <li><strong>Bash History:</strong> <code>/home/user/.bash_history</code> — commands executed by the user in terminal; often deleted by attackers</li>
+        <li><strong>Syslog / Auth.log:</strong> <code>/var/log/auth.log</code> — SSH logins, sudo commands, authentication attempts</li>
+        <li><strong>Crontab:</strong> <code>/etc/cron.d/</code> and user crontabs — may contain malicious scheduled tasks planted by attacker for persistence</li>
+        <li><strong>Android:</strong> <code>/data/data/[app_package]/</code> — SQLite databases for SMS, contacts, WhatsApp messages, call logs. Requires root access or physical extraction for full access</li>
+        <li><strong>Deleted Files (ext4):</strong> inode metadata often persists after deletion — Sleuth Kit can recover content from unallocated blocks</li>
+        <li><strong>Network Config:</strong> <code>/etc/hosts</code> modifications, <code>iptables</code> rules, <code>netstat</code> output — reveals attacker's network manipulation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>RFC 3227 — Guidelines for Evidence Collection and Archiving: https://datatracker.ietf.org/doc/html/rfc3227</li>
+      <li>NIST SP 800-86 — Integrating Forensic Techniques into IR: https://csrc.nist.gov</li>
+      <li>Carrier, B. — File System Forensic Analysis, Addison-Wesley Professional</li>
+      <li>Luttgens, Pepe, Mandia — Incident Response &amp; Computer Forensics, 3rd Ed., McGraw-Hill</li>
+      <li>SANS FOR508 — Advanced Digital Forensics, Incident Response and Threat Hunting</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     TOPIC 5.6 — CHALLENGES IN DIGITAL FORENSICS
+══════════════════════════════════════ -->
+<section class="topic-section" id="t5-6">
+  <div class="topic-label">Topic 5.6</div>
+  <h2 class="topic-title">Challenges in Digital Forensics</h2>
+
+  <div class="concept-box">
+    Digital forensics faces an ever-expanding set of challenges driven by rapid technological change, legal complexity, adversarial anti-forensic techniques, and sheer scale. A forensic investigator of 2024 faces challenges that simply did not exist five years ago — cloud-native environments, end-to-end encryption everywhere, and AI-generated evidence manipulation are reshaping the discipline.
+  </div>
+
+  <h3>Technical Challenges</h3>
+
+  <div class="challenge-grid">
+    <div class="ch-card ch-a">
+      <span class="ch-icon">🔐</span>
+      <h4>Encryption Everywhere</h4>
+      <p>End-to-end encryption (WhatsApp, Signal, iMessage) makes message content legally inaccessible even with a court order, if the provider does not hold the keys. Full-disk encryption (BitLocker, FileVault, LUKS) renders seized drives unreadable without the decryption key or passphrase. Modern SSDs with hardware encryption can be near-impossible to break.</p>
+      <div class="ch-sol">Partial solution: Memory forensics may recover decryption keys from RAM if system was powered on at time of seizure. Demand keys via legal order under IT Act Section 69.</div>
+    </div>
+
+    <div class="ch-card ch-b">
+      <span class="ch-icon">💥</span>
+      <h4>Anti-Forensic Techniques</h4>
+      <p>Sophisticated attackers actively attempt to hinder investigation: secure deletion tools (Eraser, DBAN) overwrite deleted data making recovery impossible; timestomping manipulates file timestamps to confuse timeline reconstruction; log wiping removes traces of attacker activity; steganography hides data inside innocent-looking image or audio files.</p>
+      <div class="ch-sol">Partial solution: Look for metadata inconsistencies (file MAC times inconsistent with $MFT entries); analyse NTFS journal ($LogFile, $UsnJrnl) for evidence of file deletion activity.</div>
+    </div>
+
+    <div class="ch-card ch-c">
+      <span class="ch-icon">☁️</span>
+      <h4>Cloud Environments</h4>
+      <p>Cloud forensics is fundamentally different from traditional disk forensics. Investigators cannot physically seize a cloud server. Evidence is multi-tenant (shared with other customers). Cloud resources are ephemeral — a virtual machine terminated before forensic acquisition destroys all evidence. Log retention depends on cloud provider policies and customer configuration.</p>
+      <div class="ch-sol">Partial solution: Enable cloud audit logging (AWS CloudTrail, Azure Monitor) before an incident. Legal orders to cloud providers; use cloud snapshot forensics for VM images.</div>
+    </div>
+
+    <div class="ch-card ch-d">
+      <span class="ch-icon">📱</span>
+      <h4>Mobile Device Complexity</h4>
+      <p>Modern smartphones (iPhone, Pixel) are heavily encrypted, sandboxed, and have sophisticated security chips (Apple Secure Enclave, Android StrongBox) that resist forensic extraction tools. Passcode lockouts can trigger data wipe. Remote wipe (Find My iPhone, Google Find My Device) can destroy all evidence within minutes of seizure if device connects to the internet.</p>
+      <div class="ch-sol">Immediate action: Isolate device from all networks using a Faraday bag. Never plug into a charger in the field — a charge may trigger auto-sync or remote wipe. Use UFED in airplane mode.</div>
+    </div>
+
+    <div class="ch-card ch-e">
+      <span class="ch-icon">🌐</span>
+      <h4>Scale and Volume of Data</h4>
+      <p>Modern investigations involve terabytes — sometimes petabytes — of data. A single enterprise case may involve hundreds of employee devices, cloud environments, email archives spanning years, and billions of network log entries. Manual analysis is impossible at this scale; AI/ML-assisted forensics tools are necessary but introduce new questions about reliability and admissibility.</p>
+      <div class="ch-sol">Partial solution: AI-assisted triage tools (Magnet AI, X-Ways analytics), focused keyword searches, timeline filtering, and data deduplication to reduce analyst burden.</div>
+    </div>
+
+    <div class="ch-card ch-f">
+      <span class="ch-icon">🤖</span>
+      <h4>AI-Generated Evidence Manipulation</h4>
+      <p>Deepfake technology can generate convincing fake video and audio "evidence." AI can create synthetic documents, images, and communications that appear authentic. This creates a new challenge: how do forensic investigators verify that digital evidence has not been AI-generated or manipulated before it was submitted? Traditional hash verification only proves the file hasn't changed since acquisition — it cannot prove the content itself is authentic.</p>
+      <div class="ch-sol">Emerging solution: AI deepfake detection tools (Microsoft Video Authenticator); C2PA content provenance standards; digital watermarking; analysis of GAN artefacts in images.</div>
+    </div>
+  </div>
+
+  <h3>Legal and Jurisdictional Challenges</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Challenge</th><th>Description</th><th>Indian Context</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Cross-Border Jurisdiction</strong></td>
+        <td>Cybercriminals operate from one country, victims in another, servers in a third. Obtaining evidence from foreign jurisdictions requires Mutual Legal Assistance Treaties (MLATs) — which can take months to years.</td>
+        <td>India has MLATs with 42 countries. Evidence from US companies (Meta, Google) requires a US court order through MLAT or US CLOUD Act process — significant delays in investigations.</td>
+      </tr>
+      <tr>
+        <td><strong>Data Localisation vs Forensic Access</strong></td>
+        <td>Some countries require data to be stored locally (data localisation laws). This can conflict with the investigator's need to access data stored on foreign servers under another country's privacy law.</td>
+        <td>RBI mandates financial data stored in India. India's DPDPA 2023 may restrict certain data transfers — creating tension with forensic cloud evidence requests from foreign law enforcement.</td>
+      </tr>
+      <tr>
+        <td><strong>Right to Privacy vs Investigation</strong></td>
+        <td>The K.S. Puttaswamy vs UOI (2017) Supreme Court judgment recognised privacy as a fundamental right in India. Law enforcement must now balance investigative needs against the constitutional right to privacy when accessing digital data.</td>
+        <td>Police cannot indiscriminately access all data on a seized device — they must demonstrate nexus to the offence being investigated. Over-broad data access may be challenged in court.</td>
+      </tr>
+      <tr>
+        <td><strong>Admissibility of Emerging Evidence</strong></td>
+        <td>Courts and legal systems have not yet developed clear standards for AI-generated evidence, metadata from smartwatches or fitness trackers, blockchain transaction records, or evidence from augmented reality environments.</td>
+        <td>Indian courts are still developing jurisprudence on admissibility of WhatsApp screenshots, metadata evidence, and cloud-sourced logs. Each case sets a new precedent.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Human and Operational Challenges</h3>
+  <div class="three-grid">
+    <div class="three-card">
+      <span class="card-icon">👮</span>
+      <h4>Shortage of Trained Examiners</h4>
+      <p>India has a severe shortage of certified digital forensic examiners. CDAC, FSL (Forensic Science Laboratories), and private labs are overwhelmed with case backlogs. Many investigating officers lack basic digital literacy, leading to improper evidence handling at the scene before experts arrive.</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">⚡</span>
+      <h4>Speed vs Thoroughness Trade-Off</h4>
+      <p>Business and law enforcement want immediate answers; forensics demands methodical thoroughness. Rushing a forensic examination increases the risk of errors, overlooked evidence, and procedural gaps that can destroy court admissibility. This tension is permanent and must be managed through clear SOPs.</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">🔬</span>
+      <h4>Rapid Technological Change</h4>
+      <p>Forensic tools and training become obsolete quickly. A tool that perfectly extracted iPhone 13 data may completely fail on iPhone 16. New operating systems, encrypted messaging apps, and communication platforms emerge constantly — forensic capability must continuously evolve or lag permanently behind criminal sophistication.</p>
+    </div>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 5.5 — Challenges Landscape: Technical vs Legal vs Operational</div>
+    <canvas id="challengeChart5"></canvas>
+  </div>
+
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Challenge in Practice — WhatsApp Evidence in Indian Courts</h4>
+      <div class="cs-meta">India · Ongoing · Legal Challenge · End-to-End Encryption</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>The Problem</h5>
+      <p>WhatsApp is end-to-end encrypted. WhatsApp (Meta) does not have access to message content — only the sender and recipient devices hold the decryption keys. When Indian police request WhatsApp message content through a court order, WhatsApp can provide: subscriber information (phone number, registration date, IP logs, device details) — but <strong>NOT the message content itself</strong>.</p>
+      <h5>Forensic Options Available to Indian Investigators</h5>
+      <ul>
+        <li><strong>Physical device seizure:</strong> If the suspect's unlocked phone is seized, WhatsApp messages can be extracted directly from the device using Cellebrite UFED — bypassing encryption entirely</li>
+        <li><strong>WhatsApp backup:</strong> WhatsApp backups on Google Drive or iCloud are encrypted but the key may be stored on the device — forensic extraction can sometimes recover backup keys</li>
+        <li><strong>Screenshot evidence:</strong> Screenshots of WhatsApp conversations can be admitted with a Section 65B certificate — but defendants can challenge their authenticity as screenshots can be easily fabricated</li>
+        <li><strong>Metadata only from WhatsApp:</strong> WHO communicated with WHOM and WHEN (not content) — useful for establishing communication pattern even without message content</li>
+      </ul>
+      <h5>Legal Tension</h5>
+      <p>WhatsApp has resisted government mandates to build "backdoors" or implement "traceability" (identifying the first sender of a viral message). A 2021 WhatsApp vs Union of India case in Delhi High Court challenges the traceability requirement in IT Rules 2021 as violating the right to privacy.</p>
+    </div>
+    <div class="cs-verdict">
+      <span>Broader Implication</span>
+      This case exemplifies the fundamental tension in digital forensics: strong encryption that protects a billion law-abiding users also protects criminals using the same platform. There is no technical solution that breaks encryption only for criminals — any backdoor weakens security for everyone. The legal and policy debate continues globally.
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <div class="con-label">Unit 5 — Final Takeaway</div>
+    <p>Cyber Forensics is where technology, law, and justice intersect. It is not enough to find evidence — it must be found correctly, preserved pristinely, analysed methodically, and presented convincingly. In India, the legal framework is evolving rapidly — from the Section 65B certificate requirement, to CERT-IN's 6-hour reporting mandate, to the emerging jurisprudence around encrypted messaging and cloud evidence. The digital forensic examiner of today must be simultaneously a technical expert, a legal scholar, a skilled communicator, and an adversarial thinker — always anticipating how the defence will challenge every step of the investigation.</p>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>K.S. Puttaswamy vs Union of India [2017] 10 SCC 1 — Right to Privacy (Supreme Court)</li>
+      <li>WhatsApp LLC vs Union of India — Delhi High Court (IT Rules 2021 Challenge)</li>
+      <li>NIST SP 800-201 — Cloud Forensics Challenges: https://csrc.nist.gov</li>
+      <li>Garfinkel, S. — "Digital Forensics Research: The Next 10 Years", Digital Investigation, Elsevier</li>
+      <li>INTERPOL — Global Guidelines for Digital Forensics Laboratories: https://www.interpol.int/en/Crimes/Cybercrime</li>
+      <li>CDAC (India) — Forensics and Security Lab: https://www.cdac.in/index.aspx?id=st_fsl</li>
+      <li>Casey, E. — Digital Evidence and Computer Crime (3rd Ed.), Academic Press</li>
+    </ul>
+  </div>
+</section>
+
+</main><!-- end .content-wrap -->
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>ECS 563 · Essentials of Cyber Security · Unit 05 · 2024 Pattern</span>
+    <div class="footer-links">
+      <a href="unit04_ECS.html">← Unit 4</a>
+      <a href="ECS_Index.html">🏠 Home</a>
+    </div>
+    <span>F.Y. M.C.A. (Management) · SPPU · Design &amp; Developed by Sumit Thakare</span>
+  </div>
+</footer>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+// Nav mobile close
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'))
+);
+
+// Back to top button
+window.addEventListener('scroll', () => {
+  document.querySelector('.back-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Chart 1 — IoC Categories Detected by Indian SOCs (Topic 5.1)
+const iocCtx = document.createElement('canvas');
+const iocWrap = document.createElement('div');
+iocWrap.className = 'diagram-wrap';
+iocWrap.innerHTML = '<div class="diagram-title">Fig 5.6 — Top IoC Categories Detected by Indian Enterprise SOCs (CERT-IN 2023)</div><div class="chart-container"></div>';
+iocWrap.querySelector('.chart-container').appendChild(iocCtx);
+document.querySelector('#t5-1').appendChild(iocWrap);
+
+new Chart(iocCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Malicious IP / Domain', 'Phishing Email IoCs', 'Malware File Hashes', 'Unusual Login Patterns', 'Data Exfiltration Alerts', 'Ransomware Indicators'],
+    datasets: [{
+      label: '% of total IoC alerts',
+      data: [34, 26, 18, 12, 7, 3],
+      backgroundColor: [
+        'rgba(192,57,43,0.8)',
+        'rgba(230,172,0,0.8)',
+        'rgba(111,66,193,0.8)',
+        'rgba(12,141,160,0.8)',
+        'rgba(26,122,52,0.8)',
+        'rgba(58,58,54,0.8)'
+      ],
+      borderColor: ['#c0392b','#e6ac00','#6f42c1','#0c8da0','#1a7a34','#3a3a36'],
+      borderWidth: 2,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        beginAtZero: true, max: 40,
+        title: { display: true, text: '% of total IoC detections' },
+        grid: { color: '#eee' }
+      },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// Chart 2 — Digital Forensics Branch Usage (Topic 5.2)
+const branchCtx = document.createElement('canvas');
+const branchWrap = document.createElement('div');
+branchWrap.className = 'diagram-wrap';
+branchWrap.innerHTML = '<div class="diagram-title">Fig 5.7 — Digital Forensics: Branch Usage in Indian Cybercrime Investigations (%)</div><div class="chart-container"></div>';
+branchWrap.querySelector('.chart-container').appendChild(branchCtx);
+document.querySelector('#t5-2').appendChild(branchWrap);
+
+new Chart(branchCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Mobile Device Forensics', 'Computer / Disk Forensics', 'Network Forensics', 'Email Forensics', 'Memory Forensics', 'Cloud Forensics'],
+    datasets: [{
+      data: [38, 27, 14, 10, 7, 4],
+      backgroundColor: [
+        'rgba(192,57,43,0.85)',
+        'rgba(12,141,160,0.85)',
+        'rgba(26,122,52,0.85)',
+        'rgba(111,66,193,0.85)',
+        'rgba(230,172,0,0.85)',
+        'rgba(58,58,54,0.80)'
+      ],
+      borderColor: '#fafaf8',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}% of cases` }
+      }
+    }
+  }
+});
+
+// Chart 3 — Challenges Radar Chart (Topic 5.6)
+new Chart(document.getElementById('challengeChart5'), {
+  type: 'radar',
+  data: {
+    labels: ['Encryption Barriers', 'Anti-Forensic Evasion', 'Cloud Complexity', 'Mobile Device Lockdown', 'Legal / Jurisdiction', 'Examiner Shortage', 'AI-Generated Evidence', 'Data Volume / Scale'],
+    datasets: [
+      {
+        label: 'Challenge Severity (Enterprise)',
+        data: [9, 7, 8, 8, 7, 6, 6, 8],
+        backgroundColor: 'rgba(192,57,43,0.18)',
+        borderColor: '#c0392b',
+        borderWidth: 2,
+        pointBackgroundColor: '#c0392b'
+      },
+      {
+        label: 'Challenge Severity (Law Enforcement)',
+        data: [10, 6, 7, 9, 10, 9, 5, 7],
+        backgroundColor: 'rgba(12,141,160,0.15)',
+        borderColor: '#0c8da0',
+        borderWidth: 2,
+        pointBackgroundColor: '#0c8da0'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {
+        min: 0, max: 10,
+        ticks: { stepSize: 2 },
+        grid: { color: '#ddd' },
+        pointLabels: { font: { size: 10 } }
+      }
+    },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+</script>
+</body>
+</html>
