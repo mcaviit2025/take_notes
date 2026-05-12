@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Cyber Security Essentials | EIS MCA Notes</title>
+<link rel="stylesheet" href="/css/unit_css_master.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<!-- ════════ UNIT 1 EIS INLINE STYLES ════════ -->
+<style>
+
+  /* ── CRYPTO KEY DISPLAY ── */
+  .crypto-terminal {
+    background: #0d1117;
+    border: 2px solid #30363d;
+    border-radius: 4px;
+    padding: 1rem 1.3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .ct-comment { color: #8b949e; }
+  .ct-label   { color: #79c0ff; font-weight: 700; }
+  .ct-key     { color: #a5d6ff; }
+  .ct-plain   { color: #ffa657; }
+  .ct-cipher  { color: #7ee787; }
+  .ct-warn    { color: #ff7b72; font-weight: 700; }
+  .ct-ok      { color: #3fb950; font-weight: 700; }
+  .ct-arrow   { color: #d2a8ff; }
+
+  /* ── CIPHER TABLE (for symmetric algos) ── */
+  .cipher-row-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .cr-card {
+    padding: 1rem 1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .cr-card:nth-child(3n)      { border-right: none; }
+  .cr-card:nth-last-child(-n+3){ border-bottom: none; }
+  .cr-card .crc-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .cr-card h4 { font-family:'Playfair Display',serif; font-size:0.9rem; margin-bottom:0.3rem; }
+  .cr-card p  { font-size:0.84rem; line-height:1.55; }
+  .cr-card .crc-spec {
+    margin-top: 0.45rem;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .crc-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.63rem;
+    padding: 0.15rem 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+  }
+  .crc-blue   { background:#d1ecf1; color:#065a68; }
+  .crc-green  { background:#d4edda; color:#155724; }
+  .crc-red    { background:#f8d7da; color:#721c24; }
+  .crc-amber  { background:#fff3cd; color:#856404; }
+  .crc-purple { background:#e2d9f3; color:#4a1d96; }
+
+  .crd-a { background:#eef8ff; border-left:4px solid #0c8da0; }
+  .crd-b { background:#f0faf2; border-left:4px solid #1a7a34; }
+  .crd-c { background:#fdf2f2; border-left:4px solid #c0392b; }
+  .crd-d { background:#fff9ec; border-left:4px solid #e6ac00; }
+  .crd-e { background:#f3f0fa; border-left:4px solid #6f42c1; }
+  .crd-f { background:#f0f0ee; border-left:4px solid #3a3a36; }
+
+  /* ── KEY FLOW DIAGRAM wrapper ── */
+  .kf-wrap { overflow-x: auto; }
+
+  /* ── DNS RECORD TABLE ── */
+  .dns-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.18rem 0.55rem;
+    margin: 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+  .db-a      { background:#d1ecf1; color:#065a68; }
+  .db-aaaa   { background:#d4edda; color:#155724; }
+  .db-mx     { background:#f8d7da; color:#721c24; }
+  .db-ns     { background:#e2d9f3; color:#4a1d96; }
+  .db-cname  { background:#fff3cd; color:#856404; }
+  .db-txt    { background:#fde8d8; color:#7d3c00; }
+  .db-ptr    { background:#f0f0ee; color:#3a3a36; }
+  .db-srv    { background:#fdf2f2; color:#c0392b; }
+
+  /* ── FIREWALL RULE TABLE ── */
+  .fw-allow { color:#155724; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.75rem; }
+  .fw-deny  { color:#721c24; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.75rem; }
+  .fw-drop  { color:#856404; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:0.75rem; }
+
+  /* ── WINDOWS TOKEN / ACCESS CARD ── */
+  .win-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .win-card {
+    padding: 1rem 1.1rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+  .win-card:nth-child(even) { border-right: none; }
+  .win-card:nth-last-child(-n+2) { border-bottom: none; }
+  .win-card .wc-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+  .win-card h4 { font-family:'Playfair Display',serif; font-size:0.96rem; margin-bottom:0.3rem; }
+  .win-card p  { font-size:0.86rem; line-height:1.55; }
+  .win-card .wc-code {
+    margin-top: 0.5rem;
+    background: #0d1117;
+    color: #a5d6ff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.4rem 0.7rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .wca { background:#eef8ff; border-left:4px solid #0c8da0; }
+  .wcb { background:#f3f0fa; border-left:4px solid #6f42c1; }
+  .wcc { background:#fff9ec; border-left:4px solid #e6ac00; }
+  .wcd { background:#f0faf2; border-left:4px solid #1a7a34; }
+
+  /* ── VIRT LAYER STACK ── */
+  .virt-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 1rem 0;
+  }
+  .vs-row {
+    display: flex;
+    align-items: stretch;
+    gap: 3px;
+  }
+  .vs-num {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    width: 34px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .vs-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 170px;
+    padding: 0.5rem 0.8rem;
+    flex-shrink: 0;
+    display: flex; align-items: center;
+  }
+  .vs-desc {
+    flex: 1;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.83rem;
+    display: flex; align-items: center;
+  }
+  .vs-eg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.71rem;
+    color: var(--gray-500);
+    width: 160px;
+    padding: 0.5rem 0.6rem;
+    display: flex; align-items: center;
+    flex-shrink: 0;
+  }
+  .vs1 { background:#d1ecf1; } .vs1 .vs-name { color:#065a68; }
+  .vs2 { background:#d4edda; } .vs2 .vs-name { color:#155724; }
+  .vs3 { background:#e2d9f3; } .vs3 .vs-name { color:#4a1d96; }
+  .vs4 { background:#fff3cd; } .vs4 .vs-name { color:#8a6500; }
+  .vs5 { background:#f8d7da; } .vs5 .vs-name { color:#721c24; }
+
+  /* ── RFID TAG DISPLAY ── */
+  .rfid-compare {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .rfid-col {
+    padding: 1rem 0.9rem;
+    border-right: 2px solid var(--black);
+    text-align: center;
+  }
+  .rfid-col:last-child { border-right: none; }
+  .rfid-col .rf-icon { font-size:1.8rem; display:block; margin-bottom:0.35rem; }
+  .rfid-col h4 { font-family:'Playfair Display',serif; font-size:0.96rem; margin-bottom:0.5rem;
+    padding-bottom:0.35rem; border-bottom:var(--border-thin); }
+  .rfid-col p  { font-size:0.84rem; text-align:left; line-height:1.55; }
+  .rfid-col .rf-range {
+    margin-top:0.5rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--gray-500);
+    border-top:var(--border-thin); padding-top:0.35rem; text-align:center;
+  }
+  .rfa { background:#f0faf2; }
+  .rfb { background:#eef8ff; }
+  .rfc { background:#f3f0fa; }
+
+  /* ── PHASE STRIP (reused) ── */
+  .phase-strip {
+    display: flex; gap:0; margin:1.2rem 0; overflow-x:auto;
+  }
+  .phase-block {
+    flex:1; min-width:110px; padding:0.9rem 0.6rem;
+    text-align:center; border-right:2px solid #fff; font-family:'Source Serif 4',serif;
+  }
+  .phase-block:last-child { border-right:none; }
+  .phase-block .ph-num   { font-family:'JetBrains Mono',monospace; font-size:1.4rem; font-weight:700; display:block; margin-bottom:0.2rem; }
+  .phase-block .ph-title { font-size:0.82rem; font-weight:600; display:block; margin-bottom:0.25rem; }
+  .phase-block .ph-desc  { font-size:0.74rem; line-height:1.4; opacity:0.86; }
+  .ph-e1 { background:#d1ecf1; color:#065a68; }
+  .ph-e2 { background:#d4edda; color:#155724; }
+  .ph-e3 { background:#e2d9f3; color:#4a1d96; }
+  .ph-e4 { background:#fff3cd; color:#8a6500; }
+  .ph-e5 { background:#fde8d8; color:#7d3c00; }
+  .ph-e6 { background:#f8d7da; color:#922b21; }
+
+  /* ── CASESTUDY BOX ── */
+  .casestudy-box { border:3px solid var(--black); margin:2rem 0; }
+  .casestudy-header {
+    background:var(--black); color:var(--white);
+    padding:0.8rem 1.4rem; display:flex;
+    justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;
+  }
+  .casestudy-header h4 { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--white); margin:0; }
+  .casestudy-header .cs-meta { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; color:#aaa; text-transform:uppercase; }
+  .casestudy-body { padding:1.3rem 1.4rem; }
+  .casestudy-body h5 { font-family:'JetBrains Mono',monospace; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.09em; color:var(--gray-500); margin:1rem 0 0.4rem; border-bottom:var(--border-thin); padding-bottom:0.3rem; }
+  .casestudy-body p  { margin:0.5rem 0; }
+  .casestudy-body ul { padding-left:1.4rem; }
+  .casestudy-body li { margin:0.35rem 0; font-size:0.95rem; }
+  .cs-verdict { background:var(--gray-100); border-top:2px solid var(--black); padding:0.9rem 1.4rem; font-weight:600; font-size:0.92rem; }
+  .cs-verdict span { font-family:'JetBrains Mono',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray-500); display:block; margin-bottom:0.3rem; }
+
+  /* ── WINDOWS FIREWALL RULE MOCKUP ── */
+  .wf-rule-box {
+    border: var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .wf-rule-header {
+    background: #0078d4;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .wf-rule-row {
+    display: flex;
+    border-bottom: var(--border-thin);
+    min-width: 580px;
+  }
+  .wf-rule-row:last-child { border-bottom: none; }
+  .wf-rule-row:nth-child(even) { background: #fafafa; }
+  .wfr-col { padding: 0.4rem 0.8rem; flex-shrink: 0; font-size: 0.74rem; display: flex; align-items: center; }
+  .wfr-name  { width: 180px; font-weight: 600; }
+  .wfr-dir   { width: 70px; color: #555; }
+  .wfr-proto { width: 60px; color: #555; }
+  .wfr-port  { width: 80px; color: #555; }
+  .wfr-act   { flex: 1; }
+  .wfr-allow { color: #155724; font-weight: 700; }
+  .wfr-block { color: #721c24; font-weight: 700; }
+
+  @media(max-width:680px){
+    .cipher-row-grid { grid-template-columns: 1fr; }
+    .cr-card  { border-right:none !important; border-bottom:2px solid var(--black) !important; }
+    .cr-card:last-child { border-bottom:none !important; }
+    .win-card-grid { grid-template-columns: 1fr; }
+    .win-card { border-right:none !important; }
+    .rfid-compare { grid-template-columns: 1fr; }
+    .rfid-col { border-right:none; border-bottom:2px solid var(--black); }
+    .rfid-col:last-child { border-bottom:none; }
+    .phase-strip { flex-wrap:wrap; }
+    .phase-block { min-width:44%; }
+    .vs-eg { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAVIGATION ════════════ -->
+<nav class="top-nav">
+  <a href="EIS_Index.html" class="nav-brand"><span>EIS</span> · Information Security Notes</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">MENU</button>
+  <ul class="nav-links">
+    <li><a href="EIS_Index.html">Home</a></li>
+    <li><a href="#" class="active">Unit 1</a></li>
+    <li><a href="#">Unit 2</a></li>
+    <li><a href="#">Unit 3</a></li>
+    <li><a href="#">Unit 4</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════ PAGE HEADER ════════════ -->
+<header class="page-header">
+  <div class="unit-badge">Unit 01 · Essentials of Information Security</div>
+  <!-- <h1>Cyber Security<br>Essentials</h1> -->
+  <div class="subject-line">F.Y. M.C.A. (Management) · Semester II · 2024 Pattern · Savitribai Phule Pune University</div>
+  <div class="quick-info">
+    <div class="quick-info-item">Main Sections<strong>2 Sections</strong></div>
+    <div class="quick-info-item">Sub-Topics<strong>11 Sub-Topics</strong></div>
+    <div class="quick-info-item">Key Focus<strong>Cryptography &amp; Windows Security</strong></div>
+    <div class="quick-info-item">Exam Weightage<strong>~14–16 Marks</strong></div>
+  </div>
+</header>
+
+<!-- ════════════ TOC ════════════ -->
+<div class="toc-wrap">
+  <div class="toc-box">
+    <h3>Topics in This Unit</h3>
+    <ol>
+      <li><a href="#s1-1"><strong>Section 1.1 — Information Assurance Fundamentals</strong></a>
+        <ol style="margin-top:0.4rem;">
+          <li><a href="#t1-1-1">1.1.1 — Basic Cryptography</a></li>
+          <li><a href="#t1-1-2">1.1.2 — Symmetric Encryption</a></li>
+          <li><a href="#t1-1-3">1.1.3 — Public Key (Asymmetric) Encryption</a></li>
+          <li><a href="#t1-1-4">1.1.4 — The Domain Name System (DNS)</a></li>
+          <li><a href="#t1-1-5">1.1.5 — Firewalls</a></li>
+          <li><a href="#t1-1-6">1.1.6 — Virtualization</a></li>
+          <li><a href="#t1-1-7">1.1.7 — Radio-Frequency Identification (RFID)</a></li>
+        </ol>
+      </li>
+      <li><a href="#s1-2"><strong>Section 1.2 — Microsoft Windows Security Principles</strong></a>
+        <ol style="margin-top:0.4rem;">
+          <li><a href="#t1-2-1">1.2.1 — Windows Tokens</a></li>
+          <li><a href="#t1-2-2">1.2.2 — Windows Messaging</a></li>
+          <li><a href="#t1-2-3">1.2.3 — Windows Program Execution</a></li>
+          <li><a href="#t1-2-4">1.2.4 — The Windows Firewall</a></li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="content-wrap">
+
+<!-- ══════════════════════════════════════
+     SECTION 1.1 — INFORMATION ASSURANCE FUNDAMENTALS
+══════════════════════════════════════ -->
+<section class="topic-section" id="s1-1">
+  <div class="topic-label">Section 1.1</div>
+  <h2 class="topic-title">Information Assurance Fundamentals</h2>
+  <div class="concept-box">
+    <strong>Information Assurance (IA)</strong> is the practice of managing risks related to the use, processing, storage, and transmission of information and information systems. IA ensures that information and systems are protected from both internal and external threats across five core properties — Confidentiality, Integrity, Availability, Authentication, and Non-repudiation. The technologies covered in this section — cryptography, DNS, firewalls, virtualisation, and RFID — are the foundational tools of information assurance.
+  </div>
+</section>
+
+<!-- ── 1.1.1 BASIC CRYPTOGRAPHY ── -->
+<section class="topic-section" id="t1-1-1">
+  <div class="topic-label">Topic 1.1.1</div>
+  <h2 class="topic-title">Basic Cryptography</h2>
+
+  <div class="concept-box">
+    <strong>Cryptography</strong> is the science of transforming readable information (plaintext) into an unreadable form (ciphertext) to protect it from unauthorised access, and of transforming it back to readable form for authorised recipients. It is the mathematical foundation of all information security.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Last Night Tip</div>
+    Three essential terms: <strong>Plaintext</strong> (original readable message), <strong>Ciphertext</strong> (encrypted output), <strong>Key</strong> (the secret used in encryption/decryption). Know the difference between symmetric (one key) and asymmetric (two keys: public + private) — it is the most frequently examined distinction.
+  </div>
+
+  <h3>Core Cryptographic Terminology</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Plaintext (P)</strong></td><td>The original, readable message before encryption</td><td>"Transfer ₹50,000 to account 1234"</td></tr>
+      <tr><td><strong>Ciphertext (C)</strong></td><td>The scrambled, unreadable output after encryption</td><td>"X7#kQz!&amp;9mBp@Lv..."</td></tr>
+      <tr><td><strong>Encryption (E)</strong></td><td>The process of converting plaintext to ciphertext using an algorithm and key</td><td>C = E(K, P)</td></tr>
+      <tr><td><strong>Decryption (D)</strong></td><td>The reverse process — converting ciphertext back to plaintext</td><td>P = D(K, C)</td></tr>
+      <tr><td><strong>Key (K)</strong></td><td>The secret value that controls the encryption/decryption process</td><td>A 256-bit binary string: 1011010...</td></tr>
+      <tr><td><strong>Algorithm / Cipher</strong></td><td>The mathematical procedure (recipe) used to perform encryption</td><td>AES, RSA, DES, Blowfish</td></tr>
+      <tr><td><strong>Cryptanalysis</strong></td><td>The art of breaking ciphertext without the key — "cracking" encryption</td><td>Brute force, differential cryptanalysis</td></tr>
+      <tr><td><strong>Hash Function</strong></td><td>A one-way transformation that maps data to a fixed-length digest; not reversible</td><td>SHA-256 of "Hello" = 185f8db3...</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Goals of Cryptography — CIA + AN</h3>
+  <div class="three-grid" style="--cols:5">
+    <div class="three-card">
+      <span class="card-icon">🔒</span>
+      <h4>Confidentiality</h4>
+      <p>Only authorised parties can read the information. Encryption ensures ciphertext is meaningless to anyone without the key.</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">✅</span>
+      <h4>Integrity</h4>
+      <p>Data has not been altered in transit. Digital signatures and hash functions detect any modification — even a single bit change.</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">🆔</span>
+      <h4>Authentication</h4>
+      <p>Verifies the identity of the sender. Digital certificates and message authentication codes (MACs) confirm "this message really came from Alice."</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">🚫</span>
+      <h4>Non-Repudiation</h4>
+      <p>The sender cannot later deny sending the message. Digital signatures cryptographically bind the sender to the message — proof is mathematically verifiable.</p>
+    </div>
+    <div class="three-card">
+      <span class="card-icon">📶</span>
+      <h4>Availability</h4>
+      <p>Cryptographic systems themselves must be available when needed. Key management and certificate revocation must not create single points of failure.</p>
+    </div>
+  </div>
+
+  <h3>Types of Cryptography</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.1 — Cryptography Classification Tree</div>
+    <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9px;">
+      <defs>
+        <marker id="arrc" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#555"/>
+        </marker>
+      </defs>
+      <!-- Root -->
+      <rect x="280" y="10" width="160" height="38" rx="3" fill="#0a0a0a"/>
+      <text x="360" y="27" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">CRYPTOGRAPHY</text>
+      <text x="360" y="42" text-anchor="middle" fill="#aaa" font-size="8.5">Science of secret communication</text>
+
+      <!-- Branch lines -->
+      <line x1="360" y1="48" x2="360" y2="60" stroke="#555" stroke-width="1.5"/>
+      <line x1="130" y1="60" x2="590" y2="60" stroke="#555" stroke-width="1.5"/>
+      <line x1="130" y1="60" x2="130" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#arrc)"/>
+      <line x1="360" y1="60" x2="360" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#arrc)"/>
+      <line x1="590" y1="60" x2="590" y2="72" stroke="#555" stroke-width="1.5" marker-end="url(#arrc)"/>
+
+      <!-- Symmetric -->
+      <rect x="40"  y="72" width="180" height="38" rx="3" fill="#0c8da0"/>
+      <text x="130" y="89" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">Symmetric Encryption</text>
+      <text x="130" y="103" text-anchor="middle" fill="#d0f0f8" font-size="8">One shared secret key</text>
+
+      <!-- Asymmetric -->
+      <rect x="270" y="72" width="180" height="38" rx="3" fill="#6f42c1"/>
+      <text x="360" y="89" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">Asymmetric Encryption</text>
+      <text x="360" y="103" text-anchor="middle" fill="#d8c8ff" font-size="8">Public key + Private key pair</text>
+
+      <!-- Hash -->
+      <rect x="500" y="72" width="180" height="38" rx="3" fill="#1a7a34"/>
+      <text x="590" y="89" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">Hash Functions</text>
+      <text x="590" y="103" text-anchor="middle" fill="#c0f0c8" font-size="8">One-way; no key; fixed-length digest</text>
+
+      <!-- Sub-branches -->
+      <line x1="130" y1="110" x2="130" y2="122" stroke="#555" stroke-width="1" marker-end="url(#arrc)"/>
+      <line x1="360" y1="110" x2="360" y2="122" stroke="#555" stroke-width="1" marker-end="url(#arrc)"/>
+      <line x1="590" y1="110" x2="590" y2="122" stroke="#555" stroke-width="1" marker-end="url(#arrc)"/>
+
+      <!-- Symmetric examples -->
+      <rect x="20" y="122" width="220" height="50" rx="2" fill="#d1ecf1" stroke="#0c8da0" stroke-width="1.5"/>
+      <text x="130" y="140" text-anchor="middle" fill="#065a68" font-weight="700">Algorithms:</text>
+      <text x="130" y="154" text-anchor="middle" fill="#065a68">AES · DES · 3DES · Blowfish</text>
+      <text x="130" y="166" text-anchor="middle" fill="#065a68">RC4 · IDEA · ChaCha20</text>
+
+      <!-- Asymmetric examples -->
+      <rect x="250" y="122" width="220" height="50" rx="2" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.5"/>
+      <text x="360" y="140" text-anchor="middle" fill="#4a1d96" font-weight="700">Algorithms:</text>
+      <text x="360" y="154" text-anchor="middle" fill="#4a1d96">RSA · ECC · DSA · ElGamal</text>
+      <text x="360" y="166" text-anchor="middle" fill="#4a1d96">Diffie-Hellman Key Exchange</text>
+
+      <!-- Hash examples -->
+      <rect x="480" y="122" width="220" height="50" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="590" y="140" text-anchor="middle" fill="#155724" font-weight="700">Algorithms:</text>
+      <text x="590" y="154" text-anchor="middle" fill="#155724">SHA-256 · SHA-3 · MD5 (weak)</text>
+      <text x="590" y="166" text-anchor="middle" fill="#155724">HMAC · bcrypt · Argon2</text>
+
+      <!-- bottom row: use cases -->
+      <text x="130" y="195" text-anchor="middle" fill="#0c8da0" font-size="8" font-style="italic">Fast · Bulk data encryption</text>
+      <text x="360" y="195" text-anchor="middle" fill="#6f42c1" font-size="8" font-style="italic">Slow · Key exchange · Digital signatures</text>
+      <text x="590" y="195" text-anchor="middle" fill="#1a7a34" font-size="8" font-style="italic">Integrity checks · Password storage</text>
+
+      <text x="130" y="210" text-anchor="middle" fill="#555" font-size="7.5">eg: HTTPS data stream</text>
+      <text x="360" y="210" text-anchor="middle" fill="#555" font-size="7.5">eg: SSL/TLS handshake</text>
+      <text x="590" y="210" text-anchor="middle" fill="#555" font-size="7.5">eg: Git commit hashes</text>
+    </svg>
+  </div>
+
+  <h3>Hash Functions — One-Way Cryptography</h3>
+  <p>A <strong>cryptographic hash function</strong> takes an input of any length and produces a fixed-length output (digest). It is <em>one-way</em> — you cannot reverse the hash to get the original input. Even a tiny change in input produces a completely different hash (the avalanche effect). Hash functions are used for password storage, file integrity verification, and digital signatures.</p>
+
+  <div class="crypto-terminal">
+    <span class="ct-comment">// Hash Function — Avalanche Effect Demonstration</span><br>
+    <span class="ct-label">Input 1:</span> <span class="ct-plain">"Hello"</span><br>
+    <span class="ct-label">SHA-256:</span> <span class="ct-cipher">185f8db32921bd46d35490...a38e45c0</span><br><br>
+    <span class="ct-label">Input 2:</span> <span class="ct-plain">"hello"</span>  <span class="ct-comment">← changed ONE character (capital H → lowercase h)</span><br>
+    <span class="ct-label">SHA-256:</span> <span class="ct-cipher">2cf24dba5fb0a30e26e83b...8a9af62</span><br><br>
+    <span class="ct-comment">// Completely different output — that is the avalanche effect</span><br>
+    <span class="ct-ok">✔ Hash functions are deterministic: same input → always same output</span><br>
+    <span class="ct-warn">✖ MD5 is cryptographically broken — NEVER use for security purposes</span>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Stallings, W. — Cryptography and Network Security: Principles and Practice, 8th Ed., Pearson</li>
+      <li>Menezes, Oorschot &amp; Vanstone — Handbook of Applied Cryptography (free online): https://cacr.uwaterloo.ca/hac</li>
+      <li>NIST FIPS 197 — AES Specification: https://csrc.nist.gov/publications/detail/fips/197/final</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.2 SYMMETRIC ENCRYPTION ── -->
+<section class="topic-section" id="t1-1-2">
+  <div class="topic-label">Topic 1.1.2</div>
+  <h2 class="topic-title">Symmetric Encryption</h2>
+
+  <div class="concept-box">
+    <strong>Symmetric Encryption</strong> uses the <em>same single key</em> for both encrypting and decrypting data. The sender and receiver must share this secret key through a secure channel before communicating. It is fast and efficient — ideal for encrypting large volumes of data — but the key distribution problem (how do you securely share the key?) is its principal weakness.
+  </div>
+
+  <h3>How Symmetric Encryption Works</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.2 — Symmetric Encryption: One Shared Key</div>
+    <div class="kf-wrap">
+    <svg viewBox="0 0 720 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:500px;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <defs>
+        <marker id="arrsy" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+      <!-- Alice (sender) -->
+      <circle cx="60" cy="70" r="30" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="60" y="67" text-anchor="middle" fill="#065a68" font-weight="700" font-size="10">ALICE</text>
+      <text x="60" y="81" text-anchor="middle" fill="#065a68" font-size="8">Sender</text>
+
+      <!-- Plaintext box -->
+      <rect x="105" y="52" width="95" height="36" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="152" y="68" text-anchor="middle" fill="#856404" font-weight="700" font-size="9">PLAINTEXT</text>
+      <text x="152" y="81" text-anchor="middle" fill="#856404" font-size="8">"Hello Alice"</text>
+      <line x1="92" y1="70" x2="105" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#arrsy)"/>
+
+      <!-- Key (shared) -->
+      <rect x="155" y="110" width="120" height="24" rx="2" fill="#0a0a0a"/>
+      <text x="215" y="126" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="700">🔑 SHARED SECRET KEY</text>
+      <line x1="215" y1="110" x2="215" y2="88" stroke="#0a0a0a" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrsy)"/>
+
+      <!-- Encryption engine -->
+      <rect x="210" y="45" width="110" height="50" rx="3" fill="#0a0a0a"/>
+      <text x="265" y="66" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">ENCRYPT</text>
+      <text x="265" y="80" text-anchor="middle" fill="#aaa" font-size="8">AES / DES</text>
+      <line x1="202" y1="70" x2="210" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#arrsy)"/>
+
+      <!-- Ciphertext -->
+      <rect x="330" y="52" width="105" height="36" rx="2" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="382" y="68" text-anchor="middle" fill="#721c24" font-weight="700" font-size="9">CIPHERTEXT</text>
+      <text x="382" y="81" text-anchor="middle" fill="#721c24" font-size="8">"X7#kQz9m..."</text>
+      <line x1="320" y1="70" x2="330" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#arrsy)"/>
+
+      <!-- Internet cloud -->
+      <text x="460" y="64" text-anchor="middle" fill="#888" font-size="9">≈≈≈≈≈≈</text>
+      <text x="460" y="78" text-anchor="middle" fill="#888" font-size="8">Insecure</text>
+      <text x="460" y="89" text-anchor="middle" fill="#888" font-size="8">Channel</text>
+      <line x1="437" y1="70" x2="447" y2="70" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrsy)"/>
+      <line x1="473" y1="70" x2="483" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#arrsy)"/>
+
+      <!-- Decryption engine -->
+      <rect x="485" y="45" width="110" height="50" rx="3" fill="#1a7a34"/>
+      <text x="540" y="66" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">DECRYPT</text>
+      <text x="540" y="80" text-anchor="middle" fill="#c0f0c8" font-size="8">Same Key</text>
+
+      <!-- Key 2 (same) -->
+      <rect x="445" y="110" width="120" height="24" rx="2" fill="#0a0a0a"/>
+      <text x="505" y="126" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="700">🔑 SAME SECRET KEY</text>
+      <line x1="505" y1="110" x2="505" y2="88" stroke="#0a0a0a" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrsy)"/>
+
+      <!-- Output plaintext -->
+      <rect x="605" y="52" width="95" height="36" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="652" y="68" text-anchor="middle" fill="#155724" font-weight="700" font-size="9">PLAINTEXT</text>
+      <text x="652" y="81" text-anchor="middle" fill="#155724" font-size="8">"Hello Alice"</text>
+      <line x1="597" y1="70" x2="605" y2="70" stroke="#555" stroke-width="1.5" marker-end="url(#arrsy)"/>
+
+      <!-- Bob -->
+      <circle cx="695" cy="70" r="26" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <text x="695" y="67" text-anchor="middle" fill="#155724" font-weight="700" font-size="10">BOB</text>
+      <text x="695" y="81" text-anchor="middle" fill="#155724" font-size="8">Receiver</text>
+    </svg>
+    </div>
+  </div>
+
+  <h3>Types of Symmetric Ciphers</h3>
+
+  <h4>Block Ciphers vs Stream Ciphers</h4>
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>Block Cipher</h4>
+      <ul>
+        <li>Encrypts data in fixed-size chunks (blocks) — typically 64-bit or 128-bit blocks</li>
+        <li>Each block is processed independently (or chained together)</li>
+        <li>Slower but more secure for general-purpose encryption</li>
+        <li>Modes of operation: ECB, CBC, CTR, GCM (each with different security properties)</li>
+        <li>Examples: <strong>AES, DES, 3DES, Blowfish, Twofish, IDEA</strong></li>
+      </ul>
+    </div>
+    <div class="compare-card">
+      <h4>Stream Cipher</h4>
+      <ul>
+        <li>Encrypts one bit or byte at a time — generates a keystream that is XOR'd with plaintext</li>
+        <li>Extremely fast — ideal for real-time communication (voice, video)</li>
+        <li>Synchronisation between sender and receiver is critical</li>
+        <li>Vulnerable if the same keystream is reused — must never reuse nonce/IV</li>
+        <li>Examples: <strong>RC4, ChaCha20, Salsa20, A5/1 (GSM)</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Major Symmetric Encryption Algorithms</h3>
+
+  <div class="cipher-row-grid">
+    <div class="cr-card crd-a">
+      <span class="crc-name">AES</span>
+      <h4>Advanced Encryption Standard</h4>
+      <p>The global standard since 2001. Chosen by NIST after an open competition. Replaced DES. Used in HTTPS, Wi-Fi (WPA2/WPA3), banking, and virtually every modern secure system.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-blue">128 / 192 / 256-bit keys</span>
+        <span class="crc-tag crc-green">128-bit block size</span>
+        <span class="crc-tag crc-green">Unbroken</span>
+        <span class="crc-tag crc-blue">FIPS 197</span>
+      </div>
+    </div>
+    <div class="cr-card crd-c">
+      <span class="crc-name">DES</span>
+      <h4>Data Encryption Standard</h4>
+      <p>The original US government standard (1977). Uses only a 56-bit key — considered <em>insecure</em> today. A 56-bit key can be brute-forced in under 24 hours with modern hardware. Replaced by 3DES and then AES.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-red">56-bit key — INSECURE</span>
+        <span class="crc-tag crc-amber">64-bit block size</span>
+        <span class="crc-tag crc-red">Deprecated</span>
+      </div>
+    </div>
+    <div class="cr-card crd-d">
+      <span class="crc-name">3DES</span>
+      <h4>Triple DES</h4>
+      <p>Applies DES three times with different keys to increase security. Offered a migration path from DES. Slow compared to AES. NIST deprecated 3DES in 2023 — no longer recommended for new systems but still found in legacy banking infrastructure.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-amber">112 / 168-bit effective key</span>
+        <span class="crc-tag crc-amber">64-bit block</span>
+        <span class="crc-tag crc-red">Deprecated 2023</span>
+      </div>
+    </div>
+    <div class="cr-card crd-b">
+      <span class="crc-name">Blowfish</span>
+      <h4>Blowfish Cipher</h4>
+      <p>Designed by Bruce Schneier (1993) as a free, fast alternative to DES. Variable key length — very flexible. Still used in some legacy systems. Superseded by its successor Twofish and AES. Known for its slow key setup — advantageous for password hashing (bcrypt uses Blowfish).</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">32–448-bit variable key</span>
+        <span class="crc-tag crc-blue">64-bit block</span>
+        <span class="crc-tag crc-green">bcrypt (passwords)</span>
+      </div>
+    </div>
+    <div class="cr-card crd-e">
+      <span class="crc-name">RC4</span>
+      <h4>Rivest Cipher 4 (Stream)</h4>
+      <p>Widely used in SSL and WEP Wi-Fi encryption. Extremely fast and simple. However, discovered to have significant cryptographic weaknesses — WEP is trivially crackable using RC4 vulnerabilities. RC4 is now <em>prohibited</em> in TLS 1.2+ and should never be used for new implementations.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-red">Stream cipher — BROKEN</span>
+        <span class="crc-tag crc-red">Prohibited in TLS 1.3</span>
+        <span class="crc-tag crc-red">WEP cracked in minutes</span>
+      </div>
+    </div>
+    <div class="cr-card crd-f">
+      <span class="crc-name">ChaCha20</span>
+      <h4>ChaCha20-Poly1305 (Stream)</h4>
+      <p>Modern stream cipher designed by Daniel Bernstein. Extremely fast in software (no hardware acceleration needed — ideal for mobile devices). Used in TLS 1.3, WireGuard VPN, and Android's default HTTPS cipher. Combined with Poly1305 MAC for authenticated encryption.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">256-bit key</span>
+        <span class="crc-tag crc-green">TLS 1.3 standard</span>
+        <span class="crc-tag crc-green">WireGuard VPN</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Key Distribution Problem — The Critical Weakness</h3>
+  <p>The fundamental challenge of symmetric encryption: <strong>how do Alice and Bob securely share the secret key before they can encrypt anything?</strong> If they transmit it over an insecure channel, an eavesdropper (Eve) captures it and can decrypt all future messages. This problem is solved by <em>asymmetric encryption</em> (covered in Topic 1.1.3).</p>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ AES Key Size Matters</div>
+    AES-128 offers 2<sup>128</sup> possible keys — computationally infeasible to brute-force with current technology. AES-256 is recommended for data requiring long-term protection (classified government documents, medical records). For most commercial applications, AES-128 or AES-256 in GCM mode is the recommended choice.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST FIPS 197 — AES Standard: https://csrc.nist.gov/publications/detail/fips/197/final</li>
+      <li>NIST SP 800-131A Rev.2 — Transitioning Cryptographic Algorithms: https://csrc.nist.gov</li>
+      <li>Schneier, B. — Applied Cryptography, 2nd Ed., Wiley</li>
+      <li>RFC 8439 — ChaCha20-Poly1305: https://datatracker.ietf.org/doc/html/rfc8439</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.3 PUBLIC KEY ENCRYPTION ── -->
+<section class="topic-section" id="t1-1-3">
+  <div class="topic-label">Topic 1.1.3</div>
+  <h2 class="topic-title">Public Key (Asymmetric) Encryption</h2>
+
+  <div class="concept-box">
+    <strong>Public Key Cryptography</strong> (Asymmetric Encryption) uses a mathematically linked <em>key pair</em> — a <strong>Public Key</strong> (shared openly with everyone) and a <strong>Private Key</strong> (kept secret by its owner). Data encrypted with the public key can <em>only</em> be decrypted with the matching private key, and vice versa. This elegantly solves the key distribution problem of symmetric encryption.
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">📌 Most Examined Concept</div>
+    <strong>Public key = anyone can use it to ENCRYPT or VERIFY.</strong> <strong>Private key = only the owner uses it to DECRYPT or SIGN.</strong> Lock and key analogy: the public key is a padlock you hand to everyone; the private key is the only key that opens it. Know RSA, the formula C = M<sup>e</sup> mod n, and how digital signatures work.
+  </div>
+
+  <h3>The Key Pair — How It Works</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.3 — Asymmetric Encryption: Two Operations (Encrypt vs Sign)</div>
+    <div class="kf-wrap">
+    <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:540px;font-family:'Source Serif 4',serif;font-size:9px;">
+      <defs>
+        <marker id="arras" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#555"/>
+        </marker>
+      </defs>
+
+      <!-- OPERATION A: ENCRYPTION for confidentiality -->
+      <text x="360" y="18" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12" font-weight="700" fill="#0a0a0a">Operation A — Encryption (Confidentiality)</text>
+
+      <rect x="20" y="28" width="110" height="36" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="75" y="44" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="9">Plaintext</text>
+      <text x="75" y="58" text-anchor="middle" fill="#8a6500" font-size="8">Secret message</text>
+      <line x1="132" y1="46" x2="162" y2="46" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="163" y="28" width="140" height="36" rx="2" fill="#6f42c1"/>
+      <text x="233" y="44" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Encrypt with</text>
+      <text x="233" y="58" text-anchor="middle" fill="#d0c0ff" font-size="8.5">BOB'S PUBLIC KEY 🔓</text>
+      <line x1="305" y1="46" x2="335" y2="46" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="336" y="28" width="110" height="36" rx="2" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="391" y="44" text-anchor="middle" fill="#721c24" font-weight="700" font-size="9">Ciphertext</text>
+      <text x="391" y="58" text-anchor="middle" fill="#721c24" font-size="8">Only Bob can read</text>
+      <line x1="448" y1="46" x2="478" y2="46" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="479" y="28" width="140" height="36" rx="2" fill="#1a7a34"/>
+      <text x="549" y="44" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Decrypt with</text>
+      <text x="549" y="58" text-anchor="middle" fill="#c0f0c8" font-size="8.5">BOB'S PRIVATE KEY 🔑</text>
+      <line x1="621" y1="46" x2="651" y2="46" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="652" y="28" width="60" height="36" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="682" y="44" text-anchor="middle" fill="#155724" font-weight="700" font-size="9">Plaintext</text>
+      <text x="682" y="58" text-anchor="middle" fill="#155724" font-size="8">✓ Read</text>
+
+      <!-- Separator -->
+      <line x1="20" y1="82" x2="700" y2="82" stroke="#ddd" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+      <!-- OPERATION B: DIGITAL SIGNATURE -->
+      <text x="360" y="100" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12" font-weight="700" fill="#0a0a0a">Operation B — Digital Signature (Authentication + Non-Repudiation)</text>
+
+      <rect x="20" y="110" width="110" height="36" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="75" y="126" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="9">Document</text>
+      <text x="75" y="140" text-anchor="middle" fill="#8a6500" font-size="8">Alice's message</text>
+
+      <line x1="75" y1="146" x2="75" y2="158" stroke="#555" stroke-width="1.2" marker-end="url(#arras)"/>
+      <rect x="20" y="159" width="110" height="28" rx="2" fill="#0c8da0"/>
+      <text x="75" y="170" text-anchor="middle" fill="#fff" font-weight="700" font-size="8.5">Hash (SHA-256)</text>
+      <text x="75" y="182" text-anchor="middle" fill="#d0f0f8" font-size="8">Message digest</text>
+      <line x1="132" y1="173" x2="162" y2="173" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="163" y="159" width="140" height="28" rx="2" fill="#c0392b"/>
+      <text x="233" y="170" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Sign with</text>
+      <text x="233" y="182" text-anchor="middle" fill="#fde8d8" font-size="8.5">ALICE'S PRIVATE KEY 🔑</text>
+      <line x1="305" y1="173" x2="335" y2="173" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="336" y="159" width="110" height="28" rx="2" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="391" y="170" text-anchor="middle" fill="#721c24" font-weight="700" font-size="9">DIGITAL</text>
+      <text x="391" y="182" text-anchor="middle" fill="#721c24" font-size="9">SIGNATURE</text>
+      <line x1="448" y1="173" x2="478" y2="173" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="479" y="159" width="140" height="28" rx="2" fill="#6f42c1"/>
+      <text x="549" y="170" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">Verify with</text>
+      <text x="549" y="182" text-anchor="middle" fill="#d0c0ff" font-size="8.5">ALICE'S PUBLIC KEY 🔓</text>
+      <line x1="621" y1="173" x2="651" y2="173" stroke="#555" stroke-width="1.5" marker-end="url(#arras)"/>
+
+      <rect x="652" y="159" width="60" height="28" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="682" y="170" text-anchor="middle" fill="#155724" font-weight="700" font-size="9">✓ Valid</text>
+      <text x="682" y="182" text-anchor="middle" fill="#155724" font-size="8">Authentic</text>
+
+      <!-- Bottom note -->
+      <text x="360" y="220" text-anchor="middle" fill="#555" font-size="8.5" font-family="'JetBrains Mono',monospace">
+        Hybrid systems (TLS/HTTPS) use asymmetric encryption to exchange a symmetric session key — best of both worlds.
+      </text>
+    </svg>
+    </div>
+  </div>
+
+  <h3>RSA — The Most Widely Used Asymmetric Algorithm</h3>
+  <p><strong>RSA</strong> (Rivest–Shamir–Adleman, 1977) is the foundational public-key algorithm. Its security relies on the mathematical difficulty of <em>factoring the product of two large prime numbers</em>. Given N = p × q (where p and q are large primes), finding p and q from N is computationally infeasible for large enough N.</p>
+
+  <div class="crypto-terminal">
+    <span class="ct-comment">// RSA — Simplified Key Generation and Encryption</span><br><br>
+    <span class="ct-label">Step 1 — Choose primes: </span><span class="ct-plain">p = 61, q = 53</span><br>
+    <span class="ct-label">Step 2 — Compute n:     </span><span class="ct-plain">n = p × q = 61 × 53 = 3233</span>  <span class="ct-comment">(public modulus)</span><br>
+    <span class="ct-label">Step 3 — φ(n):         </span><span class="ct-plain">φ(n) = (61-1)(53-1) = 3120</span><br>
+    <span class="ct-label">Step 4 — Choose e:     </span><span class="ct-plain">e = 17</span>  <span class="ct-comment">(coprime with φ(n); public exponent)</span><br>
+    <span class="ct-label">Step 5 — Find d:       </span><span class="ct-plain">d = 2753</span>  <span class="ct-comment">(d × e ≡ 1 mod φ(n); private exponent)</span><br><br>
+    <span class="ct-ok">Public Key:  (e=17,  n=3233)  — share with everyone</span><br>
+    <span class="ct-warn">Private Key: (d=2753, n=3233) — keep secret always</span><br><br>
+    <span class="ct-label">Encrypt M=65:</span>  <span class="ct-arrow">C = M^e mod n</span>  <span class="ct-cipher">= 65^17 mod 3233 = 2790</span><br>
+    <span class="ct-label">Decrypt C=2790:</span> <span class="ct-arrow">M = C^d mod n</span>  <span class="ct-cipher">= 2790^2753 mod 3233 = 65</span>  <span class="ct-ok">✔</span>
+  </div>
+
+  <h3>Comparison — Symmetric vs Asymmetric</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Keys</strong></td><td>One shared secret key</td><td>Public + Private key pair</td></tr>
+      <tr><td><strong>Speed</strong></td><td>Very fast (100–1000× faster)</td><td>Slow (computationally expensive)</td></tr>
+      <tr><td><strong>Key Distribution</strong></td><td>Difficult — must share key securely first</td><td>Easy — public key can be freely published</td></tr>
+      <tr><td><strong>Scalability</strong></td><td>N(N-1)/2 keys for N users — doesn't scale</td><td>2N keys for N users — scales well</td></tr>
+      <tr><td><strong>Key Size</strong></td><td>128–256 bits (AES)</td><td>2048–4096 bits (RSA); 256–521 bits (ECC)</td></tr>
+      <tr><td><strong>Use Case</strong></td><td>Bulk data encryption (files, disk, stream)</td><td>Key exchange, digital signatures, certificates</td></tr>
+      <tr><td><strong>Examples</strong></td><td>AES, ChaCha20, Blowfish</td><td>RSA, ECC, DSA, ElGamal</td></tr>
+      <tr><td><strong>Real-World Use</strong></td><td>HTTPS data stream, WPA2, disk encryption</td><td>HTTPS handshake, S/MIME email, SSH</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Hybrid Encryption — Best of Both Worlds (How HTTPS Works)</h3>
+  <p>Modern systems use a <strong>hybrid approach</strong> — asymmetric encryption to securely exchange a symmetric key, then symmetric encryption for all actual data transfer. This gives the security of asymmetric with the speed of symmetric.</p>
+
+  <div class="phase-strip">
+    <div class="phase-block ph-e1">
+      <span class="ph-num">1</span>
+      <span class="ph-title">Server Certificate</span>
+      <span class="ph-desc">Server sends its RSA/ECC public key in a digital certificate signed by a trusted CA</span>
+    </div>
+    <div class="phase-block ph-e2">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Key Exchange</span>
+      <span class="ph-desc">Client generates a random AES session key; encrypts it with server's public key; sends it</span>
+    </div>
+    <div class="phase-block ph-e3">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Session Key</span>
+      <span class="ph-desc">Server decrypts using private key; both now share the same AES session key</span>
+    </div>
+    <div class="phase-block ph-e4">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Data Transfer</span>
+      <span class="ph-desc">All HTTPS data encrypted with fast AES-256-GCM using the shared session key</span>
+    </div>
+    <div class="phase-block ph-e5">
+      <span class="ph-num">5</span>
+      <span class="ph-title">Session End</span>
+      <span class="ph-desc">Session key discarded; new session = new key. Forward secrecy maintained</span>
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Rivest, Shamir, Adleman — "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems", Communications of the ACM, 1978</li>
+      <li>NIST SP 800-57 Part 1 — Key Management Recommendations: https://csrc.nist.gov</li>
+      <li>RFC 8446 — TLS 1.3 (Hybrid encryption in practice): https://datatracker.ietf.org/doc/html/rfc8446</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.4 DNS ── -->
+<section class="topic-section" id="t1-1-4">
+  <div class="topic-label">Topic 1.1.4</div>
+  <h2 class="topic-title">The Domain Name System (DNS)</h2>
+
+  <div class="concept-box">
+    The <strong>Domain Name System (DNS)</strong> is the internet's distributed, hierarchical naming system that translates human-readable domain names (like <code>google.com</code>) into machine-readable IP addresses (like <code>142.250.195.78</code>). DNS is often called the "phone book of the internet" — without it, every website would have to be accessed by its numerical IP address. DNS is also a critical security component — and a frequent attack target.
+  </div>
+
+  <h3>DNS Resolution — Step by Step</h3>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.4 — DNS Resolution Process: How "www.sppu.ac.in" Gets Resolved</div>
+    <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:8.5px;">
+      <defs>
+        <marker id="arrd" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#555"/>
+        </marker>
+      </defs>
+
+      <!-- Client -->
+      <rect x="10" y="80" width="90" height="50" rx="3" fill="#fff3cd" stroke="#e6ac00" stroke-width="2"/>
+      <text x="55" y="101" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="9">USER</text>
+      <text x="55" y="114" text-anchor="middle" fill="#8a6500" font-size="7.5">Browser asks</text>
+      <text x="55" y="124" text-anchor="middle" fill="#8a6500" font-size="7.5">for sppu.ac.in</text>
+
+      <!-- Step 1: client → resolver -->
+      <line x1="102" y1="105" x2="152" y2="105" stroke="#555" stroke-width="1.5" marker-end="url(#arrd)"/>
+      <text x="127" y="98"  text-anchor="middle" fill="#555" font-size="7">① query</text>
+
+      <!-- Resolver (ISP DNS) -->
+      <rect x="153" y="68" width="110" height="74" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="208" y="89" text-anchor="middle" fill="#065a68" font-weight="700" font-size="9">RECURSIVE</text>
+      <text x="208" y="101" text-anchor="middle" fill="#065a68" font-weight="700" font-size="9">RESOLVER</text>
+      <text x="208" y="115" text-anchor="middle" fill="#065a68" font-size="7.5">ISP / 8.8.8.8</text>
+      <text x="208" y="126" text-anchor="middle" fill="#065a68" font-size="7.5">Checks cache first</text>
+      <text x="208" y="137" text-anchor="middle" fill="#065a68" font-size="7.5">then queries root</text>
+
+      <!-- Step 2: resolver → root -->
+      <line x1="265" y1="90" x2="325" y2="65" stroke="#555" stroke-width="1.5" marker-end="url(#arrd)"/>
+      <text x="294" y="71" text-anchor="middle" fill="#555" font-size="7">② root query</text>
+
+      <!-- Root DNS -->
+      <rect x="326" y="28" width="110" height="50" rx="3" fill="#0a0a0a"/>
+      <text x="381" y="50" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">ROOT DNS</text>
+      <text x="381" y="65" text-anchor="middle" fill="#aaa" font-size="7.5">13 root server clusters</text>
+      <text x="381" y="75" text-anchor="middle" fill="#aaa" font-size="7.5">Returns .in TLD location</text>
+
+      <!-- Step 3: resolver → TLD -->
+      <line x1="437" y1="55" x2="530" y2="55" stroke="#555" stroke-width="1.5" marker-end="url(#arrd)"/>
+      <text x="483" y="47" text-anchor="middle" fill="#555" font-size="7">③ TLD query</text>
+
+      <!-- TLD DNS -->
+      <rect x="531" y="28" width="110" height="50" rx="3" fill="#6f42c1"/>
+      <text x="586" y="50" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">TLD DNS (.in)</text>
+      <text x="586" y="65" text-anchor="middle" fill="#d0c0ff" font-size="7.5">NIXI manages .in TLD</text>
+      <text x="586" y="75" text-anchor="middle" fill="#d0c0ff" font-size="7.5">Returns .ac.in NS location</text>
+
+      <!-- Step 4: resolver → authoritative -->
+      <line x1="586" y1="78" x2="586" y2="112" stroke="#555" stroke-width="1.5" marker-end="url(#arrd)"/>
+      <text x="606" y="98" text-anchor="middle" fill="#555" font-size="7">④ auth query</text>
+
+      <!-- Authoritative DNS -->
+      <rect x="531" y="113" width="110" height="60" rx="3" fill="#1a7a34"/>
+      <text x="586" y="133" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">AUTHORITATIVE</text>
+      <text x="586" y="147" text-anchor="middle" fill="#c0f0c8" font-size="7.5">sppu.ac.in name server</text>
+      <text x="586" y="158" text-anchor="middle" fill="#c0f0c8" font-size="7.5">Returns final A record</text>
+      <text x="586" y="169" text-anchor="middle" fill="#7ee787" font-weight="700" font-size="8">IP: 14.139.255.80</text>
+
+      <!-- Step 5: answer back to resolver -->
+      <line x1="529" y1="145" x2="265" y2="120" stroke="#1a7a34" stroke-width="1.8" marker-end="url(#arrd)"/>
+      <text x="395" y="148" text-anchor="middle" fill="#1a7a34" font-size="7">⑤ IP address returned</text>
+
+      <!-- Step 6: resolver → client -->
+      <line x1="152" y1="115" x2="102" y2="115" stroke="#1a7a34" stroke-width="1.8" marker-end="url(#arrd)"/>
+      <text x="127" y="130" text-anchor="middle" fill="#1a7a34" font-size="7">⑥ IP returned + cached</text>
+
+      <!-- Bottom: connect to server -->
+      <rect x="10" y="175" width="690" height="30" rx="3" fill="#f0f0ee" stroke="#3a3a36" stroke-width="1.5"/>
+      <text x="355" y="193" text-anchor="middle" fill="#3a3a36" font-size="9" font-weight="700">
+        Browser now connects directly to 14.139.255.80 (SPPU web server) using TCP/HTTPS — DNS job complete
+      </text>
+    </svg>
+  </div>
+
+  <h3>DNS Record Types</h3>
+  <p>DNS stores information as <strong>Resource Records (RRs)</strong>. Different record types serve different purposes:</p>
+  <table class="data-table no-bold">
+    <thead><tr><th>Record</th><th>Type</th><th>Purpose</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><span class="dns-badge db-a">A</span></td><td>Address</td><td>Maps a hostname to an IPv4 address — most common record type</td><td>www.sppu.ac.in → 14.139.255.80</td></tr>
+      <tr><td><span class="dns-badge db-aaaa">AAAA</span></td><td>IPv6 Address</td><td>Maps a hostname to an IPv6 address</td><td>www.google.com → 2404:6800:4009:823::2004</td></tr>
+      <tr><td><span class="dns-badge db-mx">MX</span></td><td>Mail Exchanger</td><td>Specifies the mail server responsible for accepting email for a domain</td><td>gmail.com → aspmx.l.google.com (priority 1)</td></tr>
+      <tr><td><span class="dns-badge db-ns">NS</span></td><td>Name Server</td><td>Delegates a DNS zone to a specific authoritative name server</td><td>sppu.ac.in → ns1.sppu.ac.in</td></tr>
+      <tr><td><span class="dns-badge db-cname">CNAME</span></td><td>Canonical Name</td><td>Creates an alias pointing one hostname to another — used for CDNs</td><td>www.example.com → example.com</td></tr>
+      <tr><td><span class="dns-badge db-txt">TXT</span></td><td>Text</td><td>Stores arbitrary text — used for SPF, DKIM, DMARC email authentication</td><td>v=spf1 include:_spf.google.com ~all</td></tr>
+      <tr><td><span class="dns-badge db-ptr">PTR</span></td><td>Pointer</td><td>Reverse DNS — maps an IP address back to a hostname</td><td>80.255.139.14.in-addr.arpa → www.sppu.ac.in</td></tr>
+      <tr><td><span class="dns-badge db-srv">SOA</span></td><td>Start of Authority</td><td>Contains administrative info about the zone (primary NS, admin email, serial number)</td><td>Zone transfer control, TTL defaults</td></tr>
+    </tbody>
+  </table>
+
+  <h3>DNS Security Threats</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Attack</th><th>How It Works</th><th>Impact</th><th>Defence</th></tr></thead>
+    <tbody>
+      <tr><td><strong>DNS Spoofing / Cache Poisoning</strong></td><td>Attacker injects forged DNS records into a resolver's cache — victims are redirected to malicious servers</td><td>Phishing, credential theft, malware delivery at massive scale</td><td>DNSSEC — cryptographic signing of DNS records; validate responses</td></tr>
+      <tr><td><strong>DNS Hijacking</strong></td><td>Attacker modifies DNS settings on a router or compromises DNS server to return malicious IPs</td><td>All traffic silently redirected to attacker-controlled server</td><td>Secure router admin credentials; use trusted DNS (1.1.1.1, 8.8.8.8); DoH/DoT</td></tr>
+      <tr><td><strong>DNS DDoS Amplification</strong></td><td>Attacker sends small DNS queries with spoofed victim IP; DNS servers return large responses to victim</td><td>Amplifies attack 50–70×; overwhelms victim's bandwidth</td><td>Rate limiting; response rate limiting (RRL); disable open resolvers</td></tr>
+      <tr><td><strong>DNS Tunnelling</strong></td><td>Malware encodes data within DNS queries/responses to exfiltrate data or maintain C2 channel bypassing firewalls</td><td>Data exfiltration; covert C2 channel even through strict firewalls</td><td>DNS monitoring; anomaly detection for unusually long or high-volume DNS queries</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-label">DNSSEC — DNS Security Extensions</div>
+    <strong>DNSSEC</strong> adds cryptographic signatures to DNS records. A DNS resolver can verify that a response came from the authoritative server and has not been tampered with. DNSSEC uses public/private key pairs — the zone signing key (ZSK) signs individual records, and the key signing key (KSK) signs the ZSK. India's .in domain supports DNSSEC, and CERT-IN recommends all government portals implement DNSSEC.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>RFC 1034 &amp; 1035 — DNS Specification: https://datatracker.ietf.org/doc/html/rfc1034</li>
+      <li>RFC 4033 — DNSSEC Introduction: https://datatracker.ietf.org/doc/html/rfc4033</li>
+      <li>Albitz &amp; Liu — DNS and BIND, 5th Ed., O'Reilly Media</li>
+      <li>NIXI — .IN Domain Registry: https://www.nixi.in</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.5 FIREWALLS ── -->
+<section class="topic-section" id="t1-1-5">
+  <div class="topic-label">Topic 1.1.5</div>
+  <h2 class="topic-title">Firewalls</h2>
+
+  <div class="concept-box">
+    A <strong>Firewall</strong> is a network security device (hardware, software, or cloud-based) that monitors and controls incoming and outgoing network traffic based on a set of predefined security rules. It establishes a barrier between a trusted internal network and untrusted external networks (the internet), permitting legitimate traffic and blocking malicious or unauthorised traffic.
+  </div>
+
+  <h3>Types of Firewalls</h3>
+
+  <div class="cipher-row-grid">
+    <div class="cr-card crd-a">
+      <span class="crc-name" style="font-size:0.85rem;">Packet Filtering</span>
+      <h4>Stateless Inspection</h4>
+      <p>Examines each packet in isolation — checks source/destination IP, source/destination port, and protocol (TCP/UDP). Fast but cannot understand context — does not know if a packet is part of an existing legitimate connection.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">Layer 3–4 (Network/Transport)</span>
+        <span class="crc-tag crc-amber">Fast but limited</span>
+        <span class="crc-tag crc-red">No state tracking</span>
+      </div>
+    </div>
+    <div class="cr-card crd-b">
+      <span class="crc-name" style="font-size:0.85rem;">Stateful Inspection</span>
+      <h4>Connection-Aware Firewall</h4>
+      <p>Tracks the <em>state</em> of active network connections. Knows whether a packet is part of an established session (SYN-ACK flow tracking). Allows responses to legitimate outgoing requests. Much smarter and more secure than packet filtering.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">Layer 3–4 + state table</span>
+        <span class="crc-tag crc-green">Most common type</span>
+        <span class="crc-tag crc-blue">iptables, pfSense, ASA</span>
+      </div>
+    </div>
+    <div class="cr-card crd-c">
+      <span class="crc-name" style="font-size:0.85rem;">Application / Proxy FW</span>
+      <h4>Layer 7 Inspection</h4>
+      <p>Operates at the application layer — understands specific protocols (HTTP, FTP, DNS, SMTP). Acts as a proxy — terminates client connection, inspects content, then establishes new connection to server. Can block malicious payloads within allowed protocols.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">Layer 7 (Application)</span>
+        <span class="crc-tag crc-blue">Deep Packet Inspection</span>
+        <span class="crc-tag crc-amber">Slower but thorough</span>
+      </div>
+    </div>
+    <div class="cr-card crd-d">
+      <span class="crc-name" style="font-size:0.85rem;">Next-Gen Firewall</span>
+      <h4>NGFW — All-in-One</h4>
+      <p>Combines stateful inspection + DPI + integrated IPS + application awareness + SSL/TLS inspection + user identity awareness + threat intelligence feeds. Identifies applications by behaviour, not just port numbers. The modern enterprise standard.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">All layers</span>
+        <span class="crc-tag crc-blue">Palo Alto · Fortinet · Cisco</span>
+        <span class="crc-tag crc-green">App-ID · User-ID</span>
+      </div>
+    </div>
+    <div class="cr-card crd-e">
+      <span class="crc-name" style="font-size:0.85rem;">WAF</span>
+      <h4>Web Application Firewall</h4>
+      <p>Specifically protects web applications from Layer 7 attacks: SQL injection, cross-site scripting (XSS), CSRF, path traversal, and OWASP Top 10 vulnerabilities. Deployed in front of web servers. Can be hardware, software, or cloud-based (CDN-integrated).</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">HTTP/HTTPS only</span>
+        <span class="crc-tag crc-blue">Cloudflare · AWS WAF · ModSecurity</span>
+        <span class="crc-tag crc-amber">OWASP Rules</span>
+      </div>
+    </div>
+    <div class="cr-card crd-f">
+      <span class="crc-name" style="font-size:0.85rem;">Cloud Firewall / FWaaS</span>
+      <h4>Firewall as a Service</h4>
+      <p>Cloud-native firewalls that protect cloud infrastructure (VPCs, subnets) and distributed workforces (zero-trust architecture). Scale elastically with traffic. Examples include AWS Security Groups, Azure NSG, and cloud-based SASE solutions (Zscaler, Prisma).</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">AWS SG · Azure NSG</span>
+        <span class="crc-tag crc-blue">Zscaler · Prisma SASE</span>
+        <span class="crc-tag crc-green">Elastic scaling</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Firewall Rule Sets — How Rules Work</h3>
+  <p>Firewall rules are processed <strong>top-to-bottom</strong>. The first matching rule wins — subsequent rules are not evaluated. Every firewall ends with an implicit or explicit <em>deny all</em> rule at the bottom (default deny / whitelist approach). This is the safest configuration.</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.5 — Sample Firewall Rule Table (Perimeter Firewall)</div>
+    <div class="wf-rule-box">
+      <div class="wf-rule-header">
+        🔥 FIREWALL RULES — Corporate Perimeter (Top-to-Bottom Priority)
+        <span style="margin-left:auto;font-size:0.65rem;opacity:0.75">Default Policy: DENY ALL</span>
+      </div>
+      <div class="wf-rule-row" style="background:#e8f5e9;">
+        <div class="wfr-col wfr-name">#1 Allow HTTPS Inbound</div>
+        <div class="wfr-col wfr-dir">Inbound</div>
+        <div class="wfr-col wfr-proto">TCP</div>
+        <div class="wfr-col wfr-port">Port 443</div>
+        <div class="wfr-col wfr-act"><span class="wfr-allow">✔ ALLOW</span> — Any → Web Server 192.168.10.20</div>
+      </div>
+      <div class="wf-rule-row" style="background:#e8f5e9;">
+        <div class="wfr-col wfr-name">#2 Allow HTTP Inbound</div>
+        <div class="wfr-col wfr-dir">Inbound</div>
+        <div class="wfr-col wfr-proto">TCP</div>
+        <div class="wfr-col wfr-port">Port 80</div>
+        <div class="wfr-col wfr-act"><span class="wfr-allow">✔ ALLOW</span> — Any → Web Server (redirects to 443)</div>
+      </div>
+      <div class="wf-rule-row" style="background:#e8f5e9;">
+        <div class="wfr-col wfr-name">#3 Allow DNS Outbound</div>
+        <div class="wfr-col wfr-dir">Outbound</div>
+        <div class="wfr-col wfr-proto">UDP</div>
+        <div class="wfr-col wfr-port">Port 53</div>
+        <div class="wfr-col wfr-act"><span class="wfr-allow">✔ ALLOW</span> — Internal → 8.8.8.8 (Google DNS)</div>
+      </div>
+      <div class="wf-rule-row" style="background:#fff8e1;">
+        <div class="wfr-col wfr-name">#4 Allow SSH Internal</div>
+        <div class="wfr-col wfr-dir">Inbound</div>
+        <div class="wfr-col wfr-proto">TCP</div>
+        <div class="wfr-col wfr-port">Port 22</div>
+        <div class="wfr-col wfr-act"><span class="wfr-allow">✔ ALLOW</span> — 10.0.0.0/8 only → Servers (admin IPs only)</div>
+      </div>
+      <div class="wf-rule-row" style="background:#fce4ec;">
+        <div class="wfr-col wfr-name">#5 Block Telnet</div>
+        <div class="wfr-col wfr-dir">Both</div>
+        <div class="wfr-col wfr-proto">TCP</div>
+        <div class="wfr-col wfr-port">Port 23</div>
+        <div class="wfr-col wfr-act"><span class="wfr-block">✖ BLOCK</span> — Any ↔ Any (plaintext protocol — insecure)</div>
+      </div>
+      <div class="wf-rule-row" style="background:#fce4ec;">
+        <div class="wfr-col wfr-name">#6 Block Known Bad IPs</div>
+        <div class="wfr-col wfr-dir">Inbound</div>
+        <div class="wfr-col wfr-proto">Any</div>
+        <div class="wfr-col wfr-port">Any</div>
+        <div class="wfr-col wfr-act"><span class="wfr-block">✖ BLOCK</span> — Threat intelligence feed (known C2 IPs)</div>
+      </div>
+      <div class="wf-rule-row" style="background:#0a0a0a;">
+        <div class="wfr-col wfr-name" style="color:#fff;">#999 Default Deny</div>
+        <div class="wfr-col wfr-dir" style="color:#aaa;">Both</div>
+        <div class="wfr-col wfr-proto" style="color:#aaa;">Any</div>
+        <div class="wfr-col wfr-port" style="color:#aaa;">Any</div>
+        <div class="wfr-col wfr-act" style="color:#ff7b72;font-weight:700;">✖ DENY ALL — Implicit rule; everything not explicitly allowed is blocked</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Zwicky, Chapman &amp; Russell — Building Internet Firewalls, 2nd Ed., O'Reilly</li>
+      <li>NIST SP 800-41 Rev.1 — Guidelines on Firewalls and Firewall Policy: https://csrc.nist.gov</li>
+      <li>Palo Alto Networks — What is a Next-Generation Firewall: https://www.paloaltonetworks.com</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.6 VIRTUALIZATION ── -->
+<section class="topic-section" id="t1-1-6">
+  <div class="topic-label">Topic 1.1.6</div>
+  <h2 class="topic-title">Virtualization</h2>
+
+  <div class="concept-box">
+    <strong>Virtualization</strong> is the technology that creates a software-based (virtual) representation of physical resources — servers, storage, networks, and operating systems. A single physical machine can run multiple isolated virtual machines (VMs) simultaneously, each with its own OS, applications, and network stack. Virtualization is the foundation of cloud computing and plays a critical role in information security through isolation, sandboxing, and snapshot-based forensics.
+  </div>
+
+  <h3>Virtualization Architecture — The Hypervisor</h3>
+  <p>The <strong>Hypervisor</strong> (Virtual Machine Monitor — VMM) is the software layer that manages and allocates physical resources (CPU, RAM, storage) to virtual machines. There are two types:</p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>Type 1 — Bare-Metal Hypervisor</h4>
+      <ul>
+        <li>Runs <em>directly on the hardware</em> — no host OS underneath</li>
+        <li>More efficient and secure — smaller attack surface</li>
+        <li>Used in enterprise data centres and cloud platforms</li>
+        <li>VMs are fully isolated from each other</li>
+        <li>Examples: <strong>VMware ESXi, Microsoft Hyper-V, Xen, KVM</strong></li>
+        <li>Used by: AWS (Xen/Nitro), Google Cloud (KVM), Microsoft Azure (Hyper-V)</li>
+      </ul>
+    </div>
+    <div class="compare-card">
+      <h4>Type 2 — Hosted Hypervisor</h4>
+      <ul>
+        <li>Runs on top of a conventional host operating system (Windows/Linux/macOS)</li>
+        <li>Host OS manages hardware; hypervisor runs as an application</li>
+        <li>Less efficient — additional abstraction layer introduces overhead</li>
+        <li>Used on desktop machines for development and testing</li>
+        <li>Examples: <strong>VMware Workstation, VirtualBox, Parallels Desktop</strong></li>
+        <li>Used by: Developers, security analysts, students (MCA lab environments)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.6 — Virtualisation Stack: Type 1 vs Type 2 Hypervisor</div>
+    <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'Source Serif 4',serif;font-size:9px;">
+
+      <!-- Type 1 left -->
+      <text x="185" y="18" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12" font-weight="700" fill="#0a0a0a">Type 1 — Bare-Metal</text>
+
+      <rect x="20" y="240" width="330" height="30" rx="2" fill="#0a0a0a"/>
+      <text x="185" y="260" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">PHYSICAL HARDWARE (CPU, RAM, Storage, NIC)</text>
+
+      <rect x="20" y="200" width="330" height="36" rx="2" fill="#0c8da0"/>
+      <text x="185" y="221" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">HYPERVISOR (Type 1 — Direct)</text>
+      <text x="185" y="233" text-anchor="middle" fill="#d0f0f8" font-size="8">VMware ESXi / KVM / Xen / Hyper-V</text>
+
+      <rect x="22" y="135" width="96" height="60" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="70" y="157" text-anchor="middle" fill="#155724" font-weight="700" font-size="8.5">VM 1</text>
+      <text x="70" y="170" text-anchor="middle" fill="#155724" font-size="7.5">Guest OS</text>
+      <text x="70" y="182" text-anchor="middle" fill="#155724" font-size="7.5">Windows 11</text>
+      <text x="70" y="192" text-anchor="middle" fill="#155724" font-size="7">Apps</text>
+
+      <rect x="127" y="135" width="96" height="60" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="175" y="157" text-anchor="middle" fill="#155724" font-weight="700" font-size="8.5">VM 2</text>
+      <text x="175" y="170" text-anchor="middle" fill="#155724" font-size="7.5">Guest OS</text>
+      <text x="175" y="182" text-anchor="middle" fill="#155724" font-size="7.5">Ubuntu 22.04</text>
+      <text x="175" y="192" text-anchor="middle" fill="#155724" font-size="7">Apps</text>
+
+      <rect x="232" y="135" width="96" height="60" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="1.5"/>
+      <text x="280" y="157" text-anchor="middle" fill="#155724" font-weight="700" font-size="8.5">VM 3</text>
+      <text x="280" y="170" text-anchor="middle" fill="#155724" font-size="7.5">Guest OS</text>
+      <text x="280" y="182" text-anchor="middle" fill="#155724" font-size="7.5">Kali Linux</text>
+      <text x="280" y="192" text-anchor="middle" fill="#155724" font-size="7">Apps</text>
+
+      <text x="185" y="125" text-anchor="middle" fill="#888" font-size="8" font-style="italic">← Isolated VMs — no host OS between them and hardware →</text>
+
+      <!-- Type 2 right -->
+      <text x="540" y="18" text-anchor="middle" font-family="'Playfair Display',serif" font-size="12" font-weight="700" fill="#0a0a0a">Type 2 — Hosted</text>
+
+      <rect x="377" y="240" width="330" height="30" rx="2" fill="#0a0a0a"/>
+      <text x="542" y="260" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">PHYSICAL HARDWARE (CPU, RAM, Storage, NIC)</text>
+
+      <rect x="377" y="200" width="330" height="36" rx="2" fill="#6f42c1"/>
+      <text x="542" y="218" text-anchor="middle" fill="#fff" font-weight="700" font-size="10.5">HOST OS (Windows / macOS / Linux)</text>
+      <text x="542" y="232" text-anchor="middle" fill="#d0c0ff" font-size="8">Manages hardware directly</text>
+
+      <rect x="377" y="158" width="330" height="36" rx="2" fill="#e2d9f3" stroke="#6f42c1" stroke-width="1.5"/>
+      <text x="542" y="176" text-anchor="middle" fill="#4a1d96" font-weight="700" font-size="10">HYPERVISOR (Type 2 — App)</text>
+      <text x="542" y="189" text-anchor="middle" fill="#4a1d96" font-size="8">VMware Workstation / VirtualBox / Parallels</text>
+
+      <rect x="380" y="98" width="96" height="54" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="428" y="118" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="8.5">VM A</text>
+      <text x="428" y="131" text-anchor="middle" fill="#8a6500" font-size="7.5">Kali Linux</text>
+      <text x="428" y="143" text-anchor="middle" fill="#8a6500" font-size="7">Security testing</text>
+
+      <rect x="485" y="98" width="96" height="54" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="533" y="118" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="8.5">VM B</text>
+      <text x="533" y="131" text-anchor="middle" fill="#8a6500" font-size="7.5">Windows Server</text>
+      <text x="533" y="143" text-anchor="middle" fill="#8a6500" font-size="7">Dev environment</text>
+
+      <rect x="590" y="98" width="115" height="54" rx="2" fill="#fff3cd" stroke="#e6ac00" stroke-width="1.5"/>
+      <text x="648" y="118" text-anchor="middle" fill="#8a6500" font-weight="700" font-size="8.5">VM C</text>
+      <text x="648" y="131" text-anchor="middle" fill="#8a6500" font-size="7.5">Ubuntu — Web Dev</text>
+      <text x="648" y="143" text-anchor="middle" fill="#8a6500" font-size="7">LAMP stack</text>
+    </svg>
+  </div>
+
+  <h3>Security Benefits of Virtualization</h3>
+  <div class="virt-stack">
+    <div class="vs-row vs1">
+      <div class="vs-num">1</div>
+      <div class="vs-name">Isolation</div>
+      <div class="vs-desc">Each VM is fully isolated from other VMs. A malware infection in VM1 cannot spread to VM2 without exploiting the hypervisor itself (VM escape — very rare)</div>
+      <div class="vs-eg">Malware lab in VM, clean office in host</div>
+    </div>
+    <div class="vs-row vs2">
+      <div class="vs-num">2</div>
+      <div class="vs-name">Snapshots</div>
+      <div class="vs-desc">Take a point-in-time snapshot before risky operations. If something goes wrong, revert instantly. Critical for malware analysis, forensics, and patch testing</div>
+      <div class="vs-eg">Forensic VM snapshot before analysis</div>
+    </div>
+    <div class="vs-row vs3">
+      <div class="vs-num">3</div>
+      <div class="vs-name">Sandboxing</div>
+      <div class="vs-desc">Run untrusted code in an isolated VM. Observe its behaviour — file changes, network calls, registry modifications — without risking the real system</div>
+      <div class="vs-eg">Any.run, Cuckoo Sandbox malware analysis</div>
+    </div>
+    <div class="vs-row vs4">
+      <div class="vs-num">4</div>
+      <div class="vs-name">Reduced Attack Surface</div>
+      <div class="vs-desc">Server consolidation reduces the number of physical machines exposed to the network. Unused VMs can be powered off — attack surface shrinks instantly</div>
+      <div class="vs-eg">10 services on 1 hypervisor vs 10 physical servers</div>
+    </div>
+    <div class="vs-row vs5">
+      <div class="vs-num">5</div>
+      <div class="vs-name">Disaster Recovery</div>
+      <div class="vs-desc">VM images can be replicated to remote data centres in real time. If a data centre is destroyed or ransomwared, VMs can be started at the DR site within minutes</div>
+      <div class="vs-eg">VMware Site Recovery, Azure Site Recovery</div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-label">⚠️ Virtualisation Security Risk — VM Escape</div>
+    A <strong>VM escape</strong> attack exploits a vulnerability in the hypervisor to break out of the VM and access the host OS or other VMs. This is the most dangerous virtualisation attack. Notable examples: VENOM (2015) — a flaw in QEMU's virtual floppy drive that allowed VM escape from any Linux/Xen guest. Always keep hypervisor software patched.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>NIST SP 800-125A — Security Recommendations for Hypervisor Deployment: https://csrc.nist.gov</li>
+      <li>VMware — Security Hardening Guides: https://www.vmware.com/security/hardening-guides.html</li>
+      <li>Pearce, Zeadally &amp; Hunt — "Virtualization: Issues, Security Threats, and Solutions", ACM Computing Surveys, 2013</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.1.7 RFID ── -->
+<section class="topic-section" id="t1-1-7">
+  <div class="topic-label">Topic 1.1.7</div>
+  <h2 class="topic-title">Radio-Frequency Identification (RFID)</h2>
+
+  <div class="concept-box">
+    <strong>RFID (Radio-Frequency Identification)</strong> is a technology that uses electromagnetic fields to automatically identify and track tags attached to objects. An RFID system consists of a <em>tag</em> (a microchip + antenna), a <em>reader</em> (emits radio waves and receives tag response), and a <em>backend database</em> (stores information associated with the tag ID). RFID is ubiquitous in supply chains, access control, contactless payment, and inventory management.
+  </div>
+
+  <h3>RFID System Components</h3>
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.7 — RFID System Architecture</div>
+    <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <defs>
+        <marker id="arrf" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#555"/>
+        </marker>
+      </defs>
+
+      <!-- Tag -->
+      <rect x="20" y="55" width="130" height="60" rx="3" fill="#d1ecf1" stroke="#0c8da0" stroke-width="2"/>
+      <text x="85" y="76" text-anchor="middle" fill="#065a68" font-weight="700" font-size="10">RFID TAG</text>
+      <text x="85" y="90" text-anchor="middle" fill="#065a68" font-size="8">Microchip + Antenna</text>
+      <text x="85" y="103" text-anchor="middle" fill="#065a68" font-size="7.5">Stores unique ID</text>
+      <text x="85" y="114" text-anchor="middle" fill="#065a68" font-size="7.5">Passive / Active / Semi-passive</text>
+
+      <!-- RF waves -->
+      <path d="M155,85 Q168,70 178,85 Q188,100 198,85" stroke="#e6ac00" stroke-width="2" fill="none"/>
+      <path d="M160,85 Q170,65 183,85 Q196,105 209,85" stroke="#e6ac00" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <text x="182" y="128" text-anchor="middle" fill="#856404" font-size="8">Radio waves</text>
+      <text x="182" y="140" text-anchor="middle" fill="#856404" font-size="7.5">125 kHz / 13.56 MHz / UHF</text>
+
+      <!-- Reader -->
+      <rect x="215" y="45" width="140" height="80" rx="3" fill="#6f42c1"/>
+      <text x="285" y="70" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">RFID READER</text>
+      <text x="285" y="86" text-anchor="middle" fill="#d0c0ff" font-size="8">Interrogator / Scanner</text>
+      <text x="285" y="100" text-anchor="middle" fill="#d0c0ff" font-size="7.5">Emits RF field; receives</text>
+      <text x="285" y="113" text-anchor="middle" fill="#d0c0ff" font-size="7.5">tag response; decodes ID</text>
+
+      <!-- Arrow to middleware -->
+      <line x1="357" y1="85" x2="400" y2="85" stroke="#555" stroke-width="1.5" marker-end="url(#arrf)"/>
+      <text x="378" y="78" text-anchor="middle" fill="#555" font-size="7.5">TCP/IP</text>
+
+      <!-- Middleware -->
+      <rect x="401" y="55" width="130" height="60" rx="3" fill="#1a7a34"/>
+      <text x="466" y="76" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">MIDDLEWARE</text>
+      <text x="466" y="90" text-anchor="middle" fill="#c0f0c8" font-size="8">Filters, aggregates</text>
+      <text x="466" y="103" text-anchor="middle" fill="#c0f0c8" font-size="7.5">raw reader events</text>
+      <text x="466" y="114" text-anchor="middle" fill="#c0f0c8" font-size="7.5">EPC Network / EPCIS</text>
+
+      <line x1="533" y1="85" x2="576" y2="85" stroke="#555" stroke-width="1.5" marker-end="url(#arrf)"/>
+
+      <!-- Backend DB -->
+      <rect x="577" y="45" width="130" height="80" rx="3" fill="#0a0a0a"/>
+      <text x="642" y="70" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">BACKEND</text>
+      <text x="642" y="84" text-anchor="middle" fill="#fff" font-size="10">DATABASE</text>
+      <text x="642" y="99" text-anchor="middle" fill="#aaa" font-size="7.5">Associates Tag ID with</text>
+      <text x="642" y="111" text-anchor="middle" fill="#aaa" font-size="7.5">item data, owner, history</text>
+      <text x="642" y="123" text-anchor="middle" fill="#7ee787" font-size="7.5">ERP / WMS / Access DB</text>
+    </svg>
+  </div>
+
+  <h3>RFID Tag Types by Power Source</h3>
+
+  <div class="rfid-compare">
+    <div class="rfid-col rfa">
+      <span class="rf-icon">📡</span>
+      <h4>Passive RFID Tags</h4>
+      <p>No internal battery. Power is harvested from the reader's electromagnetic field to activate the chip and transmit a response. Very cheap (₹5–₹50 each), thin, lightweight, and have an almost unlimited lifespan. Cannot initiate communication — only respond when in range of a reader.</p>
+      <div class="rf-range">Range: 10cm – 7m · Freq: 125 kHz, 13.56 MHz, 860–960 MHz (UHF)</div>
+    </div>
+    <div class="rfid-col rfb">
+      <span class="rf-icon">🔋</span>
+      <h4>Active RFID Tags</h4>
+      <p>Have their own battery — can continuously broadcast their ID signal. Much longer range and more memory capacity. Used for tracking large assets (shipping containers, vehicles, livestock, hospital equipment). Battery life typically 3–7 years; more expensive (₹500–₹5,000 each).</p>
+      <div class="rf-range">Range: 30m – 100m+ · Freq: 433 MHz, 915 MHz, 2.45 GHz</div>
+    </div>
+    <div class="rfid-col rfc">
+      <span class="rf-icon">⚡</span>
+      <h4>Semi-Passive (BAP) Tags</h4>
+      <p>Have a battery for powering the chip and memory, but use the reader's field for communication (like passive tags). Longer range than passive, longer battery life than active. Used in temperature-sensitive supply chains (pharmaceuticals, food), cold chain monitoring.</p>
+      <div class="rf-range">Range: 10m – 50m · Freq: UHF 860–960 MHz</div>
+    </div>
+  </div>
+
+  <h3>RFID Applications and Security Concerns</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Application</th><th>RFID Type</th><th>Security Concern</th><th>Countermeasure</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Contactless Credit/Debit Cards</strong></td><td>Passive (13.56 MHz / ISO 14443)</td><td>RFID skimming — criminals use concealed readers to read card data in public (buses, queues)</td><td>RFID-blocking wallets; tokenisation; transaction limit; dynamic CVV</td></tr>
+      <tr><td><strong>Employee Access Cards (HID)</strong></td><td>Passive (125 kHz / 13.56 MHz)</td><td>Card cloning — attacker copies card UID and creates a duplicate to gain physical access</td><td>Use encrypted RFID (MIFARE DESFire); combine with PIN/biometric (MFA)</td></tr>
+      <tr><td><strong>Aadhaar RFID (e-Passport)</strong></td><td>Passive (ISO 14443 with BAC)</td><td>Eavesdropping on passport reader communication; tracking of individuals via unique chip ID</td><td>Basic Access Control (BAC) requires optical scan before RF communication; Extended Access Control (EAC) for biometrics</td></tr>
+      <tr><td><strong>Supply Chain / Inventory</strong></td><td>Passive UHF (Gen2)</td><td>Tag cloning for counterfeiting goods; ghost writes to inject false inventory data</td><td>Serialised tag IDs; encrypted tag memory (EPC Gen2 password protection)</td></tr>
+      <tr><td><strong>Animal / Livestock Tracking</strong></td><td>Passive LF (134.2 kHz, ISO 11784)</td><td>Tag removal; tag swapping between animals to defraud agricultural databases</td><td>Implanted microchips (not easily removed); veterinary audit trail</td></tr>
+    </tbody>
+  </table>
+
+  <div class="case-box">
+    <div class="case-label">🇮🇳 India — FASTag (RFID on National Highways)</div>
+    <strong>FASTag</strong> is India's RFID-based electronic toll collection system mandated by NHAI (National Highways Authority of India). A passive RFID sticker (operating at 860–960 MHz UHF) is affixed to the vehicle windshield. As the vehicle passes through a toll plaza, an overhead reader reads the tag and deducts the toll from a linked bank account/wallet automatically. Over 97% of toll transactions on national highways are now cashless via FASTag. Security risks include: tag tampering, relay attacks, and fraudulent FASTag stickers. NHAI uses cryptographic authentication of tag reads to mitigate fraud.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Finkenzeller, K. — RFID Handbook: Fundamentals and Applications, 3rd Ed., Wiley</li>
+      <li>ISO/IEC 18000 — RFID for Item Management: https://www.iso.org</li>
+      <li>NHAI FASTag Documentation: https://ihmcl.com</li>
+      <li>NIST SP 800-98 — Guidelines for Securing RFID Systems: https://csrc.nist.gov</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ══════════════════════════════════════
+     SECTION 1.2 — WINDOWS SECURITY PRINCIPLES
+══════════════════════════════════════ -->
+<section class="topic-section" id="s1-2">
+  <div class="topic-label">Section 1.2</div>
+  <h2 class="topic-title">Microsoft Windows Security Principles</h2>
+  <div class="concept-box">
+    Microsoft Windows is the world's most widely deployed desktop operating system — and therefore its most targeted. Windows implements a sophisticated security architecture built around the concepts of <strong>tokens</strong> (representing identity and privileges), <strong>messaging</strong> (inter-process communication), <strong>program execution controls</strong> (UAC, DEP, ASLR), and a built-in <strong>firewall</strong>. Understanding these mechanisms is essential for both securing Windows environments and understanding how attacks exploit them.
+  </div>
+</section>
+
+<!-- ── 1.2.1 WINDOWS TOKENS ── -->
+<section class="topic-section" id="t1-2-1">
+  <div class="topic-label">Topic 1.2.1</div>
+  <h2 class="topic-title">Windows Tokens</h2>
+
+  <div class="concept-box">
+    A <strong>Windows Access Token</strong> is a kernel object created by the Windows Security Subsystem (LSASS) when a user successfully logs on. It acts as a digital identity badge that travels with every process and thread the user runs. The token contains the user's Security Identifier (SID), group memberships, privileges, and the security context for the session. Every access control decision (can this process open this file? run this service?) is made by comparing the token's contents against the object's security descriptor.
+  </div>
+
+  <h3>Structure of a Windows Access Token</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Token Field</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>User SID</strong></td><td>Security Identifier — unique, immutable ID for the logged-on user account</td><td>S-1-5-21-3623811015-3361044348-30300820-1013</td></tr>
+      <tr><td><strong>Group SIDs</strong></td><td>SIDs of all security groups the user belongs to</td><td>S-1-5-32-544 (Administrators), S-1-5-32-545 (Users)</td></tr>
+      <tr><td><strong>Privileges</strong></td><td>Special rights beyond group membership — can be enabled or disabled</td><td>SeDebugPrivilege, SeBackupPrivilege, SeTcbPrivilege</td></tr>
+      <tr><td><strong>Default DACL</strong></td><td>Default permissions applied to objects created by the user</td><td>Default ACL on new files/folders created by this user</td></tr>
+      <tr><td><strong>Token Type</strong></td><td>Primary (for processes) or Impersonation (for threads acting on behalf of another user)</td><td>Primary: explorer.exe; Impersonation: IIS worker serving a client</td></tr>
+      <tr><td><strong>Integrity Level</strong></td><td>Mandatory Integrity Control (MIC) level — Low, Medium, High, or System</td><td>Standard user = Medium; UAC-elevated = High; SYSTEM = System</td></tr>
+      <tr><td><strong>Logon Session ID</strong></td><td>Identifies the logon session this token belongs to</td><td>Links back to credentials stored in LSASS memory</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Token Types and Impersonation</h3>
+
+  <div class="win-card-grid">
+    <div class="win-card wca">
+      <span class="wc-icon">🏅</span>
+      <h4>Primary Token</h4>
+      <p>Assigned to a <em>process</em> when it is created. Represents the default security context for all threads in that process. Created at logon and passed to child processes. Every running application (notepad.exe, chrome.exe) has a primary token determining what it can and cannot access.</p>
+      <div class="wc-code">
+        whoami /all           ← shows current token contents<br>
+        GetCurrentProcessToken()  ← Win32 API call
+      </div>
+    </div>
+    <div class="win-card wcb">
+      <span class="wc-icon">🎭</span>
+      <h4>Impersonation Token</h4>
+      <p>Assigned to a <em>thread</em> to temporarily act with a different user's security context — without starting a new process. Critical for client–server applications: an IIS web server thread can impersonate the client's identity to access resources the client has permission to access, while the server process runs as a higher-privilege service account.</p>
+      <div class="wc-code">
+        ImpersonateLoggedOnUser()  ← impersonate client<br>
+        RevertToSelf()             ← return to own identity
+      </div>
+    </div>
+    <div class="win-card wcc">
+      <span class="wc-icon">🔑</span>
+      <h4>Restricted Token</h4>
+      <p>A modified copy of a primary token with <em>reduced privileges</em> — specific privileges and group SIDs are removed or marked as "deny only." Used by Windows for sandboxing: Google Chrome's renderer processes run with a restricted token to limit damage if the renderer is exploited. Created using <code>CreateRestrictedToken()</code>.</p>
+      <div class="wc-code">
+        CreateRestrictedToken()    ← create sandbox token<br>
+        Used by: Chrome, Edge, Adobe sandbox
+      </div>
+    </div>
+    <div class="win-card wcd">
+      <span class="wc-icon">🛡️</span>
+      <h4>Filtered (Split) Token — UAC</h4>
+      <p>When a standard user account that is also a local administrator logs on, Windows creates <em>two tokens</em>: a <strong>filtered standard token</strong> (Medium integrity, no admin groups) for everyday use, and a <strong>full administrator token</strong> (High integrity) that is only activated when the user explicitly consents to UAC elevation. This is the core of User Account Control.</p>
+      <div class="wc-code">
+        Medium Token → normal processes<br>
+        High Token   → activated via UAC consent prompt
+      </div>
+    </div>
+  </div>
+
+  <h3>Token Attacks — How Attackers Abuse Tokens</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Attack Technique</th><th>How It Works</th><th>MITRE ATT&amp;CK</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Token Theft / Impersonation</strong></td><td>Malware with SeImpersonatePrivilege (often held by web server processes) steals a higher-privileged token (e.g., SYSTEM) and impersonates it to escalate to SYSTEM privileges — the "Potato" family of exploits (RottenPotato, JuicyPotato)</td><td>T1134.001</td></tr>
+      <tr><td><strong>Token Duplication</strong></td><td>Attacker duplicates a high-integrity token from a running privileged process using DuplicateTokenEx() and creates a new process running under the stolen token identity</td><td>T1134.002</td></tr>
+      <tr><td><strong>Make Token and Impersonate</strong></td><td>Attacker with stolen credentials calls LogonUser() to create a token for another user account and impersonates it for lateral movement</td><td>T1134.003</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Russinovich, M. — Windows Internals, 7th Ed., Microsoft Press (Part 1 — Chapter 7: Security)</li>
+      <li>MITRE ATT&amp;CK T1134 — Access Token Manipulation: https://attack.mitre.org/techniques/T1134</li>
+      <li>Microsoft Docs — Access Tokens: https://learn.microsoft.com/en-us/windows/win32/secauthz/access-tokens</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.2.2 WINDOWS MESSAGING ── -->
+<section class="topic-section" id="t1-2-2">
+  <div class="topic-label">Topic 1.2.2</div>
+  <h2 class="topic-title">Windows Messaging</h2>
+
+  <div class="concept-box">
+    <strong>Windows Messaging</strong> is the inter-process communication (IPC) mechanism at the heart of the Windows GUI. Every window (button, text box, dialog box, application window) communicates through <em>messages</em> — integer-identified packets sent between processes, threads, and system components. The Windows message subsystem enables applications to communicate, respond to user input, and interact with the OS — but it also introduces significant attack surfaces.
+  </div>
+
+  <h3>The Windows Message System — Architecture</h3>
+  <p>Every GUI thread in Windows has a <strong>message queue</strong>. When a user clicks a button, moves the mouse, or presses a key, the Windows kernel generates messages and places them into the relevant thread's message queue. The application's <strong>message loop</strong> continuously retrieves messages and dispatches them to the appropriate <strong>Window Procedure (WndProc)</strong> for handling.</p>
+
+  <div class="crypto-terminal">
+    <span class="ct-comment">// Simplified Windows Message Loop — Every GUI Application Has This</span><br><br>
+    <span class="ct-label">MSG</span> <span class="ct-plain">msg;</span><br>
+    <span class="ct-label">while</span> (<span class="ct-plain">GetMessage</span>(&amp;msg, NULL, 0, 0))  <span class="ct-comment">← retrieves next message from queue</span><br>
+    {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="ct-plain">TranslateMessage</span>(&amp;msg);  <span class="ct-comment">← translates keyboard input to WM_CHAR</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="ct-plain">DispatchMessage</span>(&amp;msg);   <span class="ct-comment">← sends message to WndProc handler</span><br>
+    }<br><br>
+    <span class="ct-comment">// Common Windows Messages:</span><br>
+    <span class="ct-label">WM_PAINT</span>   <span class="ct-cipher">0x000F</span> <span class="ct-comment">← window needs repainting</span><br>
+    <span class="ct-label">WM_KEYDOWN</span> <span class="ct-cipher">0x0100</span> <span class="ct-comment">← a keyboard key was pressed</span><br>
+    <span class="ct-label">WM_LBUTTONDOWN</span> <span class="ct-cipher">0x0201</span> <span class="ct-comment">← left mouse button clicked</span><br>
+    <span class="ct-label">WM_CLOSE</span>   <span class="ct-cipher">0x0010</span> <span class="ct-comment">← user clicked the X button</span><br>
+    <span class="ct-label">WM_COMMAND</span> <span class="ct-cipher">0x0111</span> <span class="ct-comment">← menu item or button was activated</span>
+  </div>
+
+  <h3>Message Sending Functions</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Function</th><th>Behaviour</th><th>Security Implication</th></tr></thead>
+    <tbody>
+      <tr><td><strong>SendMessage()</strong></td><td>Sends a message to a window and <em>waits</em> for the target window to process it before returning (synchronous)</td><td>Can be used for cross-process attacks — send crafted message to another process's window to trigger unintended behaviour</td></tr>
+      <tr><td><strong>PostMessage()</strong></td><td>Places a message in the target window's message queue and <em>returns immediately</em> (asynchronous)</td><td>Can inject messages into another process's queue — used by keyloggers and UI automation attacks</td></tr>
+      <tr><td><strong>BroadcastSystemMessage()</strong></td><td>Sends a message to all top-level windows in the system simultaneously</td><td>Used by malware to notify all running processes of a system-wide event (e.g., fake shutdown)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Windows Messaging Security Attacks</h3>
+
+  <div class="win-card-grid">
+    <div class="win-card wca">
+      <span class="wc-icon">⌨️</span>
+      <h4>Keylogging via Hooks</h4>
+      <p><strong>SetWindowsHookEx(WH_KEYBOARD)</strong> installs a system-wide hook that intercepts every keyboard message before it reaches its target application. Malware uses this to log all keystrokes — passwords, messages, financial data — across all applications. Requires matching process architecture (32/64-bit).</p>
+      <div class="wc-code">
+        SetWindowsHookEx(WH_KEYBOARD_LL, hookProc, hMod, 0);<br>
+        <span style="color:#ff7b72;">← intercepts ALL keystrokes system-wide</span>
+      </div>
+    </div>
+    <div class="win-card wcb">
+      <span class="wc-icon">🖱️</span>
+      <h4>Shatter Attacks</h4>
+      <p>Cross-privilege messaging attack discovered in 2002. A low-privilege process sends a crafted <code>WM_TIMER</code> or <code>WM_COPYDATA</code> message to a high-privilege window (running as SYSTEM). The high-privilege window's WndProc executes malicious code provided in the message — escalating the attacker's privileges to SYSTEM. Mitigated by UIPI (UI Privilege Isolation) in Vista+.</p>
+    </div>
+    <div class="win-card wcc">
+      <span class="wc-icon">🪟</span>
+      <h4>UI Privilege Isolation (UIPI)</h4>
+      <p>Windows Vista+ defence against Shatter attacks. <strong>UIPI prevents lower-integrity processes from sending messages to higher-integrity windows.</strong> A Medium integrity browser cannot send messages to a High integrity UAC prompt. This prevents credential dialog spoofing and cross-privilege message injection. ChangeWindowMessageFilterEx() can selectively relax restrictions.</p>
+    </div>
+    <div class="win-card wcd">
+      <span class="wc-icon">📋</span>
+      <h4>Clipboard Hijacking</h4>
+      <p>Malware registers as a <strong>clipboard viewer</strong> using AddClipboardFormatListener(). Every time the user copies anything to the clipboard (password from a manager, bank account number, cryptocurrency address), the malware receives a <code>WM_CLIPBOARDUPDATE</code> message and reads — or silently modifies — the clipboard contents before the user pastes.</p>
+    </div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Russinovich, M. — Windows Internals, 7th Ed., Microsoft Press</li>
+      <li>Pincus, J. &amp; Baker, B. — "Beyond Stack Smashing: Recent Advances in Exploiting Buffer Overruns" (Shatter attacks context), IEEE Security &amp; Privacy, 2004</li>
+      <li>Microsoft Docs — About Messages and Message Queues: https://learn.microsoft.com/en-us/windows/win32/winmsg/about-messages-and-message-queues</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.2.3 WINDOWS PROGRAM EXECUTION ── -->
+<section class="topic-section" id="t1-2-3">
+  <div class="topic-label">Topic 1.2.3</div>
+  <h2 class="topic-title">Windows Program Execution</h2>
+
+  <div class="concept-box">
+    Understanding how Windows loads and executes programs is fundamental to both offensive security (how malware plants itself) and defensive security (what controls exist to prevent unauthorised code from running). Windows implements multiple overlapping security mechanisms around program execution — from User Account Control (UAC) to memory protection (ASLR, DEP) to code signing.
+  </div>
+
+  <h3>Windows Program Execution Flow</h3>
+
+  <div class="phase-strip">
+    <div class="phase-block ph-e1">
+      <span class="ph-num">1</span>
+      <span class="ph-title">User Initiates</span>
+      <span class="ph-desc">Double-click .EXE / command typed in CMD / scheduled task fires</span>
+    </div>
+    <div class="phase-block ph-e2">
+      <span class="ph-num">2</span>
+      <span class="ph-title">Shell / Explorer</span>
+      <span class="ph-desc">Explorer.exe calls CreateProcess(); application manifest read; UAC check performed</span>
+    </div>
+    <div class="phase-block ph-e3">
+      <span class="ph-num">3</span>
+      <span class="ph-title">Token Assignment</span>
+      <span class="ph-desc">Process assigned primary token (Medium or High integrity depending on UAC outcome)</span>
+    </div>
+    <div class="phase-block ph-e4">
+      <span class="ph-num">4</span>
+      <span class="ph-title">Loader (NTDLL)</span>
+      <span class="ph-desc">NT loader maps EXE + DLLs into virtual address space; resolves imports; applies ASLR</span>
+    </div>
+    <div class="phase-block ph-e5">
+      <span class="ph-num">5</span>
+      <span class="ph-title">DEP / CFG</span>
+      <span class="ph-desc">Data Execution Prevention marks data pages non-executable; Control Flow Guard initialised</span>
+    </div>
+    <div class="phase-block ph-e6">
+      <span class="ph-num">6</span>
+      <span class="ph-title">Code Executes</span>
+      <span class="ph-desc">Main thread starts at entry point; application runs under its assigned token and integrity level</span>
+    </div>
+  </div>
+
+  <h3>Key Windows Execution Security Mechanisms</h3>
+
+  <div class="win-card-grid">
+    <div class="win-card wca">
+      <span class="wc-icon">🛡️</span>
+      <h4>User Account Control (UAC)</h4>
+      <p>Introduced in Windows Vista. When a standard user or administrator tries to run a program requiring elevated privileges, UAC displays a consent prompt (blue = signed publisher; orange = unknown publisher). This prevents programs from silently elevating to administrator without user knowledge. Applications must declare elevation requirements in their <em>application manifest</em>.</p>
+      <div class="wc-code">
+        Manifest: &lt;requestedExecutionLevel level="requireAdministrator"&gt;<br>
+        UAC bypass techniques: DLL hijacking, token impersonation, fodhelper.exe
+      </div>
+    </div>
+    <div class="win-card wcb">
+      <span class="wc-icon">🎲</span>
+      <h4>ASLR — Address Space Layout Randomisation</h4>
+      <p>Randomises the base addresses of the executable, stack, heap, and loaded DLLs in virtual memory every time a process starts. Makes it extremely difficult for attackers to predict where code or data will reside — invalidating hardcoded memory addresses in exploit shellcode. Must be enabled in both the OS and the application's linker flags (<code>/DYNAMICBASE</code>).</p>
+      <div class="wc-code">
+        Without ASLR: kernel32.dll ALWAYS at 0x7C800000<br>
+        With ASLR: kernel32.dll at 0x77A4F000 or 0x754E0000 (random)
+      </div>
+    </div>
+    <div class="win-card wcc">
+      <span class="wc-icon">🚫</span>
+      <h4>DEP — Data Execution Prevention</h4>
+      <p>Marks memory regions that contain data (stack, heap) as <em>non-executable</em>. If an attacker overflows a buffer and places shellcode in a data region, the CPU will raise an exception when execution reaches it — preventing classic buffer overflow exploitation. Implemented in hardware (Intel XD bit, AMD NX bit) and enforced by Windows kernel.</p>
+      <div class="wc-code">
+        DEP bypass: Return-Oriented Programming (ROP)<br>
+        — chains existing executable code gadgets instead of injecting new code
+      </div>
+    </div>
+    <div class="win-card wcd">
+      <span class="wc-icon">🔐</span>
+      <h4>Code Signing and SmartScreen</h4>
+      <p>Windows requires that software drivers are signed by Microsoft. SmartScreen Filter checks downloaded executables against Microsoft's reputation database. Unsigned or unknown programs receive a prominent warning. Windows Defender Application Control (WDAC) / AppLocker can restrict execution to only digitally signed, approved applications — the strongest execution control available.</p>
+      <div class="wc-code">
+        AppLocker rule: Allow only code-signed by "ACME Corp" certificate<br>
+        WDAC policy: Block all unsigned PowerShell scripts
+      </div>
+    </div>
+  </div>
+
+  <h3>DLL (Dynamic Link Library) Security</h3>
+  <p>Windows applications rely heavily on DLLs for shared code. This creates attack opportunities through <strong>DLL hijacking</strong> — placing a malicious DLL in a location that Windows searches before the legitimate DLL location.</p>
+
+  <div class="example-box">
+    <div class="ex-label">DLL Search Order — Windows Default</div>
+    Windows searches for DLLs in this order: <strong>(1)</strong> DLLs already loaded in memory → <strong>(2)</strong> System DLLs (KnownDLLs registry) → <strong>(3)</strong> Application directory → <strong>(4)</strong> System32 → <strong>(5)</strong> Windows directory → <strong>(6)</strong> Current working directory → <strong>(7)</strong> PATH environment variable directories. <br><br>
+    <strong>DLL Hijacking attack:</strong> If an application loads <code>version.dll</code> from its directory before System32, an attacker with write access to the application directory can place a malicious <code>version.dll</code> there — it loads first, running the attacker's code with the application's privileges.
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Russinovich, M. — Windows Internals, 7th Ed., Microsoft Press (Part 1 — Chapter 3: Processes and Jobs)</li>
+      <li>MITRE ATT&amp;CK T1548.002 — UAC Bypass: https://attack.mitre.org/techniques/T1548/002</li>
+      <li>Microsoft Docs — ASLR: https://learn.microsoft.com/en-us/cpp/build/reference/dynamicbase-use-address-space-layout-randomization</li>
+      <li>Microsoft Docs — DEP: https://learn.microsoft.com/en-us/windows/win32/memory/data-execution-prevention</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── 1.2.4 WINDOWS FIREWALL ── -->
+<section class="topic-section" id="t1-2-4">
+  <div class="topic-label">Topic 1.2.4</div>
+  <h2 class="topic-title">The Windows Firewall</h2>
+
+  <div class="concept-box">
+    <strong>Windows Firewall with Advanced Security (WFAS)</strong> — also known as Windows Defender Firewall — is the built-in, stateful, host-based firewall integrated into all versions of Windows since XP SP2 (2004). Unlike perimeter network firewalls, it protects the individual Windows machine — filtering traffic at the host level, regardless of what network the computer is connected to. It is a mandatory component of Windows security architecture and cannot be disabled without a replacement firewall.
+  </div>
+
+  <h3>Windows Firewall Profiles</h3>
+  <p>Windows Firewall applies different rule sets depending on the detected network type. Windows automatically selects the appropriate profile based on the network location category:</p>
+
+  <div class="cipher-row-grid" style="grid-template-columns: repeat(3,1fr);">
+    <div class="cr-card crd-b">
+      <span class="crc-name" style="font-size:0.85rem;">🏢 Domain Profile</span>
+      <h4>Active Directory Network</h4>
+      <p>Applied when the computer is connected to a domain network (corporate). Typically least restrictive — domain controllers, file servers, and management tools need to communicate freely. Rules managed by Group Policy from the domain administrator.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-green">Corporate / Office network</span>
+        <span class="crc-tag crc-blue">GPO managed</span>
+      </div>
+    </div>
+    <div class="cr-card crd-d">
+      <span class="crc-name" style="font-size:0.85rem;">🏠 Private Profile</span>
+      <h4>Trusted Home Network</h4>
+      <p>Applied when the user designates a network as private (home or small office). Allows local network discovery, file sharing, and printing — assuming other devices on the network are trusted. More permissive than Public.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-amber">Home / SOHO network</span>
+        <span class="crc-tag crc-green">Network discovery ON</span>
+      </div>
+    </div>
+    <div class="cr-card crd-c">
+      <span class="crc-name" style="font-size:0.85rem;">☕ Public Profile</span>
+      <h4>Untrusted Network</h4>
+      <p>Applied when connected to a public network (café, airport, hotel Wi-Fi). Most restrictive — blocks all inbound connections by default. Network discovery disabled. Assumes all other devices on the network are hostile. The default profile for new unknown networks.</p>
+      <div class="crc-spec">
+        <span class="crc-tag crc-red">Public Wi-Fi / untrusted</span>
+        <span class="crc-tag crc-red">Inbound: Block All by default</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Windows Firewall Rule Types</h3>
+  <table class="data-table no-bold">
+    <thead><tr><th>Rule Type</th><th>Direction</th><th>What It Controls</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Inbound Rules</strong></td><td>→ Into the machine</td><td>Controls what connections can be made TO this computer</td><td>Allow Remote Desktop (TCP 3389) from 10.0.0.0/8 only</td></tr>
+      <tr><td><strong>Outbound Rules</strong></td><td>← Out of the machine</td><td>Controls what connections this computer can make OUT</td><td>Block all outbound on port 445 (SMB) to external IPs — prevents WannaCry lateral spread</td></tr>
+      <tr><td><strong>Connection Security Rules</strong></td><td>Both</td><td>Enforces IPsec authentication/encryption for connections matching the rule</td><td>Require IPsec for all connections from domain computers to SQL server</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Windows Firewall Rule Criteria</h3>
+  <p>Each firewall rule can match on multiple criteria. The rule only fires when <em>all</em> specified criteria are matched:</p>
+  <ul>
+    <li><strong>Program:</strong> A specific executable (e.g., allow only <code>C:\Program Files\Teams\Teams.exe</code> to use port 443)</li>
+    <li><strong>Port:</strong> Source or destination TCP/UDP port number or range</li>
+    <li><strong>Protocol:</strong> TCP, UDP, ICMPv4, ICMPv6, or any</li>
+    <li><strong>IP Addresses:</strong> Source and/or destination IP address or subnet</li>
+    <li><strong>Interface Type:</strong> Wired, wireless, or VPN connections only</li>
+    <li><strong>Service:</strong> A specific Windows Service (e.g., only the Windows Update service)</li>
+    <li><strong>User / Group:</strong> Only apply this rule when the connection is made by a specific domain user or group (requires IPsec authentication)</li>
+  </ul>
+
+  <h3>Managing Windows Firewall — Key Methods</h3>
+
+  <div class="win-card-grid">
+    <div class="win-card wca">
+      <span class="wc-icon">🖥️</span>
+      <h4>Windows Defender Firewall GUI</h4>
+      <p>Accessible via Control Panel → System and Security → Windows Defender Firewall. Simple on/off and basic program exceptions. For advanced rules, use "Windows Defender Firewall with Advanced Security" (wf.msc) — full inbound/outbound rule management with all criteria.</p>
+      <div class="wc-code">wf.msc   ← opens Advanced Security console</div>
+    </div>
+    <div class="win-card wcb">
+      <span class="wc-icon">⚡</span>
+      <h4>PowerShell / netsh</h4>
+      <p>Command-line management for scripting and automation. <code>netsh advfirewall</code> is the legacy command; <code>New-NetFirewallRule</code> PowerShell cmdlet is the modern approach. Essential for GPO scripts and automated deployment of firewall rules across enterprise environments.</p>
+      <div class="wc-code">
+        New-NetFirewallRule -DisplayName "Block Telnet" `<br>
+        &nbsp;&nbsp;-Direction Inbound -Protocol TCP `<br>
+        &nbsp;&nbsp;-LocalPort 23 -Action Block
+      </div>
+    </div>
+    <div class="win-card wcc">
+      <span class="wc-icon">🏛️</span>
+      <h4>Group Policy (GPO)</h4>
+      <p>Centrally manage Windows Firewall rules across all domain-joined computers. Computer Configuration → Windows Settings → Security Settings → Windows Defender Firewall. Policies pushed from domain controller override local firewall settings — essential for enterprise standardisation and incident response (block a port organisation-wide within minutes).</p>
+      <div class="wc-code">
+        GPO path: Computer Config → Windows Settings<br>
+        → Security Settings → Windows Defender Firewall
+      </div>
+    </div>
+    <div class="win-card wcd">
+      <span class="wc-icon">📊</span>
+      <h4>Firewall Logging</h4>
+      <p>Windows Firewall can log all allowed and/or dropped connections to <code>%SystemRoot%\System32\LogFiles\Firewall\pfirewall.log</code>. Logs include timestamp, action (ALLOW/DROP), protocol, source IP, destination IP, ports, and packet size. Critical for forensic investigation and incident detection. Log file size and location configurable via WFAS.</p>
+      <div class="wc-code">
+        Log location: C:\Windows\System32\LogFiles\Firewall\pfirewall.log<br>
+        Event Viewer: Security log, event IDs 5156 (allow), 5157 (block)
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">Fig 1.8 — Windows Firewall Decision Flow: Inbound Packet Processing</div>
+    <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:9px;">
+      <defs>
+        <marker id="arrwf" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#0a0a0a"/>
+        </marker>
+      </defs>
+
+      <!-- Incoming packet -->
+      <rect x="10" y="95" width="95" height="36" rx="2" fill="#f8d7da" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="57" y="111" text-anchor="middle" fill="#721c24" font-weight="700" font-size="9">INBOUND</text>
+      <text x="57" y="124" text-anchor="middle" fill="#721c24" font-size="8">PACKET</text>
+      <line x1="107" y1="113" x2="137" y2="113" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrwf)"/>
+
+      <!-- IPsec check -->
+      <polygon points="138,96 230,96 230,130 138,130" fill="#6f42c1" stroke="#6f42c1"/>
+      <text x="184" y="110" text-anchor="middle" fill="#fff" font-weight="700" font-size="8">IPsec</text>
+      <text x="184" y="122" text-anchor="middle" fill="#d0c0ff" font-size="7.5">Required?</text>
+      <line x1="231" y1="113" x2="259" y2="113" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrwf)"/>
+      <!-- NO branch down -->
+      <text x="246" y="105" text-anchor="middle" fill="#555" font-size="7.5">No</text>
+
+      <!-- Connection security check -->
+      <polygon points="261,96 370,96 370,130 261,130" fill="#0c8da0" stroke="#0c8da0"/>
+      <text x="316" y="108" text-anchor="middle" fill="#fff" font-weight="700" font-size="8">Connection</text>
+      <text x="316" y="120" text-anchor="middle" fill="#d0f0f8" font-size="8">Security Rule</text>
+      <text x="316" y="130" text-anchor="middle" fill="#d0f0f8" font-size="7.5">Match?</text>
+
+      <!-- No rule match → inbound rule check -->
+      <line x1="371" y1="113" x2="399" y2="113" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#arrwf)"/>
+      <text x="385" y="105" text-anchor="middle" fill="#555" font-size="7.5">No</text>
+
+      <!-- Inbound rule check -->
+      <polygon points="401,96 510,96 510,130 401,130" fill="#e6ac00" stroke="#e6ac00"/>
+      <text x="456" y="108" text-anchor="middle" fill="#0a0a0a" font-weight="700" font-size="8">Inbound</text>
+      <text x="456" y="119" text-anchor="middle" fill="#0a0a0a" font-size="8">Firewall Rule</text>
+      <text x="456" y="130" text-anchor="middle" fill="#0a0a0a" font-size="7.5">Match?</text>
+
+      <!-- Allow branch -->
+      <line x1="511" y1="107" x2="560" y2="107" stroke="#1a7a34" stroke-width="1.5" marker-end="url(#arrwf)"/>
+      <text x="536" y="100" text-anchor="middle" fill="#1a7a34" font-size="7.5">Allow</text>
+      <rect x="561" y="88" width="80" height="36" rx="2" fill="#d4edda" stroke="#1a7a34" stroke-width="2"/>
+      <text x="601" y="104" text-anchor="middle" fill="#155724" font-weight="700" font-size="9">ALLOW</text>
+      <text x="601" y="118" text-anchor="middle" fill="#155724" font-size="8">→ Application</text>
+      <line x1="641" y1="106" x2="700" y2="106" stroke="#1a7a34" stroke-width="1.5" marker-end="url(#arrwf)"/>
+      <text x="705" y="110" fill="#155724" font-size="9">✔</text>
+
+      <!-- Block branch (down from diamond) -->
+      <line x1="456" y1="131" x2="456" y2="165" stroke="#c0392b" stroke-width="1.5" marker-end="url(#arrwf)"/>
+      <text x="465" y="150" fill="#c0392b" font-size="7.5">Block / No match</text>
+      <rect x="381" y="166" width="150" height="36" rx="2" fill="#0a0a0a"/>
+      <text x="456" y="182" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">BLOCK / DROP</text>
+      <text x="456" y="196" text-anchor="middle" fill="#aaa" font-size="8">Packet discarded; optionally logged</text>
+
+      <!-- Log arrow -->
+      <line x1="531" y1="184" x2="600" y2="184" stroke="#555" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrwf)"/>
+      <rect x="601" y="168" width="108" height="36" rx="2" fill="#f0f0ee" stroke="#3a3a36" stroke-width="1.5"/>
+      <text x="655" y="184" text-anchor="middle" fill="#3a3a36" font-weight="700" font-size="8">pfirewall.log</text>
+      <text x="655" y="197" text-anchor="middle" fill="#555" font-size="7.5">if logging enabled</text>
+    </svg>
+  </div>
+
+  <div class="casestudy-box">
+    <div class="casestudy-header">
+      <h4>Windows Firewall in Action — WannaCry Containment (India, 2017)</h4>
+      <div class="cs-meta">India · 2017 · Ransomware Containment · Host-Based Firewall</div>
+    </div>
+    <div class="casestudy-body">
+      <h5>The Attack Vector</h5>
+      <p>WannaCry exploited the EternalBlue vulnerability in Windows SMB (Server Message Block) protocol, which operates on <strong>TCP port 445</strong>. The worm spread automatically to any Windows machine on the same network with port 445 open and unpatched — no user interaction required.</p>
+      <h5>How Windows Firewall Could Have Contained It</h5>
+      <ul>
+        <li>Organisations with Windows Firewall <strong>blocking inbound TCP 445</strong> from external networks were protected — WannaCry could not reach them</li>
+        <li>Even on internal networks, a host-based Windows Firewall rule blocking SMB between workstations (allowing only to file servers) would have prevented lateral movement</li>
+        <li>Indian organisations that quickly deployed an <strong>outbound block on TCP 445</strong> via GPO stopped the worm from reaching new victims within their network</li>
+      </ul>
+      <h5>The GPO Command That Saved Networks</h5>
+      <div class="wc-code" style="margin:0.5rem 0;">
+        # Block SMB inbound from any source except trusted file servers<br>
+        New-NetFirewallRule -DisplayName "Block WannaCry SMB" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Block -Profile Any
+      </div>
+    </div>
+    <div class="cs-verdict">
+      <span>Key Lesson</span>
+      Host-based firewalls are the <em>last line of defence</em> when perimeter firewalls fail or are absent. A single GPO-deployed Windows Firewall rule blocking unnecessary SMB exposure could have prevented billions of rupees in damages during the WannaCry outbreak. Every Windows endpoint should have the firewall enabled and configured — not just left at defaults.
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <div class="con-label">Unit 1 — Final Takeaway</div>
+    <p>Cyber security essentials span two complementary domains: the <em>mathematical</em> (cryptography — AES, RSA, hashing, key exchange, PKI) and the <em>architectural</em> (firewalls, DNS, virtualisation, RFID, Windows security internals). Neither is sufficient alone. An unencrypted system behind a perfect firewall is still vulnerable to insider theft; a perfectly encrypted system with a poorly configured DNS server can be hijacked before a connection is ever established. Information security requires a layered, defence-in-depth approach — applying controls at every layer of the technology stack, from the cryptographic algorithms in your HTTPS handshake to the firewall rules on your Windows workstation.</p>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-label">References</div>
+    <ul>
+      <li>Microsoft Docs — Windows Defender Firewall with Advanced Security: https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-firewall/windows-firewall-with-advanced-security</li>
+      <li>NIST SP 800-41 Rev.1 — Firewall Policy Guidelines: https://csrc.nist.gov</li>
+      <li>Russinovich, M. — Windows Internals, 7th Ed., Microsoft Press</li>
+      <li>Stallings, W. — Cryptography and Network Security: Principles and Practice, 8th Ed., Pearson</li>
+      <li>Anderson, R. — Security Engineering, 3rd Ed., Wiley (free online): https://www.cl.cam.ac.uk/~rja14/book.html</li>
+    </ul>
+  </div>
+</section>
+
+</main><!-- end .content-wrap -->
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>Essentials of Information Security · Unit 01 · 2024 Pattern</span>
+    <div class="footer-links">
+      <a href="EIS_Index.html">🏠 Home</a>
+      <a href="#">Unit 2 →</a>
+    </div>
+    <span>F.Y. M.C.A. (Management) · SPPU · Design &amp; Developed by Sumit Thakare</span>
+  </div>
+</footer>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+// Nav mobile toggle
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'))
+);
+// Back to top
+window.addEventListener('scroll', () => {
+  document.querySelector('.back-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'Source Serif 4', Georgia, serif";
+Chart.defaults.color = '#3a3a36';
+
+// Chart 1 — Symmetric Algorithm Comparison (Key Size vs Security Level)
+const ctx1 = document.createElement('canvas');
+const wrap1 = document.createElement('div');
+wrap1.className = 'diagram-wrap';
+wrap1.innerHTML = '<div class="diagram-title">Fig 1.9 — Symmetric Algorithm: Key Size vs Security Score (NIST Assessment)</div><div class="chart-container"></div>';
+wrap1.querySelector('.chart-container').appendChild(ctx1);
+document.querySelector('#t1-1-2').appendChild(wrap1);
+
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['DES\n(56-bit)', '3DES\n(112-bit)', 'RC4\n(Variable)', 'Blowfish\n(448-bit max)', 'AES-128', 'AES-256', 'ChaCha20\n(256-bit)'],
+    datasets: [
+      {
+        label: 'Effective Security Bits',
+        data: [0, 57, 0, 64, 128, 256, 256],
+        backgroundColor: ['rgba(192,57,43,0.8)','rgba(230,172,0,0.8)','rgba(192,57,43,0.8)','rgba(230,172,0,0.8)','rgba(26,122,52,0.8)','rgba(12,141,160,0.8)','rgba(12,141,160,0.8)'],
+        borderColor: ['#c0392b','#e6ac00','#c0392b','#e6ac00','#1a7a34','#0c8da0','#0c8da0'],
+        borderWidth: 2, borderRadius: 3
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y === 0 ? ' BROKEN / DEPRECATED' : ` ${ctx.parsed.y} bits effective security` } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 300, title: { display: true, text: 'Effective Security Bits' }, grid: { color: '#eee' } },
+      x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+
+// Chart 2 — DNS Query Types Distribution
+const ctx2 = document.createElement('canvas');
+const wrap2 = document.createElement('div');
+wrap2.className = 'diagram-wrap';
+wrap2.innerHTML = '<div class="diagram-title">Fig 1.10 — DNS Record Type Distribution in Typical Enterprise DNS Zones (%)</div><div class="chart-container"></div>';
+wrap2.querySelector('.chart-container').appendChild(ctx2);
+document.querySelector('#t1-1-4').appendChild(wrap2);
+
+new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: ['A Records (IPv4)', 'CNAME (Aliases)', 'MX (Mail)', 'TXT (SPF/DKIM/DMARC)', 'AAAA (IPv6)', 'NS (Name Servers)', 'PTR (Reverse)', 'SRV (Services)'],
+    datasets: [{
+      data: [38, 22, 14, 12, 6, 4, 2, 2],
+      backgroundColor: [
+        'rgba(12,141,160,0.85)','rgba(26,122,52,0.85)','rgba(192,57,43,0.85)',
+        'rgba(111,66,193,0.85)','rgba(230,172,0,0.85)','rgba(10,10,10,0.80)',
+        'rgba(58,58,54,0.70)','rgba(150,150,150,0.65)'
+      ],
+      borderColor: '#fafaf8', borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` } } }
+  }
+});
+
+// Chart 3 — RFID Frequency Bands and Applications Radar
+const ctx3 = document.createElement('canvas');
+const wrap3 = document.createElement('div');
+wrap3.className = 'diagram-wrap';
+wrap3.innerHTML = '<div class="diagram-title">Fig 1.11 — RFID Frequency Bands: Range vs Data Rate vs Cost vs Security</div><div class="chart-container"></div>';
+wrap3.querySelector('.chart-container').appendChild(ctx3);
+document.querySelector('#t1-1-7').appendChild(wrap3);
+
+new Chart(ctx3, {
+  type: 'radar',
+  data: {
+    labels: ['Read Range', 'Data Rate', 'Cost Efficiency', 'Penetration (Metal/Water)', 'Security Features', 'Tag Memory'],
+    datasets: [
+      { label: 'LF (125 kHz)', data: [2, 1, 9, 9, 3, 2], backgroundColor: 'rgba(26,122,52,0.15)', borderColor: '#1a7a34', borderWidth: 2, pointBackgroundColor: '#1a7a34' },
+      { label: 'HF (13.56 MHz)', data: [4, 5, 7, 5, 7, 6], backgroundColor: 'rgba(12,141,160,0.15)', borderColor: '#0c8da0', borderWidth: 2, pointBackgroundColor: '#0c8da0' },
+      { label: 'UHF (860–960 MHz)', data: [9, 8, 5, 2, 5, 7], backgroundColor: 'rgba(111,66,193,0.15)', borderColor: '#6f42c1', borderWidth: 2, pointBackgroundColor: '#6f42c1' }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: { r: { min: 0, max: 10, ticks: { stepSize: 2 }, grid: { color: '#ddd' }, pointLabels: { font: { size: 9 } } } },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+</script>
+</body>
+</html>
